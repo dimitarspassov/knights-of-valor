@@ -1,0 +1,45 @@
+/* You can add global styles to this file, and also import other style files */
+@import "assets/theme/_variables.scss";
+@import "~bootstrap/scss/bootstrap";
+@import "assets/theme/_bootswatch.scss";
+
+body {
+  min-width: 320px;
+}
+
+hr{
+  background-color: $secondary;;
+}
+
+.custom-card {
+  min-width: 350px;
+  max-width: 400px;
+  display: block;
+  position: absolute;
+  margin-top: 200px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+  transform: translateX(-50%);
+  background-color: rgba(34, 34, 34, 0.8);
+
+  .card-body {
+    padding: 30px 40px;
+  }
+
+}
+
+@media only screen and (max-width: 768px) {
+
+
+  div.custom-card{
+    margin-top: 100px;
+
+    .card-body {
+      padding: 20px;
+    }
+  }
+
+}

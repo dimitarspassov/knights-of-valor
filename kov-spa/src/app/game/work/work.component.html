@@ -1,0 +1,79 @@
+<section class="text-center">
+  <div class="container">
+    <h1 class="my-3">Work</h1>
+    <p class="col-sm-6 offset-sm-3">You will have trouble surviving in this place
+      if you don't have enough gold. Willing to get a job...?</p>
+    <hr/>
+  </div>
+</section>
+
+<div class="py-5">
+  <div class="container">
+
+    <div class="row">
+
+      <div class="col-md-6 col-lg-4">
+        <div class="card mb-3 text-center">
+          <h3 class="card-header">Stables cleaner</h3>
+          <div class="card-body">
+          </div>
+          <img style="height: 200px; width: 100%; display: block;"
+               src="/assets/img/tmp/stables.jpg"
+               alt="Card image">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Salary per hour: 100 gold</li>
+            <li class="list-group-item">Hours: 4</li>
+          </ul>
+          <div class="card-body">
+            <button class="btn btn-outline-light">Start job</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4">
+        <div class="card mb-3 text-center">
+          <h3 class="card-header">Salesman</h3>
+          <div class="card-body">
+          </div>
+          <img style="height: 200px; width: 100%; display: block;"
+               src="/assets/img/tmp/salesman.jpg"
+               alt="Card image">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Salary per hour: 60 gold</li>
+            <li class="list-group-item">Hours: 10</li>
+          </ul>
+          <div class="card-body">
+            <button class="btn btn-outline-light">Start job</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <div *ngIf="isAtWork" class="mt-5">
+      <h3 class="text-center">You are still at work, so jobs aren't available.</h3>
+      <div class="row my-4">
+        <div class="col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+          <div class="card mb-3 text-center">
+            <h3 class="card-header">Stables cleaner</h3>
+            <div class="card-body">
+              <p class="card-text">Remaining time: 02:01:42</p>
+            </div>
+            <img style="height: 200px; width: 100%; display: block;"
+                 src="/assets/img/tmp/stables.jpg"
+                 alt="Card image">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">Salary per hour: 100 gold</li>
+              <li class="list-group-item">Hours: 4</li>
+            </ul>
+            <div class="card-body">
+              <button class="btn btn-outline-danger">End job</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

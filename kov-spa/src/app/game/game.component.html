@@ -1,0 +1,62 @@
+<header>
+
+  <div [ngClass]="navClass" class="bg-dark" id="navbarHeader">
+    <div class="container">
+      <div class="text-center">
+        <div class="stats">
+          <span>Hero: <strong>dspassov</strong></span>
+          <span>Level: <strong>1</strong></span>
+          <span>Gold: <strong>2300</strong></span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-8 col-md-7 py-4">
+          <h4 class="text-white">Message Box</h4>
+          <ul class="list-unstyled">
+            <li><a href="#" class="text-white">See all (2 new)</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-4 offset-md-1 py-4">
+          <h4 class="text-white">Menu</h4>
+          <ul class="list-unstyled">
+            <li><a href="/game" class="text-white">Home</a></li>
+            <li><a href="/game/inventory" class="text-white">Inventory</a></li>
+            <li><a href="/game/arena" class="text-white">Arena</a></li>
+            <li><a href="/game/market" class="text-white">Market</a></li>
+            <li><a href="/game/wilderness" class="text-white">Wilderness</a></li>
+            <li><a href="/game/work" class="text-white">Work</a></li>
+            <li><a href="/" class="text-white">Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="navbar navbar-dark bg-dark box-shadow">
+    <div class="container d-flex justify-content-between">
+      <div class="stats">
+        <span>Hero: <strong>dspassov</strong></span>
+        <span>Level: <strong>1</strong></span>
+        <span>Gold: <strong>2300</strong></span>
+      </div>
+      <button (click)="toggleNav()" class="navbar-toggler" type="button" data-toggle="collapse"
+              data-target="#navbarHeader"
+              aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main role="main">
+  <notification></notification>
+  <router-outlet></router-outlet>
+
+</main>
+
+<footer class="container mt-5">
+  <p>&copy; 2018 Dimitar Spassov
+    &middot; <a href="https://github.com/dimitarspassov" target="_blank">GitHub</a>
+    &middot; <a href="https://github.com/dimitarspassov/knights-of-valor/blob/master/README.md"
+                target="_blank">About</a></p>
+</footer>

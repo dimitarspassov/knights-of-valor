@@ -1,0 +1,52 @@
+.navbar {
+  border-width: 0px 0px 1px 0px;
+}
+
+.stats {
+  padding: 0px 20px;
+  border: 1px solid #ffffff;
+
+  span {
+    margin: 0px 10px;
+
+    strong {
+      color: #ffffff;
+    }
+  }
+}
+
+#navbarHeader {
+
+  display: block;
+  overflow: hidden;
+  -webkit-transition: max-height 0.35s ease;
+  transition: max-height 0.35s ease;
+  max-height: 0px;
+
+  &.show {
+    max-height: 500px;
+  }
+
+  .stats {
+    display: none;
+  }
+}
+
+//small devices and mobile
+@media only screen and (max-width: 768px) {
+
+  .navbar .stats {
+    display: none;
+  }
+
+  #navbarHeader .stats {
+    display: block;
+    margin: 20px 0px;
+  }
+}
+
+footer {
+  margin-top: 50px;
+}
+
+
