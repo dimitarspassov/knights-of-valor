@@ -4,9 +4,9 @@ import {NotificationService} from '../../core/notification/notification.service'
 @Component({
   selector: 'register',
   templateUrl: './register.component.html',
-  styleUrls: ['../index.component.scss', './register.component.scss']
+  styleUrls: ['../index.component.scss']
 })
-export class RegisterComponent{
+export class RegisterComponent {
 
   constructor(private notificationService: NotificationService) {
   }

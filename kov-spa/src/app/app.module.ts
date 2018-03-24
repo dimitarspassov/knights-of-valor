@@ -6,6 +6,8 @@ import {AppComponent} from './app.component';
 import {AppRoutesModule} from './routes.module';
 import {IndexModule} from './index/index.module';
 import {GameModule} from './game/game.module';
+import {MessagesModule} from './messages/messages.module';
+import {AdminModule} from './admin/admin.module';
 
 
 @NgModule({
@@ -16,7 +18,9 @@ import {GameModule} from './game/game.module';
     BrowserModule,
     AppRoutesModule,
     IndexModule,
-    GameModule
+    GameModule,
+    MessagesModule,
+    AdminModule
   ],
   providers: [],
   bootstrap: [AppComponent]

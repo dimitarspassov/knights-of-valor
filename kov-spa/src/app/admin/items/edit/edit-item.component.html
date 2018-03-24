@@ -1,0 +1,51 @@
+<div class="container">
+
+  <div class="text-center my-5">
+    <h1>Edit Item</h1>
+    <hr/>
+  </div>
+
+  <div class="row">
+    <form class="col-sm-4 offset-sm-4 text-center">
+      <fieldset>
+
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" class="form-control" name="name" id="name" value="Small dagger">
+        </div>
+
+        <div class="form-group">
+          <label for="type">Type</label>
+          <select class="form-control" name="type" id="type">
+            <option selected>Weapon</option>
+            <option>Shield</option>
+            <option>Armour</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="bonus">Bonus points</label>
+          <input class="form-control" id="bonus" type="number" name="bonus" value="2"/>
+        </div>
+
+        <div class="form-group mb-5">
+          <label>Current image</label>
+
+          <div class="old-img mb-5">
+            <img src="/assets/img/tmp/sword.png" alt="">
+          </div>
+
+          <label for="image">New image</label>
+          <input type="file" name="image" class="form-control-file" id="image">
+          <small id="fileHelp" class="form-text text-muted">Allowed formats: PNG, JPG, JPEG
+          </small>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Edit</button>
+      </fieldset>
+    </form>
+  </div>
+
+
+</div>
+
