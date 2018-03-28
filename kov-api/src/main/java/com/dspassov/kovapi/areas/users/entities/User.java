@@ -1,5 +1,6 @@
 package com.dspassov.kovapi.areas.users.entities;
 
+import com.dspassov.kovapi.areas.game.entities.Hero;
 import com.dspassov.kovapi.areas.messages.entities.Message;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -25,6 +26,10 @@ public class User {
 
     @Column(name = "password")
     private String password;
+
+    @OneToOne(optional = false)
+    @JoinColumn(name = "hero_id", referencedColumnName = "id")
+    private Hero hero;
 
     @ManyToMany
     @JoinTable(
@@ -64,6 +69,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Hero getHero() {
+        return hero;
+    }
+
+    public void setHero(Hero hero) {
+        this.hero = hero;
     }
 
     public Set<Role> getRoles() {
