@@ -26,6 +26,9 @@ public abstract class Item {
     @Column(name = "bonus")
     private Integer bonus;
 
+    @Column(name = "price")
+    private Integer price;
+
     @Column(name = "image")
     private String image;
 
@@ -54,6 +57,14 @@ public abstract class Item {
 
     public void setBonus(Integer bonus) {
         this.bonus = bonus;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
     }
 
     public String getImage() {

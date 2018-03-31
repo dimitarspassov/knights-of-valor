@@ -12,11 +12,15 @@ import {EditJobComponent} from './jobs/edit/edit-job.component';
 import {NeutralsComponent} from './neutrals/index/neutrals.component';
 import {AddNeutralComponent} from './neutrals/add/add-neutral.component';
 import {EditNeutralComponent} from './neutrals/edit/edit-neutral.component';
+import {FormsModule} from '@angular/forms';
+import {CommonModule} from '@angular/common';
 
 
 @NgModule({
   imports: [
     RouterModule,
+    FormsModule,
+    CommonModule,
     CoreModule
   ],
   declarations: [

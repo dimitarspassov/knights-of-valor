@@ -6,25 +6,75 @@
   </div>
 
   <div class="row">
-    <form class="col-sm-6 offset-sm-3 text-center">
+    <form #messageForm="ngForm" (ngSubmit)="onSubmit()" class="col-sm-6 offset-sm-3 text-center">
       <fieldset>
 
         <div class="form-group">
           <label for="receiver">Receiver hero</label>
-          <input type="text" class="form-control" name="receiver" id="receiver">
+          <input type="text" class="form-control" name="receiver" id="receiver"
+                 minlength="{{RECEIVER_MIN_LENGTH}}" maxlength="{{RECEIVER_MAX_LENGTH}}"
+                 required #receiver="ngModel" [(ngModel)]="message.receiver">
+
+          <div *ngIf="(receiver.dirty || receiver.touched) &&
+          (receiver.invalid || !isReceiverValid(receiver.value))"
+               class="error">
+          <span *ngIf="receiver.hasError('required'); else receiverValidation">
+            Hero name is required.
+          </span>
+            <ng-template #receiverValidation>
+            <span *ngIf="!isReceiverValid(receiver.value)">
+              Hero name should between<br/> {{RECEIVER_MIN_LENGTH}} and {{RECEIVER_MAX_LENGTH}} symbols long.
+            </span>
+            </ng-template>
+          </div>
+
         </div>
 
         <div class="form-group">
           <label for="title">Title</label>
-          <input type="text" class="form-control" name="title" id="title">
+          <input type="text" class="form-control" name="title" id="title"
+                 minlength="{{TITLE_MIN_LENGTH}}" maxlength="{{TITLE_MAX_LENGTH}}" required #title="ngModel"
+                 [(ngModel)]="message.title">
+
+          <div *ngIf="(title.dirty || title.touched) &&
+              (title.invalid || !isTitleValid(title.value))"
+               class="error">
+          <span *ngIf="title.hasError('required'); else titleValidation">
+            Title is required.
+          </span>
+            <ng-template #titleValidation>
+            <span *ngIf="!isTitleValid(title.value)">
+              Title should between<br/> {{TITLE_MIN_LENGTH}} and {{TITLE_MAX_LENGTH}} symbols long.
+            </span>
+            </ng-template>
+          </div>
+
         </div>
 
         <div class="form-group">
           <label for="content">Content</label>
-          <textarea class="form-control" id="content" name="content" rows="3"></textarea>
+          <textarea class="form-control" id="content" name="content" rows="3"
+                    required minlength="{{CONTENT_MIN_LENGTH}}" maxlength="{{CONTENT_MAX_LENGTH}}" #content="ngModel"
+                    [(ngModel)]="message.content"></textarea>
+
+          <div *ngIf="(content.dirty || content.touched) &&
+                (content.invalid || !isContentValid(content.value))"
+               class="error">
+          <span *ngIf="content.hasError('required'); else contentValidation">
+            Content is required.
+          </span>
+            <ng-template #contentValidation>
+            <span *ngIf="!isContentValid(content.value)">
+              Content should between<br/> {{CONTENT_MIN_LENGTH}} and {{CONTENT_MAX_LENGTH}} symbols long.
+            </span>
+            </ng-template>
+          </div>
         </div>
 
-        <button type="submit" class="btn btn-primary">Send</button>
+        <button [disabled]="!messageForm.valid || !isReceiverValid(receiver.value) ||
+                !isTitleValid(title.value) || !isContentValid(content.value)"
+                type="submit" class="btn btn-primary">Send
+        </button>
       </fieldset>
     </form>
   </div>
