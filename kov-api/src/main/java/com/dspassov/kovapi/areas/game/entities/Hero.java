@@ -1,14 +1,25 @@
 package com.dspassov.kovapi.areas.game.entities;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "heroes")
 public class Hero {
+
+    private static final int NAME_MIN_LENGTH = 3;
+    private static final int NAME_MAX_LENGTH = 30;
+    private static final int LEVEL_MIN = 1;
+    private static final int HEALTH_MIN = 10;
+    private static final int STRENGTH_MIN = 3;
+    private static final int DEFENSE_MIN = 3;
+    private static final int STAMINA_MIN = 1;
+
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -17,29 +28,45 @@ public class Hero {
             strategy = "org.hibernate.id.UUIDGenerator"
     )
     @Column(name = "id", updatable = false, nullable = false)
-    private UUID id;
+    private String id;
 
-    @Column(name = "name")
+    @NotNull
+    @Length(min = NAME_MIN_LENGTH, max = NAME_MAX_LENGTH)
+    @Column(name = "name", unique = true)
     private String name;
 
+    @NotNull
+    @Min(LEVEL_MIN)
     @Column(name = "level")
     private Integer level;
 
+    @NotNull
+    @Min(0)
     @Column(name = "experience")
-    private Integer experience;
+    private Long experience;
 
+    @NotNull
+    @Min(0)
     @Column(name = "gold")
-    private Integer gold;
+    private Long gold;
 
+    @NotNull
+    @Min(HEALTH_MIN)
     @Column(name = "health")
     private Integer health;
 
+    @NotNull
+    @Min(STRENGTH_MIN)
     @Column(name = "strength")
     private Integer strength;
 
+    @NotNull
+    @Min(DEFENSE_MIN)
     @Column(name = "defense")
     private Integer defense;
 
+    @NotNull
+    @Min(STAMINA_MIN)
     @Column(name = "stamina")
     private Integer stamina;
 
@@ -57,11 +84,11 @@ public class Hero {
     public Hero() {
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -81,19 +108,19 @@ public class Hero {
         this.level = level;
     }
 
-    public Integer getExperience() {
+    public Long getExperience() {
         return experience;
     }
 
-    public void setExperience(Integer experience) {
+    public void setExperience(Long experience) {
         this.experience = experience;
     }
 
-    public Integer getGold() {
+    public Long getGold() {
         return gold;
     }
 
-    public void setGold(Integer gold) {
+    public void setGold(Long gold) {
         this.gold = gold;
     }
 

@@ -3,7 +3,6 @@ package com.dspassov.kovapi.areas.game.entities;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.UUID;
 
 @Entity
 @Table(name = "battle_sets")
@@ -16,7 +15,7 @@ public class BattleSet {
             strategy = "org.hibernate.id.UUIDGenerator"
     )
     @Column(name = "id", updatable = false, nullable = false)
-    private UUID id;
+    private String id;
 
     @ManyToOne()
     private Sword sword;
@@ -30,11 +29,11 @@ public class BattleSet {
     public BattleSet() {
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -3,12 +3,15 @@ package com.dspassov.kovapi.areas.game.entities;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Table(name = "inventories")
 public class Inventory {
+
+    private static final int SIZE_MIN = 5;
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -17,8 +20,10 @@ public class Inventory {
             strategy = "org.hibernate.id.UUIDGenerator"
     )
     @Column(name = "id", updatable = false, nullable = false)
-    private UUID id;
+    private String id;
 
+    @NotNull
+    @Min(SIZE_MIN)
     @Column(name = "size")
     private Integer size;
 
@@ -33,11 +38,11 @@ public class Inventory {
     public Inventory() {
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 

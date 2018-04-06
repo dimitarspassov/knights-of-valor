@@ -1,13 +1,30 @@
 package com.dspassov.kovapi.areas.game.entities;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
-import java.util.UUID;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "neutral_units")
 public class NeutralUnit {
+
+    private static final int NAME_MIN_LENGTH = 3;
+    private static final int NAME_MAX_LENGTH = 40;
+
+    // Matching strength, stamina & defense
+    private static final int STAT_MIN = 1;
+    private static final int STAT_MAX = 1000000;
+
+    private static final int HEALTH_MIN = 10;
+    private static final int HEALTH_MAX = 1000000;
+    private static final int LEVEL_MIN = 1;
+    private static final int LEVEL_MAX = 10000;
+    private static final int LOOT_MIN = 1;
+    private static final int LOOT_MAX = 400000;
 
 
     @Id
@@ -17,40 +34,61 @@ public class NeutralUnit {
             strategy = "org.hibernate.id.UUIDGenerator"
     )
     @Column(name = "id", updatable = false, nullable = false)
-    private UUID id;
+    private String id;
 
-    @Column(name = "name")
+    @NotNull
+    @Length(min = NAME_MIN_LENGTH, max = NAME_MAX_LENGTH)
+    @Column(name = "name", unique = true)
     private String name;
 
+    @NotNull
+    @Min(LEVEL_MIN)
+    @Max(LEVEL_MAX)
     @Column(name = "level")
     private Integer level;
 
+    @NotNull
+    @Min(HEALTH_MIN)
+    @Max(HEALTH_MAX)
     @Column(name = "health")
     private Integer health;
 
+    @NotNull
+    @Min(STAT_MIN)
+    @Max(STAT_MAX)
     @Column(name = "strength")
-    private Integer stength;
+    private Integer strength;
 
+    @NotNull
+    @Min(STAT_MIN)
+    @Max(STAT_MAX)
     @Column(name = "defense")
     private Integer defense;
 
+    @NotNull
+    @Min(STAT_MIN)
+    @Max(STAT_MAX)
     @Column(name = "stamina")
     private Integer stamina;
 
+    @NotNull
+    @Min(LOOT_MIN)
+    @Max(LOOT_MAX)
     @Column(name = "loot_gold")
     private Integer lootGold;
 
+    @NotNull
     @Column(name = "image")
     private String image;
 
     public NeutralUnit() {
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -78,12 +116,12 @@ public class NeutralUnit {
         this.health = health;
     }
 
-    public Integer getStength() {
-        return stength;
+    public Integer getStrength() {
+        return strength;
     }
 
-    public void setStength(Integer stength) {
-        this.stength = stength;
+    public void setStrength(Integer strength) {
+        this.strength = strength;
     }
 
     public Integer getDefense() {

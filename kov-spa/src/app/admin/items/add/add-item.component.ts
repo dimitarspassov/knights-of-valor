@@ -13,7 +13,7 @@ export class AddItemComponent {
   readonly NAME_MIN_LENGTH = 3;
   readonly NAME_MAX_LENGTH = 40;
   readonly BONUS_MIN = 1;
-  readonly BONUS_MAX = 100;
+  readonly BONUS_MAX = 100000;
   readonly PRICE_MIN = 1;
   readonly PRICE_MAX = 1000000;
 

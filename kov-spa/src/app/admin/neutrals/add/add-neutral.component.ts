@@ -13,8 +13,8 @@ export class AddNeutralComponent {
   readonly NAME_MIN_LENGTH = 3;
   readonly NAME_MAX_LENGTH = 40;
   readonly LEVEL_MIN = 1;
-  readonly LEVEL_MAX = 1000;
-  readonly HEALTH_MIN = 100;
+  readonly LEVEL_MAX = 10000;
+  readonly HEALTH_MIN = 10;
   readonly HEALTH_MAX = 1000000;
 
   // correspond to strength, stamina and defense

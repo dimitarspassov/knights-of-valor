@@ -3,6 +3,7 @@ package com.dspassov.kovapi.areas.game.entities;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -17,11 +18,13 @@ public class HeroJob {
             strategy = "org.hibernate.id.UUIDGenerator"
     )
     @Column(name = "id", updatable = false, nullable = false)
-    private UUID id;
+    private String id;
 
+    @NotNull
     @Column(name = "start_time")
     private LocalDateTime startTime;
 
+    @NotNull
     @Column(name = "end_time")
     private LocalDateTime endTime;
 
@@ -35,11 +38,11 @@ public class HeroJob {
     public HeroJob() {
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 

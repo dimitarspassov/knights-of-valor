@@ -15,7 +15,7 @@ export class NewMessageComponent {
   readonly TITLE_MIN_LENGTH: number = 5;
   readonly TITLE_MAX_LENGTH: number = 35;
   readonly CONTENT_MIN_LENGTH: number = 5;
-  readonly CONTENT_MAX_LENGTH: number = 500;
+  readonly CONTENT_MAX_LENGTH: number = 5000;
 
 
   message: NewMessageModel = new NewMessageModel();

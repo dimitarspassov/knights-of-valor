@@ -5,6 +5,8 @@ import com.dspassov.kovapi.areas.messages.entities.Message;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 import java.util.UUID;
 
@@ -19,12 +21,15 @@ public class User {
             strategy = "org.hibernate.id.UUIDGenerator"
     )
     @Column(name = "id", updatable = false, nullable = false)
-    private UUID id;
+    private String id;
 
+    @Email
+    @NotNull
     @Column(name = "email")
     private String email;
 
-    @Column(name = "password")
+    @NotNull
+    @Column(name = "password", length = 60)
     private String password;
 
     @OneToOne(optional = false)
@@ -47,11 +52,11 @@ public class User {
     public User() {
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 

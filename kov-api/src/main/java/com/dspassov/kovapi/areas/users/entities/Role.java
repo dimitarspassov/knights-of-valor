@@ -4,6 +4,7 @@ import com.dspassov.kovapi.areas.users.enumerations.RoleName;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 import java.util.UUID;
 
@@ -18,8 +19,9 @@ public class Role {
             strategy = "org.hibernate.id.UUIDGenerator"
     )
     @Column(name = "id", updatable = false, nullable = false)
-    private UUID id;
+    private String id;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "name")
     private RoleName name;
@@ -30,11 +32,11 @@ public class Role {
     public Role() {
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 

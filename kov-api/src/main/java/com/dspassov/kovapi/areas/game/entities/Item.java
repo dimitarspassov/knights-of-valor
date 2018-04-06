@@ -1,15 +1,26 @@
 package com.dspassov.kovapi.areas.game.entities;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
-import java.util.UUID;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "items")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type")
 public abstract class Item {
+
+    private static final int NAME_MIN_LENGTH = 3;
+    private static final int NAME_MAX_LENGTH = 40;
+    private static final int BONUS_MIN = 1;
+    private static final int BONUS_MAX = 100000;
+    private static final int PRICE_MIN = 1;
+    private static final int PRICE_MAX = 1000000;
+
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -18,28 +29,37 @@ public abstract class Item {
             strategy = "org.hibernate.id.UUIDGenerator"
     )
     @Column(name = "id", updatable = false, nullable = false)
-    private UUID id;
+    private String id;
 
-    @Column(name = "name")
+    @NotNull
+    @Length(min = NAME_MIN_LENGTH, max = NAME_MAX_LENGTH)
+    @Column(name = "name", unique = true)
     private String name;
 
+    @NotNull
+    @Min(BONUS_MIN)
+    @Max(BONUS_MAX)
     @Column(name = "bonus")
     private Integer bonus;
 
+    @NotNull
+    @Min(PRICE_MIN)
+    @Max(PRICE_MAX)
     @Column(name = "price")
     private Integer price;
 
+    @NotNull
     @Column(name = "image")
     private String image;
 
     protected Item() {
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 

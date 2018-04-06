@@ -1,13 +1,24 @@
 package com.dspassov.kovapi.areas.game.entities;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
-import java.util.UUID;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 
 @Entity
 @Table(name = "jobs")
 public class Job {
+
+    private static final int NAME_MIN_LENGTH = 3;
+    private static final int NAME_MAX_LENGTH = 40;
+    private static final int MINUTES_MIN = 60;
+    private static final int MINUTES_MAX = 600;
+    private static final int SALARY_MIN = 100;
+    private static final int SALARY_MAX = 1000000;
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -16,25 +27,33 @@ public class Job {
             strategy = "org.hibernate.id.UUIDGenerator"
     )
     @Column(name = "id", updatable = false, nullable = false)
-    private UUID id;
+    private String id;
 
-    @Column(name = "name")
+    @NotNull
+    @Length(min = NAME_MIN_LENGTH, max = NAME_MAX_LENGTH)
+    @Column(name = "name", unique = true)
     private String name;
 
+    @NotNull
+    @Min(MINUTES_MIN)
+    @Max(MINUTES_MAX)
     @Column(name = "minutes")
     private Integer minutes;
 
+    @NotNull
+    @Min(SALARY_MIN)
+    @Max(SALARY_MAX)
     @Column(name = "salary")
     private Integer salary;
 
     public Job() {
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 
