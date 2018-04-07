@@ -25,7 +25,7 @@ public class Inventory {
     @NotNull
     @Min(SIZE_MIN)
     @Column(name = "size")
-    private Integer size;
+    private Integer size = SIZE_MIN;
 
 
     @ManyToMany

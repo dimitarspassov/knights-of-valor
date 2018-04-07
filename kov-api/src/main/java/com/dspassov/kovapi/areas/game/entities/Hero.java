@@ -1,5 +1,6 @@
 package com.dspassov.kovapi.areas.game.entities;
 
+import com.dspassov.kovapi.areas.game.common.GameDomainConstants;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Length;
 
@@ -12,8 +13,6 @@ import java.time.LocalDateTime;
 @Table(name = "heroes")
 public class Hero {
 
-    private static final int NAME_MIN_LENGTH = 3;
-    private static final int NAME_MAX_LENGTH = 30;
     private static final int LEVEL_MIN = 1;
     private static final int HEALTH_MIN = 10;
     private static final int STRENGTH_MIN = 3;
@@ -31,53 +30,53 @@ public class Hero {
     private String id;
 
     @NotNull
-    @Length(min = NAME_MIN_LENGTH, max = NAME_MAX_LENGTH)
+    @Length(min = GameDomainConstants.HERO_NAME_MIN_LENGTH, max = GameDomainConstants.HERO_NAME_MAX_LENGTH)
     @Column(name = "name", unique = true)
     private String name;
 
     @NotNull
     @Min(LEVEL_MIN)
     @Column(name = "level")
-    private Integer level;
+    private Integer level = LEVEL_MIN;
 
     @NotNull
     @Min(0)
     @Column(name = "experience")
-    private Long experience;
+    private Long experience = 0L;
 
     @NotNull
     @Min(0)
     @Column(name = "gold")
-    private Long gold;
+    private Long gold = 0L;
 
     @NotNull
     @Min(HEALTH_MIN)
     @Column(name = "health")
-    private Integer health;
+    private Integer health = HEALTH_MIN;
 
     @NotNull
     @Min(STRENGTH_MIN)
     @Column(name = "strength")
-    private Integer strength;
+    private Integer strength = STRENGTH_MIN;
 
     @NotNull
     @Min(DEFENSE_MIN)
     @Column(name = "defense")
-    private Integer defense;
+    private Integer defense = DEFENSE_MIN;
 
     @NotNull
     @Min(STAMINA_MIN)
     @Column(name = "stamina")
-    private Integer stamina;
+    private Integer stamina = STAMINA_MIN;
 
     @Column(name = "last_fight_date")
     private LocalDateTime lastFightDate;
 
-    @OneToOne(optional = false)
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "battle_set_id", referencedColumnName = "id")
     private BattleSet battleSet;
 
-    @OneToOne(optional = false)
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "inventory_id", referencedColumnName = "id")
     private Inventory inventory;
 

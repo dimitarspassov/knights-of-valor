@@ -2,15 +2,15 @@ package com.dspassov.kovapi.areas.users.entities;
 
 import com.dspassov.kovapi.areas.users.enumerations.RoleName;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Set;
-import java.util.UUID;
+
 
 @Entity
 @Table(name = "roles")
-public class Role {
+public class Role implements GrantedAuthority {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -23,13 +23,15 @@ public class Role {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "name")
-    private RoleName name;
-
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> users;
+    @Column(name = "role")
+    private RoleName role;
 
     public Role() {
+    }
+
+    @Override
+    public String getAuthority() {
+        return this.role.name();
     }
 
     public String getId() {
@@ -40,19 +42,11 @@ public class Role {
         this.id = id;
     }
 
-    public RoleName getName() {
-        return name;
+    public RoleName getRole() {
+        return role;
     }
 
-    public void setName(RoleName name) {
-        this.name = name;
-    }
-
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
+    public void setRole(RoleName role) {
+        this.role = role;
     }
 }
