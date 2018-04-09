@@ -1,5 +1,7 @@
 package com.dspassov.kovapi.areas.users.controllers;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.dspassov.kovapi.areas.users.models.RegisterUserBindingModel;
 import com.dspassov.kovapi.web.BaseController;
 import com.dspassov.kovapi.services.UserService;
@@ -10,17 +12,21 @@ import org.springframework.web.bind.annotation.*;
 
 
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
 
 
 @RestController
 public class AccountController extends BaseController {
 
     private final UserService userService;
+    private final Cloudinary cloudinary;
 
 
     @Autowired
-    public AccountController(UserService userService) {
+    public AccountController(UserService userService, Cloudinary cloudinary) {
         this.userService = userService;
+        this.cloudinary = cloudinary;
     }
 
 
@@ -55,4 +61,5 @@ public class AccountController extends BaseController {
     public String validateSuperAdminToken() {
         return this.success("authenticated");
     }
+
 }

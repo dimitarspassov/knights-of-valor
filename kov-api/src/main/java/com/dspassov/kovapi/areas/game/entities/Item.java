@@ -1,5 +1,6 @@
 package com.dspassov.kovapi.areas.game.entities;
 
+import com.dspassov.kovapi.areas.game.common.GameDomainConstants;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Length;
 
@@ -14,14 +15,6 @@ import javax.validation.constraints.NotNull;
 @DiscriminatorColumn(name = "type")
 public abstract class Item {
 
-    private static final int NAME_MIN_LENGTH = 3;
-    private static final int NAME_MAX_LENGTH = 40;
-    private static final int BONUS_MIN = 1;
-    private static final int BONUS_MAX = 100000;
-    private static final int PRICE_MIN = 1;
-    private static final int PRICE_MAX = 1000000;
-
-
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
@@ -32,19 +25,20 @@ public abstract class Item {
     private String id;
 
     @NotNull
-    @Length(min = NAME_MIN_LENGTH, max = NAME_MAX_LENGTH)
+    @Length(min = GameDomainConstants.ITEM_NAME_MIN_LENGTH,
+            max = GameDomainConstants.ITEM_NAME_MAX_LENGTH)
     @Column(name = "name", unique = true)
     private String name;
 
     @NotNull
-    @Min(BONUS_MIN)
-    @Max(BONUS_MAX)
+    @Min(GameDomainConstants.ITEM_BONUS_MIN)
+    @Max(GameDomainConstants.ITEM_BONUS_MAX)
     @Column(name = "bonus")
     private Integer bonus;
 
     @NotNull
-    @Min(PRICE_MIN)
-    @Max(PRICE_MAX)
+    @Min(GameDomainConstants.ITEM_PRICE_MIN)
+    @Max(GameDomainConstants.ITEM_PRICE_MAX)
     @Column(name = "price")
     private Integer price;
 

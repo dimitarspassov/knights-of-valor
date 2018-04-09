@@ -18,4 +18,8 @@ public abstract class BaseController {
         return this.gson.toJson(response);
     }
 
+    protected String objectToJson(Object object) {
+        return this.gson.toJson(object);
+    }
+
 }

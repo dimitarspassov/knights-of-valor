@@ -15,8 +15,9 @@ public class ObjectMappingConfig {
     }
 
     private void defineTypeMaps(ModelMapper mapper) {
-        //todo: add complex type maps
-    }
 
+        //todo:fix
+
+    }
 
 }

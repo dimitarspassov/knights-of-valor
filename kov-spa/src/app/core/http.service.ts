@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Headers, Http, RequestOptions} from '@angular/http';
 import {AuthService} from './auth.service';
-import { Observable } from 'rxjs/Observable';
+import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/throw';
@@ -19,29 +19,38 @@ export class HttpService {
   }
 
   get(url, authenticated = false) {
-    const requestOptions = this.getRequestOptions(this.GET_METHOD, authenticated);
+    const requestOptions = this.getRequestOptions(this.GET_METHOD, authenticated, false);
 
     return this.http
       .get(this.BASE_URL + url, requestOptions)
       .map(res => res.json());
   }
 
-  post(url, data, authenticated = false) {
-    const requestOptions = this.getRequestOptions(this.POST_METHOD, authenticated);
+  post(url, data, authenticated = false, multipart = false) {
+    const requestOptions = this.getRequestOptions(this.POST_METHOD, authenticated, multipart);
 
+    if (multipart) {
+      return this.http
+        .post(this.BASE_URL + url, data, requestOptions)
+        .map(res => res.json())
+        .catch((e: Response) => Observable.throw(e));
+    } else {
+      return this.http
+        .post(this.BASE_URL + url, JSON.stringify(data), requestOptions)
+        .map(res => res.json())
+        .catch((e: Response) => Observable.throw(e));
+    }
 
-    return this.http
-      .post(this.BASE_URL + url, JSON.stringify(data), requestOptions)
-      .map(res => res.json())
-      .catch((e: Response) => Observable.throw(e));
 
   }
 
-  private getRequestOptions(method, authenticated) {
+  private getRequestOptions(method, authenticated, multipart) {
 
     const headers = new Headers();
 
-    if (method !== this.GET_METHOD) {
+    if (multipart) {
+      headers.append('enctype', 'multipart/form-data');
+    } else if (method !== this.GET_METHOD) {
       headers.append('Content-Type', 'application/json');
     }
 

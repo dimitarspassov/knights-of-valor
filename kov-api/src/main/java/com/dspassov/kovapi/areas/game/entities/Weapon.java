@@ -4,9 +4,9 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
-@DiscriminatorValue(value = "sword")
-public class Sword extends Item {
+@DiscriminatorValue(value = "Weapon")
+public class Weapon extends Item {
 
-    public Sword() {
+    public Weapon() {
     }
 }

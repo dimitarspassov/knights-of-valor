@@ -2,6 +2,10 @@ import {Component} from '@angular/core';
 import {AddItemModel} from './add-item.model';
 import {AdminConstants} from '../../admin-constants';
 import {Toolbox} from '../../../utils/toolbox';
+import {AdminService} from '../../admin.service';
+import {NotificationService} from '../../../core/notifications/notification.service';
+import {Router} from '@angular/router';
+import {AppConstants} from '../../../app-constants';
 
 @Component({
   selector: 'add-item',
@@ -10,47 +14,43 @@ import {Toolbox} from '../../../utils/toolbox';
 })
 export class AddItemComponent {
 
-  readonly NAME_MIN_LENGTH = 3;
-  readonly NAME_MAX_LENGTH = 40;
-  readonly BONUS_MIN = 1;
-  readonly BONUS_MAX = 100000;
-  readonly PRICE_MIN = 1;
-  readonly PRICE_MAX = 1000000;
-
   item: AddItemModel = new AddItemModel();
   imageInvalid = false;
 
+  constructor(private adminService: AdminService,
+              private notificationService: NotificationService,
+              private router: Router) {
+  }
+
   onSubmit() {
-    console.log(this.item);
+    this.adminService.addNewItem(this.item)
+      .subscribe(
+        result => {
+          if (result.success) {
+            this.notificationService.notify(result.message);
+            this.router.navigateByUrl('admin/items');
+          } else {
+            this.notificationService.showError(result.message);
+          }
+
+        },
+        error => {
+          this.notificationService.showError('An error occurred. Please, make sure the image size is below 1MB.');
+        }
+      );
   }
 
   isNameValid(name: string): boolean {
-
-    if (name && name.trim().length >= this.NAME_MIN_LENGTH
-      && name.trim().length <= this.NAME_MAX_LENGTH) {
-      return true;
-    }
-    return false;
+    return Toolbox.isContentLengthBetween(
+      name, AppConstants.ITEM_NAME_MIN_LENGTH, AppConstants.ITEM_NAME_MAX_LENGTH);
   }
 
   isBonusValid(bonus: number): boolean {
-
-    if (bonus && bonus >= this.BONUS_MIN && bonus <= this.BONUS_MAX
-      && Toolbox.isInteger(bonus.toString())) {
-      return true;
-    }
-
-    return false;
-
+    return Toolbox.isNumberBetween(bonus, AppConstants.ITEM_BONUS_MIN, AppConstants.ITEM_BONUS_MAX);
   }
 
   isPriceValid(price: number): boolean {
-
-    if (price && price >= this.PRICE_MIN && price < this.PRICE_MAX
-      && Toolbox.isInteger(price.toString())) {
-      return true;
-    }
-    return false;
+    return Toolbox.isNumberBetween(price, AppConstants.ITEM_PRICE_MIN, AppConstants.ITEM_PRICE_MAX);
   }
 
   processImage(event): void {

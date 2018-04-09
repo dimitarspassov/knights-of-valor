@@ -6,42 +6,104 @@
   </div>
 
   <div class="row">
-    <form class="col-sm-4 offset-sm-4 text-center">
+    <form #itemForm="ngForm" enctype="multipart/form-data" (ngSubmit)="onSubmit()"
+          class="col-sm-4 offset-sm-4 text-center">
       <fieldset>
 
         <div class="form-group">
           <label for="name">Name</label>
-          <input type="text" class="form-control" name="name" id="name" value="Small dagger">
+          <input type="text" class="form-control" name="name" id="name"
+                 minlength="{{NAME_MIN_LENGTH}}" maxlength="{{NAME_MAX_LENGTH}}"
+                 required #name="ngModel" [(ngModel)]="item.name">
+
+          <div *ngIf="(name.dirty || name.touched) &&
+                (name.invalid || !isNameValid(name.value))"
+               class="error">
+          <span *ngIf="name.hasError('required'); else nameValidation">
+            Item name is required.
+          </span>
+            <ng-template #nameValidation>
+            <span *ngIf="!isNameValid(name.value)">
+              Item name should between<br/> {{NAME_MIN_LENGTH}} and {{NAME_MAX_LENGTH}} symbols long.
+            </span>
+            </ng-template>
+          </div>
+
         </div>
 
         <div class="form-group">
           <label for="type">Type</label>
-          <select class="form-control" name="type" id="type">
-            <option selected>Weapon</option>
-            <option>Shield</option>
-            <option>Armour</option>
+          <select disabled class="form-control" name="type" id="type"
+                  #type="ngModel" [(ngModel)]="item.type">
+            <option value="Weapon">Weapon</option>
+            <option value="Shield">Shield</option>
+            <option value="Armor">Armor</option>
           </select>
         </div>
 
         <div class="form-group">
           <label for="bonus">Bonus points</label>
-          <input class="form-control" id="bonus" type="number" name="bonus" value="2"/>
+          <input class="form-control" id="bonus" type="number" name="bonus"
+                 step="1" min="{{BONUS_MIN}}" max="{{BONUS_MAX}}"
+                 required #bonus="ngModel" [(ngModel)]="item.bonus">
+
+          <div *ngIf="(bonus.dirty || bonus.touched) &&
+             (!isBonusValid(bonus.value) || bonus.invalid)"
+               class="error">
+          <span *ngIf="bonus.hasError('required'); else bonusValidation">
+            Bonus is required.
+          </span>
+            <ng-template #bonusValidation>
+            <span *ngIf="!isBonusValid(bonus.value)">
+              Bonus should be between<br/> {{BONUS_MIN}} and {{BONUS_MAX}}.
+            </span>
+            </ng-template>
+          </div>
+
+        </div>
+
+        <div class="form-group">
+          <label for="price">Price</label>
+          <input class="form-control" id="price" type="number" name="price"
+                 step=1 min="{{PRICE_MIN}}" max="{{PRICE_MAX}}" required #price="ngModel" [(ngModel)]="item.price">
+
+          <div *ngIf="(price.dirty || price.touched) &&
+             (!isPriceValid(price.value) || price.invalid)"
+               class="error">
+          <span *ngIf="price.hasError('required'); else priceValidation">
+            Price is required.
+          </span>
+            <ng-template #priceValidation>
+            <span *ngIf="!isPriceValid(price.value)">
+              Price should be a positive integer.
+            </span>
+            </ng-template>
+          </div>
+
         </div>
 
         <div class="form-group mb-5">
+
           <label>Current image</label>
 
           <div class="old-img mb-5">
-            <img src="/assets/img/tmp/sword.png" alt="">
+            <img src="{{item.oldImage}}" alt="Previous image">
           </div>
 
-          <label for="image">New image</label>
-          <input type="file" name="image" class="form-control-file" id="image">
+          <label for="image">Image</label>
+          <input type="file" name="image" class="form-control-file" id="image"
+                 #image (change)=processImage($event)>
           <small id="fileHelp" class="form-text text-muted">Allowed formats: PNG, JPG, JPEG
           </small>
+
+          <div *ngIf="imageInvalid" class="error">Image is invalid.</div>
+
         </div>
 
-        <button type="submit" class="btn btn-primary">Edit</button>
+        <button type="submit" [disabled]="!itemForm.valid || !isNameValid(name.value) ||
+                !isPriceValid(price.value) || !isBonusValid(bonus.value) || imageInvalid"
+                class="btn btn-primary">Add
+        </button>
       </fieldset>
     </form>
   </div>

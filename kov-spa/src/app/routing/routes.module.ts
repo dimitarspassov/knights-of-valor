@@ -27,6 +27,7 @@ import {EditNeutralComponent} from '../admin/neutrals/edit/edit-neutral.componen
 import {PrivateRoute} from './private-route';
 import {PublicRoute} from './public-route';
 import {UrlConstants} from './url-constants';
+import {AdminRoute} from './admin-route';
 
 
 const routes: Routes = [
@@ -64,18 +65,18 @@ const routes: Routes = [
     path: 'admin',
     component: GameComponent,
     children: [
-      {path: '', component: AdminHomeComponent, canActivate: [PrivateRoute]},
-      {path: 'items', component: ItemsComponent, canActivate: [PrivateRoute]},
-      {path: 'items/add', component: AddItemComponent, canActivate: [PrivateRoute]},
-      {path: 'items/edit/:id', component: EditItemComponent, canActivate: [PrivateRoute]},
+      {path: '', component: AdminHomeComponent, canActivate: [AdminRoute]},
+      {path: 'items', component: ItemsComponent, canActivate: [AdminRoute]},
+      {path: 'items/add', component: AddItemComponent, canActivate: [AdminRoute]},
+      {path: 'items/edit/:id', component: EditItemComponent, canActivate: [AdminRoute]},
 
-      {path: 'jobs', component: JobsComponent, canActivate: [PrivateRoute]},
-      {path: 'jobs/add', component: AddJobComponent, canActivate: [PrivateRoute]},
-      {path: 'jobs/edit/:id', component: EditJobComponent, canActivate: [PrivateRoute]},
+      {path: 'jobs', component: JobsComponent, canActivate: [AdminRoute]},
+      {path: 'jobs/add', component: AddJobComponent, canActivate: [AdminRoute]},
+      {path: 'jobs/edit/:id', component: EditJobComponent, canActivate: [AdminRoute]},
 
-      {path: 'neutrals', component: NeutralsComponent, canActivate: [PrivateRoute]},
-      {path: 'neutrals/add', component: AddNeutralComponent, canActivate: [PrivateRoute]},
-      {path: 'neutrals/edit/:id', component: EditNeutralComponent, canActivate: [PrivateRoute]}
+      {path: 'neutrals', component: NeutralsComponent, canActivate: [AdminRoute]},
+      {path: 'neutrals/add', component: AddNeutralComponent, canActivate: [AdminRoute]},
+      {path: 'neutrals/edit/:id', component: EditNeutralComponent, canActivate: [AdminRoute]}
     ]
   }
 ];
@@ -84,7 +85,7 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers: [PrivateRoute, PublicRoute]
+  providers: [PrivateRoute, PublicRoute, AdminRoute]
 })
 
 export class AppRoutesModule {

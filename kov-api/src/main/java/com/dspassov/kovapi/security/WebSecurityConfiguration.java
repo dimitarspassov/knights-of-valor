@@ -29,6 +29,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         //todo:fix
         http
                 .cors()
@@ -36,10 +37,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/api/register").permitAll()
-                .antMatchers("/api/admin/*").hasAuthority(RoleName.ROLE_ADMIN.name())
                 .antMatchers("/api/auth/admin").hasAuthority(RoleName.ROLE_ADMIN.name())
                 .antMatchers("/api/auth/superadmin").hasAuthority(RoleName.ROLE_SUPERADMIN.name())
+                .antMatchers("/api/admin/*").hasAuthority(RoleName.ROLE_ADMIN.name())
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JwtAuthenticationFilter(authenticationManager()))

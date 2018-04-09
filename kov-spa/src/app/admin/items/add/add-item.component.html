@@ -6,14 +6,15 @@
   </div>
 
   <div class="row">
-    <form #itemForm="ngForm" (ngSubmit)="onSubmit()" class="col-sm-4 offset-sm-4 text-center">
+    <form #itemForm="ngForm" enctype="multipart/form-data" (ngSubmit)="onSubmit()"
+          class="col-sm-4 offset-sm-4 text-center">
       <fieldset>
 
         <div class="form-group">
           <label for="name">Name</label>
           <input type="text" class="form-control" name="name" id="name"
                  minlength="{{NAME_MIN_LENGTH}}" maxlength="{{NAME_MAX_LENGTH}}"
-                 required #name="ngModel" [(ngModel)]="item.name">
+                 required #name="ngModel" [(ngModel)]="item.name" >
 
           <div *ngIf="(name.dirty || name.touched) &&
                 (name.invalid || !isNameValid(name.value))"
@@ -34,9 +35,9 @@
           <label for="type">Type</label>
           <select class="form-control" name="type" id="type"
                   #type="ngModel" [(ngModel)]="item.type">
-            <option>Weapon</option>
-            <option>Shield</option>
-            <option>Armour</option>
+            <option value="Weapon">Weapon</option>
+            <option value="Shield">Shield</option>
+            <option value="Armor">Armor</option>
           </select>
         </div>
 

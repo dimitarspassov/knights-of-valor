@@ -9,6 +9,7 @@ import {MarketComponent} from './market/market.component';
 import {WildernessComponent} from './wilderness/wilderness.component';
 import {ArenaComponent} from './arena/arena.component';
 import {WorkComponent} from './work/work.component';
+import {GameService} from './game.service';
 
 
 @NgModule({
@@ -22,7 +23,7 @@ import {WorkComponent} from './work/work.component';
     ArenaComponent,
     WorkComponent
   ],
-  providers: []
+  providers: [GameService]
 })
 export class GameModule {
 

@@ -18,7 +18,7 @@ public class BattleSet {
     private String id;
 
     @ManyToOne()
-    private Sword sword;
+    private Weapon sword;
 
     @ManyToOne()
     private Shield shield;
@@ -37,11 +37,11 @@ public class BattleSet {
         this.id = id;
     }
 
-    public Sword getSword() {
+    public Weapon getSword() {
         return sword;
     }
 
-    public void setSword(Sword sword) {
+    public void setSword(Weapon sword) {
         this.sword = sword;
     }
 
