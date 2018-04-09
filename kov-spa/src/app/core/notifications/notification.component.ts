@@ -8,6 +8,9 @@ import {NotificationService} from './notification.service';
 })
 export class NotificationComponent implements OnInit {
 
+  private readonly NOTIFICATION_PRIMARY = 'alert-primary';
+  private readonly NOTIFICATION_ERROR = 'alert-danger';
+
   private showNotification: boolean;
   private message: string;
   private notificationTypeClass: string;
@@ -20,23 +23,33 @@ export class NotificationComponent implements OnInit {
 
     this.notificationService.messageUpdated.subscribe(
       (message) => {
-        this.message = message;
-        this.showNotification = true;
-        this.notificationTypeClass = 'alert-primary';
+        this.show(message, this.NOTIFICATION_PRIMARY);
       }
     );
 
     this.notificationService.errorUpdated.subscribe(
       (message) => {
-        this.message = message;
-        this.showNotification = true;
-        this.notificationTypeClass = 'alert-danger';
+        this.show(message, this.NOTIFICATION_ERROR);
       }
     );
 
   }
 
   closeNotification(): void {
-    this.showNotification = false;
+    this.notificationTypeClass = this.notificationTypeClass
+      .replace('visible', '');
+    setTimeout(() => {
+      this.showNotification = false;
+    }, 200);
+
+  }
+
+  private show(message: string, notificationClass: string) {
+    this.message = message;
+    this.showNotification = true;
+    this.notificationTypeClass = notificationClass;
+    setTimeout(() => {
+      this.notificationTypeClass += ' visible';
+    }, 100);
   }
 }

@@ -1,5 +1,8 @@
-<div *ngIf="showNotification" [ngClass]="notificationTypeClass" class="alert alert-dismissible">
-  <button (click)="closeNotification()" type="button" class="close" data-dismiss="alert">&times;</button>
-  <strong>{{message}}</strong>
+<div class="notification-wrapper">
+  <div *ngIf="showNotification" [ngClass]="notificationTypeClass" class="alert alert-dismissible">
+    <button (click)="closeNotification()" type="button" class="close" data-dismiss="alert">&times;</button>
+    <strong>{{message}}</strong>
 
+  </div>
 </div>
+
