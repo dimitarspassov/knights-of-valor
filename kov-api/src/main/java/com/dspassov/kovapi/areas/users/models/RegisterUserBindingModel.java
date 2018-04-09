@@ -28,6 +28,8 @@ public class RegisterUserBindingModel {
                     + " symbols.")
     private String heroName;
 
+    private String confirmPassword;
+
     public RegisterUserBindingModel() {
     }
 
@@ -53,5 +55,13 @@ public class RegisterUserBindingModel {
 
     public void setHeroName(String heroName) {
         this.heroName = heroName;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 }

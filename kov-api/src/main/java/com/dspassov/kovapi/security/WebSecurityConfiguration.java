@@ -1,6 +1,7 @@
 package com.dspassov.kovapi.security;
 
 
+import com.dspassov.kovapi.areas.users.enumerations.RoleName;
 import com.dspassov.kovapi.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -36,7 +37,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .disable()
                 .authorizeRequests()
                 .antMatchers("/api/register").permitAll()
-                .antMatchers("/api/admin/*").hasAuthority("ROLE_SUPERADMIN")
+                .antMatchers("/api/admin/*").hasAuthority(RoleName.ROLE_ADMIN.name())
+                .antMatchers("/api/auth/admin").hasAuthority(RoleName.ROLE_ADMIN.name())
+                .antMatchers("/api/auth/superadmin").hasAuthority(RoleName.ROLE_SUPERADMIN.name())
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JwtAuthenticationFilter(authenticationManager()))

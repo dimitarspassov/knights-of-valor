@@ -43,6 +43,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public String save(RegisterUserBindingModel model) {
 
+        if (!model.getPassword().equals(model.getConfirmPassword())) {
+            throw new IllegalArgumentException(ResponseMessageConstants.PASSWORDS_MISMATCH);
+        }
+
         if (this.userRepository.findByUsername(model.getUsername()) != null) {
             throw new IllegalArgumentException(ResponseMessageConstants.EXISTING_USER);
         }

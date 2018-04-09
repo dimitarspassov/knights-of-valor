@@ -1,13 +1,15 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {NotificationComponent} from './notification/notification.component';
-import {NotificationService} from './notification/notification.service';
+import {HttpService} from './http.service';
+import {AuthService} from './auth.service';
+import {NotificationComponent} from './notifications/notification.component';
+import {NotificationService} from './notifications/notification.service';
 
 
 @NgModule({
   imports: [BrowserModule],
   declarations: [NotificationComponent],
-  providers: [NotificationService],
+  providers: [HttpService, AuthService, NotificationService],
   exports: [NotificationComponent]
 })
 export class CoreModule {

@@ -3,11 +3,14 @@ import {NgModule} from '@angular/core';
 
 
 import {AppComponent} from './app.component';
-import {AppRoutesModule} from './routes.module';
+import {AppRoutesModule} from './routing/routes.module';
 import {IndexModule} from './index/index.module';
 import {GameModule} from './game/game.module';
 import {MessagesModule} from './messages/messages.module';
 import {AdminModule} from './admin/admin.module';
+import {HttpModule} from '@angular/http';
+import {CoreModule} from './core/core.module';
+
 
 
 @NgModule({
@@ -16,7 +19,9 @@ import {AdminModule} from './admin/admin.module';
   ],
   imports: [
     BrowserModule,
+    HttpModule,
     AppRoutesModule,
+    CoreModule,
     IndexModule,
     GameModule,
     MessagesModule,

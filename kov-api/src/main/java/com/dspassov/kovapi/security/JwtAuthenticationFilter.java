@@ -1,6 +1,7 @@
 package com.dspassov.kovapi.security;
 
 
+import com.dspassov.kovapi.areas.users.entities.Role;
 import com.dspassov.kovapi.areas.users.entities.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
@@ -17,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -54,10 +57,21 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .signWith(SignatureAlgorithm.HS256, JwtSecurityConstants.SECRET.getBytes())
                 .compact();
 
-        response.getWriter()
-                .append(String.format("{\"%s\":\"%s%s\"}",
-                        JwtSecurityConstants.HEADER_STRING,
-                        JwtSecurityConstants.TOKEN_PREFIX,
-                        token));
+        User current = (User) authResult.getPrincipal();
+
+        List<String> roles = current.getRoles().stream()
+                .map(Role::getAuthority)
+                .collect(Collectors.toList());
+
+        StringBuilder authJson = new StringBuilder();
+
+        authJson.append(String.format("{\"authToken\":\"%s\",",
+                token));
+        authJson.append(String.format("\"user\":\"%s\",",
+                current.getUsername()));
+        authJson.append(String.format("\"roles\":\"%s\"}",
+                roles.toString()));
+
+        response.getWriter().append(authJson.toString());
     }
 }

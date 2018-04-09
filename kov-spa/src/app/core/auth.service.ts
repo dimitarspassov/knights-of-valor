@@ -4,12 +4,17 @@ import {Injectable} from '@angular/core';
 @Injectable()
 export class AuthService {
 
+
   authenticateUser(token) {
     window.localStorage.setItem('token', token);
   }
 
   saveUser(user) {
     window.localStorage.setItem('user', user);
+  }
+
+  addRoles(roles) {
+    window.localStorage.setItem('roles', roles);
   }
 
   getUser() {
@@ -30,5 +35,9 @@ export class AuthService {
 
   removeUser() {
     window.localStorage.removeItem('user');
+  }
+
+  removeRoles() {
+    window.localStorage.removeItem('roles');
   }
 }

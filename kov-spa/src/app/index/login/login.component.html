@@ -17,16 +17,16 @@
       <div class="form-group">
         <label for="email">E-Mail:</label>
         <input type="email" name="email" class="form-control" id="email" [email]="true"
-               required #email="ngModel" [(ngModel)]="user.email">
+               required #username="ngModel" [(ngModel)]="user.username">
 
-        <div *ngIf="email.invalid && (email.dirty || email.touched)"
+        <div *ngIf="username.invalid && (username.dirty || username.touched)"
              class="error">
 
-          <span *ngIf="email.hasError('required'); else emailValidation">
+          <span *ngIf="username.hasError('required'); else emailValidation">
             E-Mail is required.
           </span>
           <ng-template #emailValidation>
-            <span *ngIf="email.hasError('email')">
+            <span *ngIf="username.hasError('email')">
               E-Mail is invalid.
             </span>
           </ng-template>

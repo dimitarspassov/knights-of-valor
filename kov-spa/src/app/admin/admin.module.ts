@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
 import {CoreModule} from '../core/core.module';
-import {NotificationService} from '../core/notification/notification.service';
 import {AdminHomeComponent} from './admin-home/admin-home.component';
 import {ItemsComponent} from './items/index/items.component';
 import {AddItemComponent} from './items/add/add-item.component';
@@ -35,7 +34,7 @@ import {CommonModule} from '@angular/common';
     AddNeutralComponent,
     EditNeutralComponent
   ],
-  providers: [NotificationService]
+  providers: []
 })
 export class AdminModule {
 

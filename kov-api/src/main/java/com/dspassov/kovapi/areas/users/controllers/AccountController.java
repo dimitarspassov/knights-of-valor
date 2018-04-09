@@ -6,10 +6,7 @@ import com.dspassov.kovapi.services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 import javax.validation.Valid;
@@ -44,4 +41,18 @@ public class AccountController extends BaseController {
 
     }
 
+    @GetMapping("/api/auth")
+    public String validateCurrentToken() {
+        return this.success("authenticated");
+    }
+
+    @GetMapping("/api/auth/admin")
+    public String validateAdminToken() {
+        return this.success("authenticated");
+    }
+
+    @GetMapping("/api/auth/superadmin")
+    public String validateSuperAdminToken() {
+        return this.success("authenticated");
+    }
 }
