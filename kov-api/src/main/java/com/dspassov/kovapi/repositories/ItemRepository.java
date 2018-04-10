@@ -1,6 +1,8 @@
 package com.dspassov.kovapi.repositories;
 
 import com.dspassov.kovapi.areas.game.entities.Item;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,4 +15,6 @@ public interface ItemRepository extends PagingAndSortingRepository<Item, String>
 
     @Override
     List<Item> findAll();
+
+    Page<Item> findAll(Pageable pageable);
 }

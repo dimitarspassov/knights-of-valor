@@ -31,11 +31,11 @@
 
   <div class="text-center my-5">
     <ul class="paging">
-      <li class="page-item disabled">
-        <a class="page-link" href="#">&laquo;</a>
+      <li class="page-item" [ngClass]="{'disabled': prevDisabled}">
+        <button (click)="prevPage()" class="page-link">&laquo;</button>
       </li>
-      <li class="page-item">
-        <a class="page-link" href="#">&raquo;</a>
+      <li class="page-item" [ngClass]="{'disabled': nextDisabled}">
+        <button (click)="nextPage()" class="page-link">&raquo;</button>
       </li>
     </ul>
   </div>

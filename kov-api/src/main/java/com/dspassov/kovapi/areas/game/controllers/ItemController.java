@@ -1,6 +1,7 @@
 package com.dspassov.kovapi.areas.game.controllers;
 
 import com.dspassov.kovapi.areas.game.models.binding.ItemBindingModel;
+import com.dspassov.kovapi.areas.game.models.view.ItemPageViewModel;
 import com.dspassov.kovapi.areas.game.models.view.ItemViewModel;
 import com.dspassov.kovapi.areas.game.services.ItemService;
 import com.dspassov.kovapi.web.BaseController;
@@ -49,9 +50,9 @@ public class ItemController extends BaseController {
 
     @GetMapping("/api/items")
     @ResponseBody
-    public String allItems() {
-        List<ItemViewModel> items = this.itemService.findAllItems();
-        return this.objectToJson(items);
+    public String allItemsByPage(@RequestParam( "page" ) int page, @RequestParam( "size" ) int size) {
+        ItemPageViewModel model = this.itemService.findItemsByPage(page, size);
+        return this.objectToJson(model);
     }
 
     @GetMapping("/api/admin/items/{id}")

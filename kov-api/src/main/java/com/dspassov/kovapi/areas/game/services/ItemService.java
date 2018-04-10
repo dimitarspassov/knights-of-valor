@@ -1,6 +1,7 @@
 package com.dspassov.kovapi.areas.game.services;
 
 import com.dspassov.kovapi.areas.game.models.binding.ItemBindingModel;
+import com.dspassov.kovapi.areas.game.models.view.ItemPageViewModel;
 import com.dspassov.kovapi.areas.game.models.view.ItemViewModel;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -8,6 +9,8 @@ import java.io.IOException;
 import java.util.List;
 
 public interface ItemService {
+
+    ItemPageViewModel findItemsByPage(int page, int size);
 
     List<ItemViewModel> findAllItems();
 

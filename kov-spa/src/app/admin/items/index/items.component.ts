@@ -9,7 +9,14 @@ import {NotificationService} from '../../../core/notifications/notification.serv
 })
 export class ItemsComponent implements OnInit {
 
+  private readonly ITEMS_PER_PAGE = 5;
+
+  private page = 0;
   private items;
+  private allPages;
+
+  private nextDisabled = false;
+  private prevDisabled = true;
 
   constructor(private gameService: GameService,
               private notificationService: NotificationService) {
@@ -17,12 +24,34 @@ export class ItemsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.gameService.getAllItems()
+    this.fetchItems(this.page);
+  }
+
+  private fetchItems(page) {
+    this.gameService.getItemsByPage(page, this.ITEMS_PER_PAGE)
       .subscribe(
-        result => this.items = result,
+        result => {
+          this.items = result.items;
+          this.allPages = result.allPages;
+
+          this.page = page;
+          this.nextDisabled = this.page + 1 === this.allPages;
+
+          this.prevDisabled = this.page <= 0;
+
+        },
         error => this.notificationService.showError('An error occured. Please, try again.')
       );
   }
 
+  nextPage() {
+    this.fetchItems(this.page + 1);
+  }
+
+  prevPage() {
+    if (this.page !== 0) {
+      this.fetchItems(this.page - 1);
+    }
+  }
 
 }

@@ -2,17 +2,19 @@ package com.dspassov.kovapi.areas.game.services;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import com.dspassov.kovapi.areas.game.common.GameDomainConstants;
 import com.dspassov.kovapi.areas.game.entities.Armor;
 import com.dspassov.kovapi.areas.game.entities.Item;
 import com.dspassov.kovapi.areas.game.entities.Shield;
 import com.dspassov.kovapi.areas.game.entities.Weapon;
 import com.dspassov.kovapi.areas.game.models.binding.ItemBindingModel;
+import com.dspassov.kovapi.areas.game.models.view.ItemPageViewModel;
 import com.dspassov.kovapi.areas.game.models.view.ItemViewModel;
 import com.dspassov.kovapi.repositories.ItemRepository;
 import com.dspassov.kovapi.web.ResponseMessageConstants;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -88,6 +90,22 @@ public class ItemServiceImpl implements ItemService {
                 }).collect(Collectors.toList());
     }
 
+    public ItemPageViewModel findItemsByPage(int page, int size) {
+
+        Page<Item> items = this.itemRepository.findAll(PageRequest.of(page, size));
+
+        ItemPageViewModel itemPage = this.modelMapper.map(items, ItemPageViewModel.class);
+        itemPage.setAllPages(items.getTotalPages());
+        itemPage.setItems(items.getContent().stream().map(i -> {
+
+            ItemViewModel itemViewModel = this.modelMapper.map(i, ItemViewModel.class);
+            itemViewModel.setType(i.getClass().getSimpleName());
+            return itemViewModel;
+        }).collect(Collectors.toList()));
+
+        return itemPage;
+    }
+
     @Override
     public ItemViewModel getItemById(String id) {
         Item item = this.itemRepository.findById(id).orElse(null);
@@ -142,4 +160,5 @@ public class ItemServiceImpl implements ItemService {
                 && !fileName.endsWith(".jpg")
                 && !fileName.endsWith(".jpeg");
     }
+
 }
