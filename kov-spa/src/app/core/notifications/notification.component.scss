@@ -24,5 +24,17 @@
       top:20px;
       opacity: 1;
     }
+
+    &.alert-light{
+      padding-right: 20px;
+      img{
+        display: inline-block;
+      }
+    }
+
+    img{
+      display: none;
+      width: 30px;
+    }
   }
 }

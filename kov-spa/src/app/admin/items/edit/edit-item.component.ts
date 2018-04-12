@@ -32,7 +32,7 @@ export class EditItemComponent implements OnInit {
         .subscribe(
           result => this.mapItem(result),
           error => {
-            this.notificationService.showError('An error occured. Please try again.');
+            this.notificationService.showError('An error occurred. Please try again.');
             this.router.navigateByUrl('admin/items');
           }
         );
@@ -40,6 +40,7 @@ export class EditItemComponent implements OnInit {
   }
 
   onSubmit() {
+    this.notificationService.loading();
     this.adminService.editItem(this.id, this.item)
       .subscribe(
         result => {
@@ -51,7 +52,7 @@ export class EditItemComponent implements OnInit {
           }
         },
         error => {
-          this.notificationService.showError('An error occurred. Please, make sure the image size is below 1MB.');
+          this.notificationService.showError(error.message);
         }
       );
   }

@@ -4,6 +4,7 @@ import com.dspassov.kovapi.areas.game.models.binding.ItemBindingModel;
 import com.dspassov.kovapi.areas.game.models.view.ItemPageViewModel;
 import com.dspassov.kovapi.areas.game.models.view.ItemViewModel;
 import com.dspassov.kovapi.areas.game.services.ItemService;
+import com.dspassov.kovapi.exceptions.CloudStorageException;
 import com.dspassov.kovapi.web.BaseController;
 import com.dspassov.kovapi.web.ResponseMessageConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.io.IOException;
-import java.util.List;
+
 
 @RestController
 public class ItemController extends BaseController {
@@ -41,16 +41,16 @@ public class ItemController extends BaseController {
 
         try {
             return this.success(this.itemService.save(item, image));
-        } catch (IllegalArgumentException exception) {
+        } catch (IllegalArgumentException | CloudStorageException exception) {
             return this.error(exception.getMessage());
-        } catch (IOException ioException) {
-            return this.error(ResponseMessageConstants.FILE_UPLOAD_FAILED);
+        } catch (Exception e) {
+            return this.error(ResponseMessageConstants.GENERIC_ERROR);
         }
     }
 
     @GetMapping("/api/items")
     @ResponseBody
-    public String allItemsByPage(@RequestParam( "page" ) int page, @RequestParam( "size" ) int size) {
+    public String allItemsByPage(@RequestParam("page") int page, @RequestParam("size") int size) {
         ItemPageViewModel model = this.itemService.findItemsByPage(page, size);
         return this.objectToJson(model);
     }
@@ -81,9 +81,9 @@ public class ItemController extends BaseController {
 
         try {
             return this.success(this.itemService.updateItem(id, item, null));
-        } catch (IllegalArgumentException exception) {
+        } catch (IllegalArgumentException | CloudStorageException exception) {
             return this.error(exception.getMessage());
-        } catch (IOException e) {
+        } catch (Exception e) {
             return this.error(ResponseMessageConstants.GENERIC_ERROR);
         }
     }
@@ -101,13 +101,12 @@ public class ItemController extends BaseController {
                     .get(0).getDefaultMessage());
         }
 
-        //todo: refactor
         try {
             return this.success(this.itemService.updateItem(id, item, image));
-        } catch (IllegalArgumentException exception) {
+        } catch (IllegalArgumentException | CloudStorageException exception) {
             return this.error(exception.getMessage());
-        } catch (IOException e) {
-            return this.error(ResponseMessageConstants.FILE_UPLOAD_FAILED);
+        } catch (Exception e) {
+            return this.error(ResponseMessageConstants.GENERIC_ERROR);
         }
     }
 

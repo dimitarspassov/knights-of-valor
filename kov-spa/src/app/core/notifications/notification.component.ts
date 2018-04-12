@@ -10,6 +10,7 @@ export class NotificationComponent implements OnInit {
 
   private readonly NOTIFICATION_PRIMARY = 'alert-primary';
   private readonly NOTIFICATION_ERROR = 'alert-danger';
+  private readonly NOTIFICATION_LOADING = 'alert-light';
 
   private showNotification: boolean;
   private message: string;
@@ -33,6 +34,12 @@ export class NotificationComponent implements OnInit {
       }
     );
 
+    this.notificationService.loadingUpdated.subscribe(
+      () => {
+        this.show('', this.NOTIFICATION_LOADING);
+      }
+    );
+
   }
 
   closeNotification(): void {
@@ -52,4 +59,5 @@ export class NotificationComponent implements OnInit {
       this.notificationTypeClass += ' visible';
     }, 100);
   }
+
 }

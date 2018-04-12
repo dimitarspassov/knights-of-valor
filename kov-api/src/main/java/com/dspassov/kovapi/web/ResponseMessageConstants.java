@@ -17,6 +17,7 @@ public final class ResponseMessageConstants {
 
 
     public static final String GENERIC_ERROR = "An error occurred. Please, try again.";
+    public static final String CLOUD_UPLOAD_ERROR = "An error occurred. Please, make sure the image is in the correct format and its size is below 3MB.";
 
 
     private ResponseMessageConstants() {

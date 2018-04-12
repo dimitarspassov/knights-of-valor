@@ -36,7 +36,7 @@ export class AdminService {
   editItem(id: string, item: EditItemModel) {
 
     if (item.image !== undefined) {
-      // todo: refactor
+
       const formData = new FormData();
       formData.append('image', item.image, item.image.name);
       formData.append('item', new Blob([JSON.stringify({

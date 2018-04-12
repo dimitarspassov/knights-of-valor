@@ -1,7 +1,5 @@
 package com.dspassov.kovapi.areas.game.services;
 
-import com.cloudinary.Cloudinary;
-import com.cloudinary.utils.ObjectUtils;
 import com.dspassov.kovapi.areas.game.entities.Armor;
 import com.dspassov.kovapi.areas.game.entities.Item;
 import com.dspassov.kovapi.areas.game.entities.Shield;
@@ -9,6 +7,8 @@ import com.dspassov.kovapi.areas.game.entities.Weapon;
 import com.dspassov.kovapi.areas.game.models.binding.ItemBindingModel;
 import com.dspassov.kovapi.areas.game.models.view.ItemPageViewModel;
 import com.dspassov.kovapi.areas.game.models.view.ItemViewModel;
+import com.dspassov.kovapi.cloud.CloudService;
+import com.dspassov.kovapi.exceptions.CloudStorageException;
 import com.dspassov.kovapi.repositories.ItemRepository;
 import com.dspassov.kovapi.web.ResponseMessageConstants;
 import org.modelmapper.ModelMapper;
@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 
@@ -28,18 +27,18 @@ import java.util.stream.Collectors;
 public class ItemServiceImpl implements ItemService {
 
     private final ItemRepository itemRepository;
-    private final Cloudinary cloudinary;
     private final ModelMapper modelMapper;
+    private final CloudService cloudService;
 
     @Autowired
-    public ItemServiceImpl(ItemRepository itemRepository, Cloudinary cloudinary, ModelMapper modelMapper) {
+    public ItemServiceImpl(ItemRepository itemRepository, ModelMapper modelMapper, CloudService cloudService) {
         this.itemRepository = itemRepository;
-        this.cloudinary = cloudinary;
         this.modelMapper = modelMapper;
+        this.cloudService = cloudService;
     }
 
     @Override
-    public String save(ItemBindingModel itemModel, MultipartFile image) throws IOException {
+    public String save(ItemBindingModel itemModel, MultipartFile image) {
 
         String fileName = image.getOriginalFilename();
         if (!this.isValidImage(fileName)) {
@@ -69,8 +68,14 @@ public class ItemServiceImpl implements ItemService {
                 throw new IllegalArgumentException(ResponseMessageConstants.UNSUPPORTED_ITEM_TYPE);
         }
 
-        Map upload = cloudinary.uploader().upload(image.getBytes(), ObjectUtils.emptyMap());
-        String imageUrl = (String) upload.get("secure_url");
+
+        String imageUrl = null;
+        try {
+            imageUrl = this.cloudService.saveImage(image);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new CloudStorageException();
+        }
 
         item.setImage(imageUrl);
 
@@ -121,7 +126,7 @@ public class ItemServiceImpl implements ItemService {
 
 
     @Override
-    public String updateItem(String id, ItemBindingModel item, MultipartFile newImage) throws IOException {
+    public String updateItem(String id, ItemBindingModel item, MultipartFile newImage) {
 
         Item current = this.itemRepository.findById(id).orElse(null);
 
@@ -141,13 +146,22 @@ public class ItemServiceImpl implements ItemService {
 
             currentImageId = currentImageId.substring(0, currentImageId.lastIndexOf("."));
 
-            // todo: refactor
-            this.cloudinary.uploader().destroy(currentImageId, ObjectUtils.emptyMap());
+            try {
+                this.cloudService.deleteImage(currentImageId);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-            Map upload = cloudinary.uploader().upload(newImage.getBytes(), ObjectUtils.emptyMap());
-            String imageUrl = (String) upload.get("secure_url");
 
-            current.setImage(imageUrl);
+            try {
+                String imageUrl = this.cloudService.saveImage(newImage);
+                current.setImage(imageUrl);
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new CloudStorageException();
+            }
+
+
         }
 
         this.itemRepository.save(current);
