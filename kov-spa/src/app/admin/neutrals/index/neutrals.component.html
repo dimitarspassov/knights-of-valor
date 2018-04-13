@@ -18,35 +18,17 @@
       </tr>
       </thead>
       <tbody>
-      <tr>
-        <td>Black Bear</td>
-        <td>14</td>
-        <td>150</td>
+      <tr *ngFor="let unit of units" [class]="unit.status ? '': 'table-active'">
+        <td>{{unit.name}}</td>
+        <td>{{unit.level}}</td>
+        <td>{{unit.lootGold}}</td>
         <td>
-          <button class="btn btn-outline-info">Edit</button>
-          <button class="btn btn-outline-danger">Delete</button>
+          <a routerLink="/admin/neutrals/edit/{{unit.id}}" class="btn btn-outline-info">Edit</a>
+          <a *ngIf="unit.status" (click)="changeStatus(unit.id, false)" class="btn btn-outline-danger">Disable</a>
+          <a *ngIf="!unit.status" (click)="changeStatus(unit.id,true)" class="btn btn-outline-warning">Enable</a>
         </td>
       </tr>
 
-      <tr>
-        <td>Black Bear</td>
-        <td>14</td>
-        <td>150</td>
-        <td>
-          <button class="btn btn-outline-info">Edit</button>
-          <button class="btn btn-outline-danger">Delete</button>
-        </td>
-      </tr>
-
-      <tr>
-        <td>Black Bear</td>
-        <td>14</td>
-        <td>150</td>
-        <td>
-          <button class="btn btn-outline-info">Edit</button>
-          <button class="btn btn-outline-danger">Delete</button>
-        </td>
-      </tr>
 
       </tbody>
     </table>
@@ -54,11 +36,11 @@
 
   <div class="text-center my-5">
     <ul class="paging">
-      <li class="page-item disabled">
-        <a class="page-link" href="#">&laquo;</a>
+      <li class="page-item" [ngClass]="{'disabled': prevDisabled}">
+        <button (click)="prevPage()" class="page-link">&laquo;</button>
       </li>
-      <li class="page-item">
-        <a class="page-link" href="#">&raquo;</a>
+      <li class="page-item" [ngClass]="{'disabled': nextDisabled}">
+        <button (click)="nextPage()" class="page-link">&raquo;</button>
       </li>
     </ul>
   </div>

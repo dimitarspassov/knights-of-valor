@@ -1,5 +1,6 @@
 package com.dspassov.kovapi.areas.game.services;
 
+import com.dspassov.kovapi.areas.game.common.Toolbox;
 import com.dspassov.kovapi.areas.game.entities.Armor;
 import com.dspassov.kovapi.areas.game.entities.Item;
 import com.dspassov.kovapi.areas.game.entities.Shield;
@@ -41,7 +42,7 @@ public class ItemServiceImpl implements ItemService {
     public String save(ItemBindingModel itemModel, MultipartFile image) {
 
         String fileName = image.getOriginalFilename();
-        if (!this.isValidImage(fileName)) {
+        if (!Toolbox.isValidImage(fileName)) {
             throw new IllegalArgumentException(ResponseMessageConstants.INCORRECT_FILE_EXTENSION);
         }
 
@@ -69,7 +70,7 @@ public class ItemServiceImpl implements ItemService {
         }
 
 
-        String imageUrl = null;
+        String imageUrl;
         try {
             imageUrl = this.cloudService.saveImage(image);
         } catch (IOException e) {
@@ -141,27 +142,21 @@ public class ItemServiceImpl implements ItemService {
 
         if (newImage != null) {
 
-            String currentImageId = current.getImage().substring(
-                    current.getImage().lastIndexOf("/") + 1
-            );
+            if (!Toolbox.isValidImage(newImage.getOriginalFilename())) {
+                throw new IllegalArgumentException(ResponseMessageConstants.INCORRECT_FILE_EXTENSION);
+            }
 
-            currentImageId = currentImageId.substring(0, currentImageId.lastIndexOf("."));
+            String currentImageId = Toolbox.getImageId(current.getImage());
 
             try {
                 this.cloudService.deleteImage(currentImageId);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
 
-
-            try {
                 String imageUrl = this.cloudService.saveImage(newImage);
                 current.setImage(imageUrl);
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new CloudStorageException();
             }
-
 
         }
 
@@ -182,10 +177,5 @@ public class ItemServiceImpl implements ItemService {
         return ResponseMessageConstants.ITEM_EDITED;
     }
 
-    private boolean isValidImage(String fileName) {
-        return fileName.endsWith(".png")
-                && !fileName.endsWith(".jpg")
-                && !fileName.endsWith(".jpeg");
-    }
 
 }

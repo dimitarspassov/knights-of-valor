@@ -21,6 +21,10 @@ public final class ResponseMessageConstants {
     public static final String ITEM_ADDED = "Item added successfully.";
     public static final String ITEM_EDITED = "Item edited successfully.";
 
+    public static final String EXISTING_UNIT = "This neutral unit already exists.";
+    public static final String UNIT_ADDED = "Neutral unit added successfully.";
+    public static final String NON_EXISTENT_UNIT= "This neutral unit does not exists.";
+    public static final String UNIT_EDITED = "Unit edited successfully.";
 
     public static final String GENERIC_ERROR = "An error occurred. Please, try again.";
     public static final String CLOUD_UPLOAD_ERROR = "An error occurred. Please, make sure the image is in the correct format and its size is below 3MB.";

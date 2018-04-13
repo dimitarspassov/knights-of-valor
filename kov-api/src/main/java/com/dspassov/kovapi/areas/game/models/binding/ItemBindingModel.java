@@ -21,12 +21,12 @@ public class ItemBindingModel {
     private String type;
 
 
-    @NotNull
+    @NotNull(message = "Item price cannot be null.")
     @Min(value = GameDomainConstants.ITEM_PRICE_MIN, message = "Item price must be greater than or equal to " + GameDomainConstants.ITEM_PRICE_MIN)
     @Max(value = GameDomainConstants.ITEM_PRICE_MAX, message = "Item price must be less or equal to " + GameDomainConstants.ITEM_PRICE_MAX)
     private Integer price;
 
-    @NotNull
+    @NotNull(message = "Item bonus cannot be null.")
     @Min(value = GameDomainConstants.ITEM_BONUS_MIN, message = "Item bonus must be greater than or equal to " + GameDomainConstants.ITEM_BONUS_MIN)
     @Max(value = GameDomainConstants.ITEM_BONUS_MAX, message = "Item bonus must be less or equal to " + GameDomainConstants.ITEM_BONUS_MAX)
     private Integer bonus;

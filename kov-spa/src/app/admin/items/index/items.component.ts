@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {GameService} from '../../../game/game.service';
 import {NotificationService} from '../../../core/notifications/notification.service';
-import {AdminService} from '../../admin.service';
+import {ItemService} from '../item.service';
 
 @Component({
   selector: 'items',
@@ -19,7 +19,7 @@ export class ItemsComponent implements OnInit {
   private nextDisabled = false;
   private prevDisabled = true;
 
-  constructor(private adminService: AdminService,
+  constructor(private itemService: ItemService,
               private gameService: GameService,
               private notificationService: NotificationService) {
     this.items = [];
@@ -57,7 +57,7 @@ export class ItemsComponent implements OnInit {
   }
 
   changeStatus(item, status) {
-    this.adminService.changeItemStatus(item, status)
+    this.itemService.changeItemStatus(item, status)
       .subscribe(
         result => {
           this.notificationService.notify(result.message);

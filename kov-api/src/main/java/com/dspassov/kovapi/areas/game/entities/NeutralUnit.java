@@ -1,5 +1,6 @@
 package com.dspassov.kovapi.areas.game.entities;
 
+import com.dspassov.kovapi.areas.game.common.GameDomainConstants;
 import com.dspassov.kovapi.areas.game.enumerations.NeutralUnitType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Length;
@@ -13,19 +14,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "neutral_units")
 public class NeutralUnit {
 
-    private static final int NAME_MIN_LENGTH = 3;
-    private static final int NAME_MAX_LENGTH = 40;
 
-    // Matching strength, stamina & defense
-    private static final int STAT_MIN = 1;
-    private static final int STAT_MAX = 1000000;
-
-    private static final int HEALTH_MIN = 10;
-    private static final int HEALTH_MAX = 1000000;
-    private static final int LEVEL_MIN = 1;
-    private static final int LEVEL_MAX = 10000;
-    private static final int LOOT_MIN = 1;
-    private static final int LOOT_MAX = 400000;
 
 
     @Id
@@ -38,7 +27,8 @@ public class NeutralUnit {
     private String id;
 
     @NotNull
-    @Length(min = NAME_MIN_LENGTH, max = NAME_MAX_LENGTH)
+    @Length(min = GameDomainConstants.UNIT_NAME_MIN_LENGTH,
+            max = GameDomainConstants.UNIT_NAME_MAX_LENGTH)
     @Column(name = "name", unique = true)
     private String name;
 
@@ -48,38 +38,38 @@ public class NeutralUnit {
     private NeutralUnitType type;
 
     @NotNull
-    @Min(LEVEL_MIN)
-    @Max(LEVEL_MAX)
+    @Min(GameDomainConstants.UNIT_LEVEL_MIN)
+    @Max(GameDomainConstants.UNIT_LEVEL_MAX)
     @Column(name = "level")
     private Integer level;
 
     @NotNull
-    @Min(HEALTH_MIN)
-    @Max(HEALTH_MAX)
+    @Min(GameDomainConstants.UNIT_HEALTH_MIN)
+    @Max(GameDomainConstants.UNIT_HEALTH_MAX)
     @Column(name = "health")
     private Integer health;
 
     @NotNull
-    @Min(STAT_MIN)
-    @Max(STAT_MAX)
+    @Min(GameDomainConstants.UNIT_STAT_MIN)
+    @Max(GameDomainConstants.UNIT_STAT_MAX)
     @Column(name = "strength")
     private Integer strength;
 
     @NotNull
-    @Min(STAT_MIN)
-    @Max(STAT_MAX)
+    @Min(GameDomainConstants.UNIT_STAT_MIN)
+    @Max(GameDomainConstants.UNIT_STAT_MAX)
     @Column(name = "defense")
     private Integer defense;
 
     @NotNull
-    @Min(STAT_MIN)
-    @Max(STAT_MAX)
+    @Min(GameDomainConstants.UNIT_STAT_MIN)
+    @Max(GameDomainConstants.UNIT_STAT_MAX)
     @Column(name = "stamina")
     private Integer stamina;
 
     @NotNull
-    @Min(LOOT_MIN)
-    @Max(LOOT_MAX)
+    @Min(GameDomainConstants.UNIT_LOOT_MIN)
+    @Max(GameDomainConstants.UNIT_LOOT_MAX)
     @Column(name = "loot_gold")
     private Integer lootGold;
 

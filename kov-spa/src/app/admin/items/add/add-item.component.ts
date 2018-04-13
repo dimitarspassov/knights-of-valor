@@ -2,10 +2,10 @@ import {Component} from '@angular/core';
 import {AddItemModel} from './add-item.model';
 import {AdminConstants} from '../../admin-constants';
 import {Toolbox} from '../../../utils/toolbox';
-import {AdminService} from '../../admin.service';
 import {NotificationService} from '../../../core/notifications/notification.service';
 import {Router} from '@angular/router';
 import {AppConstants} from '../../../app-constants';
+import {ItemService} from '../item.service';
 
 @Component({
   selector: 'add-item',
@@ -14,17 +14,25 @@ import {AppConstants} from '../../../app-constants';
 })
 export class AddItemComponent {
 
+  readonly NAME_MIN_LENGTH = AppConstants.ITEM_NAME_MIN_LENGTH;
+  readonly NAME_MAX_LENGTH = AppConstants.ITEM_NAME_MAX_LENGTH;
+  readonly BONUS_MIN = AppConstants.ITEM_BONUS_MIN;
+  readonly BONUS_MAX = AppConstants.ITEM_BONUS_MAX;
+  readonly PRICE_MIN = AppConstants.ITEM_PRICE_MIN;
+  readonly PRICE_MAX = AppConstants.ITEM_PRICE_MAX;
+
+
   item: AddItemModel = new AddItemModel();
   imageInvalid = false;
 
-  constructor(private adminService: AdminService,
+  constructor(private itemService: ItemService,
               private notificationService: NotificationService,
               private router: Router) {
   }
 
   onSubmit() {
     this.notificationService.loading();
-    this.adminService.addNewItem(this.item)
+    this.itemService.addNewItem(this.item)
       .subscribe(
         result => {
           if (result.success) {
@@ -43,15 +51,15 @@ export class AddItemComponent {
 
   isNameValid(name: string): boolean {
     return Toolbox.isContentLengthBetween(
-      name, AppConstants.ITEM_NAME_MIN_LENGTH, AppConstants.ITEM_NAME_MAX_LENGTH);
+      name, this.NAME_MIN_LENGTH, this.NAME_MAX_LENGTH);
   }
 
   isBonusValid(bonus: number): boolean {
-    return Toolbox.isNumberBetween(bonus, AppConstants.ITEM_BONUS_MIN, AppConstants.ITEM_BONUS_MAX);
+    return Toolbox.isNumberBetween(bonus, this.BONUS_MIN, this.BONUS_MAX);
   }
 
   isPriceValid(price: number): boolean {
-    return Toolbox.isNumberBetween(price, AppConstants.ITEM_PRICE_MIN, AppConstants.ITEM_PRICE_MAX);
+    return Toolbox.isNumberBetween(price, this.PRICE_MIN, this.PRICE_MAX);
   }
 
   processImage(event): void {

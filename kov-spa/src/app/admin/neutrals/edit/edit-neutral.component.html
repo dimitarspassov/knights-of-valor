@@ -6,55 +6,182 @@
   </div>
 
   <div class="row">
-    <form class="col-sm-4 offset-sm-4 text-center">
+    <form class="col-sm-4 offset-sm-4 text-center" enctype="multipart/form-data" (ngSubmit)="onSubmit()">
       <fieldset>
 
         <div class="form-group">
           <label for="name">Name</label>
-          <input type="text" class="form-control" name="name" id="name">
+          <input type="text" class="form-control" name="name" id="name"
+                 minlength="{{NAME_MIN_LENGTH}}" maxlength="{{NAME_MAX_LENGTH}}"
+                 required #name="ngModel" [(ngModel)]="neutral.name">
+
+          <div *ngIf="(name.dirty || name.touched) &&
+                (name.invalid || !isNameValid(name.value))"
+               class="error">
+          <span *ngIf="name.hasError('required'); else nameValidation">
+            Neutral unit name is required.
+          </span>
+            <ng-template #nameValidation>
+            <span *ngIf="!isNameValid(name.value)">
+              Neutral unit name should between<br/> {{NAME_MIN_LENGTH}} and {{NAME_MAX_LENGTH}} symbols long.
+            </span>
+            </ng-template>
+          </div>
+
         </div>
 
         <div class="form-group">
           <label for="level">Level</label>
-          <input class="form-control" id="level" type="number" name="level"/>
+          <input class="form-control" id="level" type="number" name="level"
+                 step="1" min="{{LEVEL_MIN}}" max="{{LEVEL_MAX}}"
+                 required #level="ngModel" [(ngModel)]="neutral.level">
+
+          <div *ngIf="(level.dirty || level.touched) &&
+             (!isLevelValid(level.value) || level.invalid)"
+               class="error">
+          <span *ngIf="level.hasError('required'); else levelValidation">
+            Level is required.
+          </span>
+            <ng-template #levelValidation>
+            <span *ngIf="!isLevelValid(level.value)">
+              Level should be between<br/> {{LEVEL_MIN}} and {{LEVEL_MAX}}.
+            </span>
+            </ng-template>
+          </div>
+
         </div>
 
         <div class="form-group">
           <label for="health">Health</label>
-          <input class="form-control" id="health" type="number" name="health"/>
+          <input class="form-control" id="health" type="number" name="health"
+                 step="1" min="{{HEALTH_MIN}}" max="{{HEALTH_MAX}}"
+                 required #health="ngModel" [(ngModel)]="neutral.health">
+
+          <div *ngIf="(health.dirty || health.touched) &&
+             (!isHealthValid(health.value) || health.invalid)"
+               class="error">
+          <span *ngIf="health.hasError('required'); else healthValidation">
+            Health is required.
+          </span>
+            <ng-template #healthValidation>
+            <span *ngIf="!isHealthValid(health.value)">
+              Health should be between<br/> {{HEALTH_MIN}} and {{HEALTH_MAX}}.
+            </span>
+            </ng-template>
+          </div>
+
+
         </div>
 
         <div class="form-group">
           <label for="strength">Strength</label>
-          <input class="form-control" id="strength" type="number" name="strength"/>
+          <input class="form-control" id="strength" type="number" name="strength"
+                 step="1" min="{{STATS_MIN}}" max="{{STATS_MAX}}"
+                 required #strength="ngModel" [(ngModel)]="neutral.strength">
+
+          <div *ngIf="(strength.dirty || strength.touched) &&
+             (!isStatValid(strength.value) || strength.invalid)"
+               class="error">
+          <span *ngIf="strength.hasError('required'); else strengthValidation">
+            Strength is required.
+          </span>
+            <ng-template #strengthValidation>
+            <span *ngIf="!isStatValid(strength.value)">
+              Strength should be between<br/> {{STATS_MIN}} and {{STATS_MAX}}.
+            </span>
+            </ng-template>
+          </div>
+
         </div>
 
         <div class="form-group">
-          <label for="defence">Defence</label>
-          <input class="form-control" id="defence" type="number" name="defence"/>
+          <label for="defense">Defense</label>
+          <input class="form-control" id="defense" type="number" name="defense"
+                 step="1" min="{{STATS_MIN}}" max="{{STATS_MAX}}"
+                 required #defense="ngModel" [(ngModel)]="neutral.defense">
+
+          <div *ngIf="(defense.dirty || defense.touched) &&
+             (!isStatValid(defense.value) || defense.invalid)"
+               class="error">
+          <span *ngIf="defense.hasError('required'); else defenseValidation">
+            Defense is required.
+          </span>
+            <ng-template #defenseValidation>
+            <span *ngIf="!isStatValid(defense.value)">
+              Defense should be between<br/> {{STATS_MIN}} and {{STATS_MAX}}.
+            </span>
+            </ng-template>
+          </div>
+
         </div>
 
         <div class="form-group">
           <label for="stamina">Stamina</label>
-          <input class="form-control" id="stamina" type="number" name="stamina"/>
+          <input class="form-control" id="stamina" type="number" name="stamina"
+                 step="1" min="{{STATS_MIN}}" max="{{STATS_MAX}}"
+                 required #stamina="ngModel" [(ngModel)]="neutral.stamina">
+
+          <div *ngIf="(stamina.dirty || stamina.touched) &&
+             (!isStatValid(stamina.value) || stamina.invalid)"
+               class="error">
+          <span *ngIf="stamina.hasError('required'); else staminaValidation">
+            Stamina is required.
+          </span>
+            <ng-template #staminaValidation>
+            <span *ngIf="!isStatValid(stamina.value)">
+              Stamina should be between<br/> {{STATS_MIN}} and {{STATS_MAX}}.
+            </span>
+            </ng-template>
+          </div>
+
         </div>
 
         <div class="form-group">
           <label for="loot">Loot Gold</label>
-          <input class="form-control" id="loot" type="number" name="loot"/>
+          <input class="form-control" id="loot" type="number" name="loot"
+                 step="1" min="{{LOOT_MIN}}" max="{{LOOT_MAX}}"
+                 required #loot="ngModel" [(ngModel)]="neutral.lootGold">
+
+          <div *ngIf="(loot.dirty || loot.touched) &&
+             (!isLootValid(loot.value) || loot.invalid)"
+               class="error">
+          <span *ngIf="loot.hasError('required'); else lootValidation">
+            Loot gold is required.
+          </span>
+            <ng-template #lootValidation>
+            <span *ngIf="!isStatValid(loot.value)">
+              Loot gold should be an integer between
+              <br/> {{LOOT_MIN}} and {{LOOT_MAX}}.
+            </span>
+            </ng-template>
+          </div>
+
         </div>
+
+        <div class="form-group">
+          <label for="type">Type</label>
+          <select disabled class="form-control" name="type" id="type"
+                  #type="ngModel" [(ngModel)]="neutral.type">
+            <option value="Regular">Regular</option>
+            <option value="Special">Special</option>
+          </select>
+        </div>
+
 
         <div class="form-group mb-5">
           <label>Current image</label>
 
           <div class="old-img mb-5">
-            <img src="/assets/img/tmp/bear.png" alt="">
+            <img src="{{neutral.oldImage}}" alt="Current image">
           </div>
 
-          <label for="image">New image</label>
-          <input type="file" name="image" class="form-control-file" id="image">
+          <label for="image">Image</label>
+          <input type="file" name="image" class="form-control-file" id="image"
+                 #image (change)=processImage($event)>
           <small id="fileHelp" class="form-text text-muted">Allowed formats: PNG, JPG, JPEG
           </small>
+
+          <div *ngIf="imageInvalid" class="error">Image is invalid.</div>
         </div>
 
         <button type="submit" class="btn btn-primary">Edit</button>

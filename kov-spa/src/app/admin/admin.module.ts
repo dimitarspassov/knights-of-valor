@@ -14,6 +14,8 @@ import {EditNeutralComponent} from './neutrals/edit/edit-neutral.component';
 import {FormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {AdminService} from './admin.service';
+import {ItemService} from './items/item.service';
+import {NeutralUnitService} from './neutrals/neutral-unit.service';
 
 
 @NgModule({
@@ -35,7 +37,7 @@ import {AdminService} from './admin.service';
     AddNeutralComponent,
     EditNeutralComponent
   ],
-  providers: [AdminService]
+  providers: [AdminService, ItemService, NeutralUnitService]
 })
 export class AdminModule {
 

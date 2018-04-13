@@ -11,8 +11,15 @@ export class AppConstants {
   static readonly ITEM_PRICE_MIN = 1;
   static readonly ITEM_PRICE_MAX = 1000000;
 
+  static readonly UNIT_NAME_MIN_LENGTH = 3;
+  static readonly UNIT_NAME_MAX_LENGTH = 40;
+  static readonly UNIT_LEVEL_MIN = 1;
+  static readonly UNIT_LEVEL_MAX = 10000;
+  static readonly UNIT_HEALTH_MIN = 10;
+  static readonly UNIT_HEALTH_MAX = 1000000;
 
   static readonly GENERIC_ERROR_MESSAGE = 'An error occurred. Please, try again.';
+
   private constructor() {
 
   }

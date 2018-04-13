@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {EditItemModel} from './edit-item.model';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AdminService} from '../../admin.service';
 import {NotificationService} from '../../../core/notifications/notification.service';
 import {AdminConstants} from '../../admin-constants';
 import {Toolbox} from '../../../utils/toolbox';
 import {AppConstants} from '../../../app-constants';
+import {ItemService} from '../item.service';
 
 @Component({
   selector: 'edit-item',
@@ -14,6 +14,13 @@ import {AppConstants} from '../../../app-constants';
 })
 export class EditItemComponent implements OnInit {
 
+  readonly NAME_MIN_LENGTH = AppConstants.ITEM_NAME_MIN_LENGTH;
+  readonly NAME_MAX_LENGTH = AppConstants.ITEM_NAME_MAX_LENGTH;
+  readonly BONUS_MIN = AppConstants.ITEM_BONUS_MIN;
+  readonly BONUS_MAX = AppConstants.ITEM_BONUS_MAX;
+  readonly PRICE_MIN = AppConstants.ITEM_PRICE_MIN;
+  readonly PRICE_MAX = AppConstants.ITEM_PRICE_MAX;
+
   private readonly id;
   private item: EditItemModel = new EditItemModel();
   imageInvalid = false;
@@ -21,14 +28,14 @@ export class EditItemComponent implements OnInit {
   constructor(private router: Router,
               private notificationService: NotificationService,
               private activatedRoute: ActivatedRoute,
-              private adminService: AdminService) {
+              private itemService: ItemService) {
     const params: any = this.activatedRoute.snapshot.params;
     this.id = params.id;
   }
 
   ngOnInit() {
     if (this.id !== undefined) {
-      this.adminService.getItemById(this.id)
+      this.itemService.getItemById(this.id)
         .subscribe(
           result => this.mapItem(result),
           error => {
@@ -41,7 +48,7 @@ export class EditItemComponent implements OnInit {
 
   onSubmit() {
     this.notificationService.loading();
-    this.adminService.editItem(this.id, this.item)
+    this.itemService.editItem(this.id, this.item)
       .subscribe(
         result => {
           if (result.success) {
@@ -67,15 +74,15 @@ export class EditItemComponent implements OnInit {
 
   isNameValid(name: string): boolean {
     return Toolbox.isContentLengthBetween(
-      name, AppConstants.ITEM_NAME_MIN_LENGTH, AppConstants.ITEM_NAME_MAX_LENGTH);
+      name, this.NAME_MIN_LENGTH, this.NAME_MAX_LENGTH);
   }
 
   isBonusValid(bonus: number): boolean {
-    return Toolbox.isNumberBetween(bonus, AppConstants.ITEM_BONUS_MIN, AppConstants.ITEM_BONUS_MAX);
+    return Toolbox.isNumberBetween(bonus, this.BONUS_MIN, this.BONUS_MAX);
   }
 
   isPriceValid(price: number): boolean {
-    return Toolbox.isNumberBetween(price, AppConstants.ITEM_PRICE_MIN, AppConstants.ITEM_PRICE_MAX);
+    return Toolbox.isNumberBetween(price, this.PRICE_MIN, this.PRICE_MAX);
   }
 
   processImage(event): void {
