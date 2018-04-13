@@ -8,6 +8,7 @@ public class ItemViewModel {
     private String image;
     private Integer bonus;
     private Integer price;
+    private Boolean status;
 
     public ItemViewModel() {
     }
@@ -58,5 +59,13 @@ public class ItemViewModel {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
 }

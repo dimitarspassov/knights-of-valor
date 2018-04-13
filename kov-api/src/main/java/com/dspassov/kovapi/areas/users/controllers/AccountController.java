@@ -1,6 +1,5 @@
 package com.dspassov.kovapi.areas.users.controllers;
 
-import com.cloudinary.Cloudinary;
 import com.dspassov.kovapi.areas.users.models.binding.RegisterUserBindingModel;
 import com.dspassov.kovapi.web.BaseController;
 import com.dspassov.kovapi.areas.users.services.UserService;
@@ -17,13 +16,11 @@ import javax.validation.Valid;
 public class AccountController extends BaseController {
 
     private final UserService userService;
-    private final Cloudinary cloudinary;
 
 
     @Autowired
-    public AccountController(UserService userService, Cloudinary cloudinary) {
+    public AccountController(UserService userService) {
         this.userService = userService;
-        this.cloudinary = cloudinary;
     }
 
 

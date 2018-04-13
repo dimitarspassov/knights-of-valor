@@ -9,8 +9,11 @@
   <small>Only for SUPERADMIN</small>
   <div class="my-5 col-sm-4 offset-sm-8">
     <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="email" name="email" placeholder="User E-Mail">
-      <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">Make ADMIN</button>
+      <input #newAdmin class="form-control mr-sm-2" type="email" name="email"
+             placeholder="User E-Mail">
+      <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" (click)="addAdmin(newAdmin.value)">Make
+        ADMIN
+      </button>
     </form>
   </div>
 
@@ -24,28 +27,26 @@
       </tr>
       </thead>
       <tbody>
-      <tr>
-        <td>admin@admin.com</td>
-        <td>ADMIN</td>
+      <tr *ngFor="let admin of admins" [class]="admin.role!=='ROLE_SUPERADMIN' ? '' : 'table-active'">
+        <td>{{admin.username}}</td>
+        <td>{{admin.role}}</td>
         <td>
-          <button class="btn btn-outline-danger">Remove role</button>
+          <button *ngIf="admin.role!=='ROLE_SUPERADMIN'" (click)="removeAdmin(admin.username)" class="btn btn-outline-danger">Remove role</button>
         </td>
       </tr>
-      <tr class="table-active">
-        <td>super@admin.com</td>
-        <td>SUPERADMIN</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>random@admin.com</td>
-        <td>ADMIN</td>
-        <td>
-          <button class="btn btn-outline-danger">Remove role</button>
-        </td>
-      </tr>
-
 
       </tbody>
     </table>
+  </div>
+
+  <div class="text-center my-5">
+    <ul class="paging">
+      <li class="page-item" [ngClass]="{'disabled': prevDisabled}">
+        <button (click)="prevPage()" class="page-link">&laquo;</button>
+      </li>
+      <li class="page-item" [ngClass]="{'disabled': nextDisabled}">
+        <button (click)="nextPage()" class="page-link">&raquo;</button>
+      </li>
+    </ul>
   </div>
 </div>

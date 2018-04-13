@@ -18,4 +18,6 @@ public interface ItemService {
     ItemViewModel getItemById(String id);
 
     String updateItem(String id, ItemBindingModel item, MultipartFile newImage);
+
+    String changeStatus(String itemId, boolean newStatus);
 }

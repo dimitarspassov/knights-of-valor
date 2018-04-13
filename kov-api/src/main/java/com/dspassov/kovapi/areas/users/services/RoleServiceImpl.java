@@ -32,7 +32,7 @@ public class RoleServiceImpl implements RoleService {
 
             for (RoleName roleName : RoleName.values()) {
 
-                if (this.roleRepository.findByRole(roleName) == null) {
+                if (this.roleRepository.findByRoleName(roleName) == null) {
                     this.roleRepository.save(RoleFactory.createNewRole(roleName));
                 }
             }
@@ -41,7 +41,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleServiceModel getRole(RoleName roleName) {
-        Role role = this.roleRepository.findByRole(roleName);
+        Role role = this.roleRepository.findByRoleName(roleName);
 
         if (role != null) {
             return this.modelMapper.map(role, RoleServiceModel.class);

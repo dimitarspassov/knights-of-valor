@@ -7,6 +7,12 @@ public final class ResponseMessageConstants {
     public static final String REGISTRATION_SUCCESSFUL = "You have registered successfully.";
     public static final String PASSWORDS_MISMATCH = "Passwords do not match.";
 
+    public static final String NON_EXISTENT_USER = "A user with this email does not exist.";
+    public static final String ALREADY_ADMIN = "The given user is admin.";
+    public static final String ADMIN_CREATED = "User successfully added as ADMIN";
+    public static final String USER_NOT_ADMIN = "The given user is not ADMIN";
+    public static final String ADMIN_REMOVED = "ADMIN authority removed for the given user.";
+
     public static final String INCORRECT_FILE_EXTENSION = "Image must have .png, .jpg or .jpeg extension.";
     public static final String FILE_UPLOAD_FAILED = "Fail upload failed. Please, try again.";
     public static final String EXISTING_ITEM = "This item already exists.";
@@ -18,7 +24,6 @@ public final class ResponseMessageConstants {
 
     public static final String GENERIC_ERROR = "An error occurred. Please, try again.";
     public static final String CLOUD_UPLOAD_ERROR = "An error occurred. Please, make sure the image is in the correct format and its size is below 3MB.";
-
 
 
     private ResponseMessageConstants() {

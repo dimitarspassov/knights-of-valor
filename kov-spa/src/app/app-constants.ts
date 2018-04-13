@@ -12,6 +12,7 @@ export class AppConstants {
   static readonly ITEM_PRICE_MAX = 1000000;
 
 
+  static readonly GENERIC_ERROR_MESSAGE = 'An error occurred. Please, try again.';
   private constructor() {
 
   }

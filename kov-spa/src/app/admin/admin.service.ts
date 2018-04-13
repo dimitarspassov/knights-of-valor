@@ -6,9 +6,13 @@ import {EditItemModel} from './items/edit/edit-item.model';
 @Injectable()
 export class AdminService {
 
+
   private readonly ADD_ITEM_URL = 'api/admin/items/add';
   private readonly GET_ITEM_URL = 'api/admin/items/';
   private readonly EDIT_ITEM_IMG_URL = 'api/admin/items/newimg/';
+  private readonly GET_ADMINS_URL = 'api/superadmin/users';
+  private readonly ADD_ADMIN_URL = 'api/superadmin/new-admin/';
+  private readonly REMOVE_ADMIN_URL = 'api/superadmin/remove-admin/';
 
   constructor(private httpService: HttpService) {
   }
@@ -20,7 +24,7 @@ export class AdminService {
       'name': item.name,
       'type': item.type,
       'price': item.price,
-      'bonus': item.bonus,
+      'bonus': item.bonus
     })], {
       type: 'application/json'
     }));
@@ -29,7 +33,7 @@ export class AdminService {
     return this.httpService.post(this.ADD_ITEM_URL, formData, true, true);
   }
 
-  getItemById(id) {
+  getItemById(id: string) {
     return this.httpService.get(this.GET_ITEM_URL + id, true);
   }
 
@@ -54,4 +58,23 @@ export class AdminService {
     }
 
   }
+
+  changeItemStatus(itemId: string, status: boolean) {
+    return this.httpService.post(`${this.GET_ITEM_URL}${itemId}/status/${status}`, null, true);
+  }
+
+  getAdminUsersByPage(page: number, size: number) {
+    return this.httpService.get(
+      this.GET_ADMINS_URL + `/?page=${page}&size=${size}`,
+      true);
+  }
+
+  makeAdmin(username: string) {
+    return this.httpService.post(this.ADD_ADMIN_URL + username, null, true);
+  }
+
+  removeAdmin(username: string) {
+    return this.httpService.post(this.REMOVE_ADMIN_URL + username, null, true);
+  }
+
 }

@@ -7,7 +7,7 @@ public final class RoleFactory {
 
     public static Role createNewRole(RoleName roleName) {
         Role role = new Role();
-        role.setRole(roleName);
+        role.setRoleName(roleName);
         return role;
     }
 

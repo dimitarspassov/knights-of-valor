@@ -11,6 +11,7 @@ export class UserService {
   private readonly LOGIN_URL = 'login';
   private readonly AUTH_VALIDATION_URL = '/api/auth';
   private readonly ADMIN_VALIDATION_URL = '/api/auth/admin';
+  private readonly SUPERADMIN_VALIDATION_URL = '/api/auth/superadmin';
 
 
   constructor(private httpService: HttpService, private authService: AuthService) {
@@ -34,6 +35,13 @@ export class UserService {
   isUserAdmin() {
     if (this.authService.isUserAdmin()) {
       return this.httpService.get(this.ADMIN_VALIDATION_URL, true);
+    }
+    return Observable.of(false);
+  }
+
+  isUserSuperAdmin() {
+    if (this.authService.isUserSuperAdmin()) {
+      return this.httpService.get(this.SUPERADMIN_VALIDATION_URL, true);
     }
     return Observable.of(false);
   }

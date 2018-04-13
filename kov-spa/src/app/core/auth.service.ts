@@ -54,4 +54,18 @@ export class AuthService {
 
     return rolesArr.indexOf('ROLE_ADMIN') > -1;
   }
+
+  isUserSuperAdmin() {
+
+    if (!window.localStorage.getItem('roles')) {
+      return false;
+    }
+
+    let roles = window.localStorage.getItem('roles').substring(1);
+    roles = roles.substring(0, roles.length - 1);
+
+    const rolesArr = roles.split(', ');
+
+    return rolesArr.indexOf('ROLE_SUPERADMIN') > -1;
+  }
 }

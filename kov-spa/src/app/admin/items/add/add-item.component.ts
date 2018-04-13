@@ -23,6 +23,7 @@ export class AddItemComponent {
   }
 
   onSubmit() {
+    this.notificationService.loading();
     this.adminService.addNewItem(this.item)
       .subscribe(
         result => {

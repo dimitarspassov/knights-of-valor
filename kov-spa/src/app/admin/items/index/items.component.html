@@ -17,12 +17,13 @@
       </tr>
       </thead>
       <tbody *ngIf="items.length>0">
-      <tr *ngFor="let item of items">
+      <tr *ngFor="let item of items" [class]="item.status ? '': 'table-active'">
         <td>{{item.name}}</td>
         <td>{{item.type}}</td>
         <td>
           <a routerLink="/admin/items/edit/{{item.id}}" class="btn btn-outline-info">Edit</a>
-          <a class="btn btn-outline-danger">Delete</a>
+          <a *ngIf="item.status" (click)="changeStatus(item.id, false)" class="btn btn-outline-danger">Disable</a>
+          <a *ngIf="!item.status" (click)="changeStatus(item.id,true)" class="btn btn-outline-warning">Enable</a>
         </td>
       </tr>
       </tbody>

@@ -2,6 +2,7 @@ package com.dspassov.kovapi.config;
 
 
 import org.modelmapper.ModelMapper;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -18,7 +19,7 @@ public class ObjectMappingConfig {
 
     private void defineTypeMaps(ModelMapper mapper) {
 
-        // todo:fix
+        // todo
     }
 
 }

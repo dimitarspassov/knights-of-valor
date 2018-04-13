@@ -79,6 +79,7 @@ public class ItemServiceImpl implements ItemService {
 
         item.setImage(imageUrl);
 
+        item.setStatus(true);
         this.itemRepository.save(item);
 
         return ResponseMessageConstants.ITEM_ADDED;
@@ -167,6 +168,18 @@ public class ItemServiceImpl implements ItemService {
         this.itemRepository.save(current);
         return ResponseMessageConstants.ITEM_EDITED;
 
+    }
+
+    @Override
+    public String changeStatus(String itemId, boolean newStatus) {
+        Item item = this.itemRepository.findById(itemId).orElse(null);
+
+        if (item != null) {
+            item.setStatus(newStatus);
+            this.itemRepository.save(item);
+        }
+
+        return ResponseMessageConstants.ITEM_EDITED;
     }
 
     private boolean isValidImage(String fileName) {

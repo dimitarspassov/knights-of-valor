@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {GameService} from '../../../game/game.service';
 import {NotificationService} from '../../../core/notifications/notification.service';
+import {AdminService} from '../../admin.service';
 
 @Component({
   selector: 'items',
@@ -18,7 +19,8 @@ export class ItemsComponent implements OnInit {
   private nextDisabled = false;
   private prevDisabled = true;
 
-  constructor(private gameService: GameService,
+  constructor(private adminService: AdminService,
+              private gameService: GameService,
               private notificationService: NotificationService) {
     this.items = [];
   }
@@ -53,5 +55,17 @@ export class ItemsComponent implements OnInit {
       this.fetchItems(this.page - 1);
     }
   }
+
+  changeStatus(item, status) {
+    this.adminService.changeItemStatus(item, status)
+      .subscribe(
+        result => {
+          this.notificationService.notify(result.message);
+          this.fetchItems(this.page);
+        },
+        error => this.notificationService.showError('An error occurred. Please, try again')
+      );
+  }
+
 
 }

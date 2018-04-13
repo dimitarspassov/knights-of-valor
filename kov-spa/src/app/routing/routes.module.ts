@@ -28,6 +28,7 @@ import {PrivateRoute} from './private-route';
 import {PublicRoute} from './public-route';
 import {UrlConstants} from './url-constants';
 import {AdminRoute} from './admin-route';
+import {SuperAdminRoute} from './super-admin-route';
 
 
 const routes: Routes = [
@@ -65,7 +66,7 @@ const routes: Routes = [
     path: 'admin',
     component: GameComponent,
     children: [
-      {path: '', component: AdminHomeComponent, canActivate: [AdminRoute]},
+      {path: '', component: AdminHomeComponent, canActivate: [SuperAdminRoute]},
       {path: 'items', component: ItemsComponent, canActivate: [AdminRoute]},
       {path: 'items/add', component: AddItemComponent, canActivate: [AdminRoute]},
       {path: 'items/edit/:id', component: EditItemComponent, canActivate: [AdminRoute]},
@@ -85,7 +86,7 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers: [PrivateRoute, PublicRoute, AdminRoute]
+  providers: [PrivateRoute, PublicRoute, AdminRoute, SuperAdminRoute]
 })
 
 export class AppRoutesModule {

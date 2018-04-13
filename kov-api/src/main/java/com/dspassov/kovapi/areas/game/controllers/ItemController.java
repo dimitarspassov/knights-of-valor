@@ -110,4 +110,14 @@ public class ItemController extends BaseController {
         }
     }
 
+    @PostMapping("/api/admin/items/{id}/status/{status}")
+    public String changeStatus(@PathVariable String id, @PathVariable boolean status) {
+
+        try {
+            return this.success(this.itemService.changeStatus(id, status));
+        } catch (Exception e) {
+            return this.error(ResponseMessageConstants.GENERIC_ERROR);
+        }
+
+    }
 }

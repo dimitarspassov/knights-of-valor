@@ -27,30 +27,23 @@ export class HttpService {
   }
 
   post(url, data, authenticated = false, multipart = false) {
-    const requestOptions = this.getRequestOptions(this.POST_METHOD, authenticated, multipart);
+    const requestOptions = this.getRequestOptions(this.POST_METHOD, authenticated, multipart, data != null);
 
-    if (multipart) {
-      return this.http
-        .post(this.BASE_URL + url, data, requestOptions)
-        .map(res => res.json())
-        .catch((e: Response) => Observable.throw(e));
-    } else {
-      return this.http
-        .post(this.BASE_URL + url, JSON.stringify(data), requestOptions)
-        .map(res => res.json())
-        .catch((e: Response) => Observable.throw(e));
+    if (!multipart) {
+      data = JSON.stringify(data);
     }
 
+    return this.executePost(this.BASE_URL + url, data, requestOptions);
 
   }
 
-  private getRequestOptions(method, authenticated, multipart) {
+  private getRequestOptions(method, authenticated, multipart, hasPayload = true) {
 
     const headers = new Headers();
 
     if (multipart) {
       headers.append('enctype', 'multipart/form-data');
-    } else if (method !== this.GET_METHOD) {
+    } else if (method !== this.GET_METHOD && hasPayload) {
       headers.append('Content-Type', 'application/json');
     }
 
@@ -62,6 +55,17 @@ export class HttpService {
       headers: headers
     });
 
+    if (!hasPayload) {
+      requestOptions.body = '';
+    }
+
     return requestOptions;
+  }
+
+  private executePost(url, data, options) {
+    return this.http
+      .post(url, data, options)
+      .map(res => res.json())
+      .catch((e: Response) => Observable.throw(e));
   }
 }

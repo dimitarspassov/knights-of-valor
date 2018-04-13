@@ -23,15 +23,15 @@ public class Role implements GrantedAuthority {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "role")
-    private RoleName role;
+    @Column(name = "role_name")
+    private RoleName roleName;
 
     public Role() {
     }
 
     @Override
     public String getAuthority() {
-        return this.role.name();
+        return this.roleName.name();
     }
 
     public String getId() {
@@ -42,11 +42,11 @@ public class Role implements GrantedAuthority {
         this.id = id;
     }
 
-    public RoleName getRole() {
-        return role;
+    public RoleName getRoleName() {
+        return roleName;
     }
 
-    public void setRole(RoleName role) {
-        this.role = role;
+    public void setRoleName(RoleName roleName) {
+        this.roleName = roleName;
     }
 }

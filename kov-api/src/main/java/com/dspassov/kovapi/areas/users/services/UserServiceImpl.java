@@ -8,10 +8,14 @@ import com.dspassov.kovapi.areas.users.entities.User;
 import com.dspassov.kovapi.areas.users.enumerations.RoleName;
 import com.dspassov.kovapi.areas.users.models.binding.RegisterUserBindingModel;
 import com.dspassov.kovapi.areas.users.models.service.RoleServiceModel;
+import com.dspassov.kovapi.areas.users.models.view.UserPageViewModel;
+import com.dspassov.kovapi.areas.users.models.view.UserViewModel;
 import com.dspassov.kovapi.repositories.UserRepository;
 import com.dspassov.kovapi.web.ResponseMessageConstants;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,6 +24,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -93,4 +98,86 @@ public class UserServiceImpl implements UserService {
         return roles;
     }
 
+    @Override
+    public UserPageViewModel getAllAdminUsers(int page, int size) {
+        RoleServiceModel adminModel = this.roleService.getRole(RoleName.ROLE_ADMIN);
+        Role admin = this.modelMapper.map(adminModel, Role.class);
+
+        Page<User> admins = this.userRepository.findAllByRolesContaining(
+                PageRequest.of(page, size), admin);
+
+        UserPageViewModel adminsPage = this.modelMapper.map(admins, UserPageViewModel.class);
+
+        adminsPage.setAllPages(admins.getTotalPages());
+        adminsPage.setUsers(admins.getContent().stream().map(a -> {
+            UserViewModel userModel = this.modelMapper.map(a, UserViewModel.class);
+
+            userModel.setRole(this.getHighestRoleFrom(a.getRoles()).name());
+
+
+            return userModel;
+        }).collect(Collectors.toList()));
+
+        return adminsPage;
+    }
+
+    @Override
+    public String makeAdmin(String username) {
+        User adminCandidate = this.userRepository.findByUsername(username);
+        if (adminCandidate == null) {
+            throw new IllegalArgumentException(ResponseMessageConstants.NON_EXISTENT_USER);
+        }
+
+        for (Role role : adminCandidate.getRoles()) {
+            if (role.getRoleName().equals(RoleName.ROLE_ADMIN)) {
+                throw new IllegalArgumentException(ResponseMessageConstants.ALREADY_ADMIN);
+            }
+        }
+
+        RoleServiceModel adminRole = this.roleService.getRole(RoleName.ROLE_ADMIN);
+        adminCandidate.getRoles().add(this.modelMapper.map(adminRole, Role.class));
+
+        this.userRepository.save(adminCandidate);
+        return ResponseMessageConstants.ADMIN_CREATED;
+    }
+
+    @Override
+    public String removeAdmin(String username) {
+        User admin = this.userRepository.findByUsername(username);
+        if (admin == null) {
+            throw new IllegalArgumentException(ResponseMessageConstants.NON_EXISTENT_USER);
+        }
+
+        Set<Role> newRoles = new HashSet<>();
+        for (Role newRole : admin.getRoles()) {
+            if (!newRole.getRoleName().equals(RoleName.ROLE_ADMIN)) {
+                newRoles.add(newRole);
+            }
+        }
+
+        if (newRoles.size() == admin.getRoles().size()) {
+            throw new IllegalArgumentException(ResponseMessageConstants.USER_NOT_ADMIN);
+        }
+
+        admin.setRoles(newRoles);
+        this.userRepository.save(admin);
+        return ResponseMessageConstants.ADMIN_REMOVED;
+    }
+
+    private RoleName getHighestRoleFrom(Set<Role> roles) {
+
+        boolean admin = false;
+
+        for (Role role : roles) {
+            if (role.getRoleName().equals(RoleName.ROLE_SUPERADMIN)) {
+                return RoleName.ROLE_SUPERADMIN;
+            }
+
+            if (role.getRoleName().equals(RoleName.ROLE_ADMIN)) {
+                admin = true;
+            }
+        }
+
+        return admin ? RoleName.ROLE_ADMIN : RoleName.ROLE_USER;
+    }
 }
