@@ -1,4 +1,4 @@
-package com.dspassov.kovapi.areas.users.models;
+package com.dspassov.kovapi.areas.users.models.binding;
 
 import com.dspassov.kovapi.areas.game.common.GameDomainConstants;
 import com.dspassov.kovapi.areas.users.common.UserDomainConstants;

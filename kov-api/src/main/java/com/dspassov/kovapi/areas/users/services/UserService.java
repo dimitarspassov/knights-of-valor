@@ -1,7 +1,7 @@
-package com.dspassov.kovapi.services;
+package com.dspassov.kovapi.areas.users.services;
 
 
-import com.dspassov.kovapi.areas.users.models.RegisterUserBindingModel;
+import com.dspassov.kovapi.areas.users.models.binding.RegisterUserBindingModel;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService extends UserDetailsService {

@@ -1,5 +1,6 @@
 package com.dspassov.kovapi.areas.game.entities;
 
+import com.dspassov.kovapi.areas.game.enumerations.NeutralUnitType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Length;
 
@@ -42,6 +43,11 @@ public class NeutralUnit {
     private String name;
 
     @NotNull
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "type")
+    private NeutralUnitType type;
+
+    @NotNull
     @Min(LEVEL_MIN)
     @Max(LEVEL_MAX)
     @Column(name = "level")
@@ -80,6 +86,14 @@ public class NeutralUnit {
     @NotNull
     @Column(name = "image")
     private String image;
+
+    @NotNull
+    @Column(name = "status")
+    private Boolean status;
+
+    @NotNull
+    @Column(name = "free")
+    private Boolean free;
 
     public NeutralUnit() {
     }
@@ -154,5 +168,29 @@ public class NeutralUnit {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
+
+    public Boolean getFree() {
+        return free;
+    }
+
+    public void setFree(Boolean free) {
+        this.free = free;
+    }
+
+    public NeutralUnitType getType() {
+        return type;
+    }
+
+    public void setType(NeutralUnitType type) {
+        this.type = type;
     }
 }

@@ -33,6 +33,7 @@ export class RegisterComponent {
   }
 
   onSubmit() {
+    this.notificationService.loading();
     this.userService.register(this.account)
       .subscribe(result => {
         if (result.success) {

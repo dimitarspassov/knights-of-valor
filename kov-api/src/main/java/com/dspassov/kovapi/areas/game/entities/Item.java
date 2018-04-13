@@ -46,6 +46,10 @@ public abstract class Item {
     @Column(name = "image")
     private String image;
 
+    @NotNull
+    @Column(name = "status")
+    private Boolean status;
+
     protected Item() {
     }
 
@@ -87,5 +91,13 @@ public abstract class Item {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
 }

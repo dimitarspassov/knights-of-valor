@@ -1,10 +1,9 @@
 package com.dspassov.kovapi.areas.users.controllers;
 
 import com.cloudinary.Cloudinary;
-import com.cloudinary.utils.ObjectUtils;
-import com.dspassov.kovapi.areas.users.models.RegisterUserBindingModel;
+import com.dspassov.kovapi.areas.users.models.binding.RegisterUserBindingModel;
 import com.dspassov.kovapi.web.BaseController;
-import com.dspassov.kovapi.services.UserService;
+import com.dspassov.kovapi.areas.users.services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -12,8 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 
 import javax.validation.Valid;
-import java.io.File;
-import java.io.IOException;
 
 
 @RestController

@@ -19,6 +19,7 @@
     -o-transition: all 0.4s;
     transition: all 0.4s;
     z-index: 50;
+    padding: 12px 50px;
 
     &.visible {
       top:20px;
@@ -26,7 +27,6 @@
     }
 
     &.alert-light{
-      padding-right: 20px;
       img{
         display: inline-block;
       }

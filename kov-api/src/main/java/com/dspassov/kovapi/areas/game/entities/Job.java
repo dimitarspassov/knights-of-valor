@@ -46,6 +46,10 @@ public class Job {
     @Column(name = "salary")
     private Integer salary;
 
+    @NotNull
+    @Column(name = "status")
+    private Boolean status;
+
     public Job() {
     }
 
@@ -79,5 +83,13 @@ public class Job {
 
     public void setSalary(Integer salary) {
         this.salary = salary;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
 }
