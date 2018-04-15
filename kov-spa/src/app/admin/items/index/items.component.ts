@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {GameService} from '../../../game/game.service';
 import {NotificationService} from '../../../core/notifications/notification.service';
 import {ItemService} from '../item.service';
+import {AppConstants} from '../../../app-constants';
 
 @Component({
   selector: 'items',
@@ -42,7 +43,7 @@ export class ItemsComponent implements OnInit {
           this.prevDisabled = this.page <= 0;
 
         },
-        error => this.notificationService.showError('An error occured. Please, try again.')
+        error => this.notificationService.showError(AppConstants.GENERIC_ERROR_MESSAGE)
       );
   }
 
@@ -63,7 +64,7 @@ export class ItemsComponent implements OnInit {
           this.notificationService.notify(result.message);
           this.fetchItems(this.page);
         },
-        error => this.notificationService.showError('An error occurred. Please, try again')
+        error => this.notificationService.showError(AppConstants.GENERIC_ERROR_MESSAGE)
       );
   }
 

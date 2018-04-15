@@ -45,10 +45,10 @@ export class EditNeutralComponent implements OnInit {
     if (this.id !== undefined) {
       this.unitService.getUnitById(this.id)
         .subscribe(
-          result => this.mapItem(result),
+          result => this.mapUnit(result),
           error => {
             this.notificationService.showError(AppConstants.GENERIC_ERROR_MESSAGE);
-            this.router.navigateByUrl('admin/items');
+            this.router.navigateByUrl('admin/neutrals');
           }
         );
     }
@@ -67,12 +67,12 @@ export class EditNeutralComponent implements OnInit {
           }
         },
         error => {
-          this.notificationService.showError(error.message);
+          this.notificationService.showError(AppConstants.GENERIC_UPLOAD_ERROR_MESSAGE);
         }
       );
   }
 
-  private mapItem(neutral) {
+  private mapUnit(neutral) {
     this.neutral.oldImage = neutral.image;
     this.neutral.name = neutral.name;
     this.neutral.type = neutral.type;

@@ -44,7 +44,7 @@ export class AddItemComponent {
 
         },
         error => {
-          this.notificationService.showError('An error occurred. Please, make sure the image size is below 1MB.');
+          this.notificationService.showError(AppConstants.GENERIC_UPLOAD_ERROR_MESSAGE);
         }
       );
   }

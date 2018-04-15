@@ -6,7 +6,7 @@
   </div>
 
   <div class="row">
-    <form class="col-sm-4 offset-sm-4 text-center" enctype="multipart/form-data" (ngSubmit)="onSubmit()">
+    <form #neutralForm="ngForm" class="col-sm-4 offset-sm-4 text-center" enctype="multipart/form-data" (ngSubmit)="onSubmit()">
       <fieldset>
 
         <div class="form-group">
@@ -184,7 +184,12 @@
           <div *ngIf="imageInvalid" class="error">Image is invalid.</div>
         </div>
 
-        <button type="submit" class="btn btn-primary">Edit</button>
+        <button type="submit" [disabled]="!neutralForm.valid || !isNameValid(name.value) ||
+                !isLevelValid(level.value) || !isHealthValid(health.value) ||
+                !isStatValid(strength.value) || !isStatValid(stamina.value) ||
+                !isStatValid(defense.value) || !isLootValid(loot.value) || imageInvalid"
+                class="btn btn-primary">Edit
+        </button>
       </fieldset>
     </form>
   </div>

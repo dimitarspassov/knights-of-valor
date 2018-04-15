@@ -51,7 +51,7 @@ export class AddNeutralComponent {
 
         },
         error => {
-          this.notificationService.showError(error.message);
+          this.notificationService.showError(AppConstants.GENERIC_UPLOAD_ERROR_MESSAGE);
         }
       );
   }

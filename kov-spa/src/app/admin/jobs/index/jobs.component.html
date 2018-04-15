@@ -12,41 +12,24 @@
       <thead>
       <tr class="table-info">
         <th scope="col">Name</th>
-        <th scope="col">Time</th>
+        <th scope="col">Time (h:m)</th>
         <th scope="col">Salary</th>
         <th scope="col">Actions</th>
       </tr>
       </thead>
       <tbody>
-      <tr>
-        <td>Stables cleaner</td>
-        <td>0:50:00</td>
-        <td>150</td>
+      <tr *ngFor="let job of jobs" [class]="job.status ? '': 'table-active'">
+        <td>{{job.name}}</td>
+        <td>{{minutesToHours(job.minutes)}}</td>
+        <td>{{job.salary}}</td>
         <td>
-          <button class="btn btn-outline-info">Edit</button>
-          <button class="btn btn-outline-danger">Delete</button>
+          <a routerLink="/admin/jobs/edit/{{job.id}}" class="btn btn-outline-info">Edit</a>
+          <a *ngIf="job.status" (click)="changeStatus(job.id, false)" class="btn btn-outline-danger">Disable</a>
+          <a *ngIf="!job.status" (click)="changeStatus(job.id,true)" class="btn btn-outline-warning">Enable</a>
         </td>
       </tr>
 
-      <tr>
-        <td>Stables cleaner</td>
-        <td>0:50:00</td>
-        <td>150</td>
-        <td>
-          <button class="btn btn-outline-info">Edit</button>
-          <button class="btn btn-outline-danger">Delete</button>
-        </td>
-      </tr>
 
-      <tr>
-        <td>Stables cleaner</td>
-        <td>0:50:00</td>
-        <td>150</td>
-        <td>
-          <button class="btn btn-outline-info">Edit</button>
-          <button class="btn btn-outline-danger">Delete</button>
-        </td>
-      </tr>
 
       </tbody>
     </table>
@@ -54,11 +37,11 @@
 
   <div class="text-center my-5">
     <ul class="paging">
-      <li class="page-item disabled">
-        <a class="page-link" href="#">&laquo;</a>
+      <li class="page-item" [ngClass]="{'disabled': prevDisabled}">
+        <button (click)="prevPage()" class="page-link">&laquo;</button>
       </li>
-      <li class="page-item">
-        <a class="page-link" href="#">&raquo;</a>
+      <li class="page-item" [ngClass]="{'disabled': nextDisabled}">
+        <button (click)="nextPage()" class="page-link">&raquo;</button>
       </li>
     </ul>
   </div>

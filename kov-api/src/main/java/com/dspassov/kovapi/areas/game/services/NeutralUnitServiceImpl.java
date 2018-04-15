@@ -2,7 +2,6 @@ package com.dspassov.kovapi.areas.game.services;
 
 
 import com.dspassov.kovapi.areas.game.common.Toolbox;
-import com.dspassov.kovapi.areas.game.entities.Item;
 import com.dspassov.kovapi.areas.game.entities.NeutralUnit;
 import com.dspassov.kovapi.areas.game.enumerations.NeutralUnitType;
 import com.dspassov.kovapi.areas.game.models.binding.NeutralUnitBindingModel;
@@ -108,6 +107,10 @@ public class NeutralUnitServiceImpl implements NeutralUnitService {
             throw new IllegalArgumentException(ResponseMessageConstants.NON_EXISTENT_UNIT);
         }
 
+        if (!unit.getName().equals(current.getName()) && this.unitRepository.findByName(unit.getName()) != null) {
+            throw new IllegalArgumentException(ResponseMessageConstants.EXISTING_UNIT);
+        }
+
         current.setName(unit.getName());
         current.setHealth(unit.getHealth());
         current.setLevel(unit.getLevel());
@@ -124,15 +127,14 @@ public class NeutralUnitServiceImpl implements NeutralUnitService {
 
             try {
                 this.cloudService.deleteImage(Toolbox.getImageId(current.getImage()));
-
-                String imageUrl = this.cloudService.saveImage(newImage);
-                current.setImage(imageUrl);
+                current.setImage(this.cloudService.saveImage(newImage));
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new CloudStorageException();
             }
 
         }
+
         this.unitRepository.save(current);
         return ResponseMessageConstants.UNIT_EDITED;
     }

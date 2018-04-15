@@ -32,6 +32,14 @@ public final class GameDomainConstants {
     public static final int UNIT_LOOT_MAX = 400000;
 
 
+    // jobs
+    public static final int JOB_NAME_MIN_LENGTH = 3;
+    public static final int JOB_NAME_MAX_LENGTH = 40;
+    public static final int JOB_MINUTES_MIN = 60;
+    public static final int JOB_MINUTES_MAX = 600;
+    public static final int JOB_SALARY_MIN = 100;
+    public static final int JOB_SALARY_MAX = 1000000;
+
     private GameDomainConstants() {
     }
 }

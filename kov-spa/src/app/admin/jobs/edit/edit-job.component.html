@@ -6,39 +6,97 @@
   </div>
 
   <div class="row">
-    <form class="col-sm-4 offset-sm-4 text-center">
+    <form #jobForm="ngForm" class="col-sm-4 offset-sm-4 text-center"
+          enctype="multipart/form-data" (ngSubmit)="onSubmit()">
       <fieldset>
 
         <div class="form-group">
           <label for="name">Name</label>
-          <input type="text" class="form-control" name="name" id="name">
+          <input type="text" class="form-control" name="name" id="name"
+                 minlength="{{NAME_MIN_LENGTH}}" maxlength="{{NAME_MAX_LENGTH}}"
+                 required #name="ngModel" [(ngModel)]="job.name">
+
+          <div *ngIf="(name.dirty || name.touched) &&
+                (name.invalid || !isNameValid(name.value))"
+               class="error">
+          <span *ngIf="name.hasError('required'); else nameValidation">
+            Job name is required.
+          </span>
+            <ng-template #nameValidation>
+            <span *ngIf="!isNameValid(name.value)">
+              Job name should between<br/> {{NAME_MIN_LENGTH}} and {{NAME_MAX_LENGTH}} symbols long.
+            </span>
+            </ng-template>
+          </div>
+
         </div>
 
         <div class="form-group">
           <label for="minutes">Minutes</label>
-          <input class="form-control" id="minutes" type="number" name="minutes"/>
+          <input class="form-control" id="minutes" type="number" name="minutes"
+                 step="1" min="{{MINUTES_MIN}}" max="{{MINUTES_MAX}}"
+                 required #minutes="ngModel" [(ngModel)]="job.minutes">
+
+          <div *ngIf="(minutes.dirty || minutes.touched) &&
+             (!areMinutesValid(minutes.value) || minutes.invalid)"
+               class="error">
+          <span *ngIf="minutes.hasError('required'); else minutesValidation">
+            Minutes are required.
+          </span>
+            <ng-template #minutesValidation>
+            <span *ngIf="!areMinutesValid(minutes.value)">
+              Minutes should be between<br/> {{MINUTES_MIN}} and {{MINUTES_MAX}}.
+            </span>
+            </ng-template>
+          </div>
+
         </div>
 
 
         <div class="form-group">
           <label for="salary">Salary</label>
-          <input class="form-control" id="salary" type="number" name="salary"/>
+          <input class="form-control" id="salary" type="number" name="salary"
+                 step="1" min="{{SALARY_MIN}}" max="{{SALARY_MAX}}"
+                 required #salary="ngModel" [(ngModel)]="job.salary">
+
+          <div *ngIf="(salary.dirty || salary.touched) &&
+             (!isSalaryValid(salary.value) || salary.invalid)"
+               class="error">
+          <span *ngIf="salary.hasError('required'); else salaryValidation">
+            Salary is required.
+          </span>
+            <ng-template #salaryValidation>
+            <span *ngIf="!isSalaryValid(salary.value)">
+              Salary should be an integer between
+              <br/> {{SALARY_MIN}} and {{SALARY_MAX}}.
+            </span>
+            </ng-template>
+          </div>
+
         </div>
 
         <div class="form-group mb-5">
           <label>Current image</label>
 
           <div class="old-img mb-5">
-            <img src="/assets/img/tmp/stables.jpg" alt="">
+            <img src="{{job.oldImage}}" alt="Current image">
           </div>
 
-          <label for="image">New image</label>
-          <input type="file" name="image" class="form-control-file" id="image">
+          <label for="image">Image</label>
+          <input type="file" name="image" class="form-control-file" id="image"
+                 #image (change)=processImage($event)>
           <small id="fileHelp" class="form-text text-muted">Allowed formats: PNG, JPG, JPEG
           </small>
+
+          <div *ngIf="imageInvalid" class="error">Image is invalid.</div>
+
         </div>
 
-        <button type="submit" class="btn btn-primary">Edit</button>
+
+        <button type="submit" [disabled]="!jobForm.valid || !isNameValid(name.value) ||
+                !areMinutesValid(minutes.value) || !isSalaryValid(salary.value) || imageInvalid"
+                class="btn btn-primary">Edit
+        </button>
       </fieldset>
     </form>
   </div>

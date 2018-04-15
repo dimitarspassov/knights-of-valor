@@ -16,6 +16,7 @@ import {CommonModule} from '@angular/common';
 import {AdminService} from './admin.service';
 import {ItemService} from './items/item.service';
 import {NeutralUnitService} from './neutrals/neutral-unit.service';
+import {JobService} from './jobs/job.service';
 
 
 @NgModule({
@@ -37,7 +38,7 @@ import {NeutralUnitService} from './neutrals/neutral-unit.service';
     AddNeutralComponent,
     EditNeutralComponent
   ],
-  providers: [AdminService, ItemService, NeutralUnitService]
+  providers: [AdminService, ItemService, NeutralUnitService, JobService]
 })
 export class AdminModule {
 

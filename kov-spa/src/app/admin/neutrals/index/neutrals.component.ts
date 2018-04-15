@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {GameService} from '../../../game/game.service';
 import {NotificationService} from '../../../core/notifications/notification.service';
 import {NeutralUnitService} from '../neutral-unit.service';
+import {AppConstants} from '../../../app-constants';
 
 @Component({
   selector: 'neutrals',
@@ -10,7 +11,7 @@ import {NeutralUnitService} from '../neutral-unit.service';
 })
 export class NeutralsComponent implements OnInit {
 
-  private readonly ITEMS_PER_PAGE = 5;
+  private readonly UNITS_PER_PAGE = 5;
 
   private page = 0;
   private units;
@@ -30,7 +31,7 @@ export class NeutralsComponent implements OnInit {
   }
 
   private fetchUnits(page) {
-    this.gameService.getUnitsByPage(page, this.ITEMS_PER_PAGE)
+    this.gameService.getUnitsByPage(page, this.UNITS_PER_PAGE)
       .subscribe(
         result => {
           this.units = result.units;
@@ -42,7 +43,7 @@ export class NeutralsComponent implements OnInit {
           this.prevDisabled = this.page <= 0;
 
         },
-        error => this.notificationService.showError('An error occured. Please, try again.')
+        error => this.notificationService.showError(AppConstants.GENERIC_ERROR_MESSAGE)
       );
   }
 
@@ -63,7 +64,7 @@ export class NeutralsComponent implements OnInit {
           this.notificationService.notify(result.message);
           this.fetchUnits(this.page);
         },
-        error => this.notificationService.showError('An error occurred. Please, try again')
+        error => this.notificationService.showError(AppConstants.GENERIC_ERROR_MESSAGE)
       );
   }
 

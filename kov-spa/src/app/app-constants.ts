@@ -18,7 +18,15 @@ export class AppConstants {
   static readonly UNIT_HEALTH_MIN = 10;
   static readonly UNIT_HEALTH_MAX = 1000000;
 
+  static readonly JOB_NAME_MIN_LENGTH = 3;
+  static readonly JOB_NAME_MAX_LENGTH = 40;
+  static readonly JOB_MINUTES_MIN = 60;
+  static readonly JOB_MINUTES_MAX = 600;
+  static readonly JOB_SALARY_MIN = 100;
+  static readonly JOB_SALARY_MAX = 1000000;
+
   static readonly GENERIC_ERROR_MESSAGE = 'An error occurred. Please, try again.';
+  static readonly GENERIC_UPLOAD_ERROR_MESSAGE = 'An error occurred. Please, make sure the image, you are trying to upload is less than 3MB.';
 
   private constructor() {
 

@@ -39,7 +39,7 @@ export class EditItemComponent implements OnInit {
         .subscribe(
           result => this.mapItem(result),
           error => {
-            this.notificationService.showError('An error occurred. Please try again.');
+            this.notificationService.showError(AppConstants.GENERIC_ERROR_MESSAGE);
             this.router.navigateByUrl('admin/items');
           }
         );
@@ -59,7 +59,7 @@ export class EditItemComponent implements OnInit {
           }
         },
         error => {
-          this.notificationService.showError(error.message);
+          this.notificationService.showError(AppConstants.GENERIC_UPLOAD_ERROR_MESSAGE);
         }
       );
   }

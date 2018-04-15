@@ -1,5 +1,6 @@
 package com.dspassov.kovapi.areas.game.entities;
 
+import com.dspassov.kovapi.areas.game.common.GameDomainConstants;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Length;
 
@@ -13,13 +14,6 @@ import javax.validation.constraints.NotNull;
 @Table(name = "jobs")
 public class Job {
 
-    private static final int NAME_MIN_LENGTH = 3;
-    private static final int NAME_MAX_LENGTH = 40;
-    private static final int MINUTES_MIN = 60;
-    private static final int MINUTES_MAX = 600;
-    private static final int SALARY_MIN = 100;
-    private static final int SALARY_MAX = 1000000;
-
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
@@ -30,21 +24,26 @@ public class Job {
     private String id;
 
     @NotNull
-    @Length(min = NAME_MIN_LENGTH, max = NAME_MAX_LENGTH)
+    @Length(min = GameDomainConstants.JOB_NAME_MIN_LENGTH, max = GameDomainConstants.JOB_NAME_MAX_LENGTH)
     @Column(name = "name", unique = true)
     private String name;
 
     @NotNull
-    @Min(MINUTES_MIN)
-    @Max(MINUTES_MAX)
+    @Min(GameDomainConstants.JOB_MINUTES_MIN)
+    @Max(GameDomainConstants.JOB_MINUTES_MAX)
     @Column(name = "minutes")
     private Integer minutes;
 
     @NotNull
-    @Min(SALARY_MIN)
-    @Max(SALARY_MAX)
+    @Min(GameDomainConstants.JOB_SALARY_MIN)
+    @Max(GameDomainConstants.JOB_SALARY_MAX)
     @Column(name = "salary")
     private Integer salary;
+
+
+    @NotNull
+    @Column(name = "image")
+    private String image;
 
     @NotNull
     @Column(name = "status")
@@ -91,5 +90,13 @@ public class Job {
 
     public void setStatus(Boolean status) {
         this.status = status;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

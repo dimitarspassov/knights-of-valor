@@ -136,6 +136,12 @@ public class ItemServiceImpl implements ItemService {
             throw new IllegalArgumentException(ResponseMessageConstants.NON_EXISTENT_ITEM);
         }
 
+        if (!item.getName().equals(current.getName()) && this.itemRepository.findByName(item.getName()) != null) {
+            throw new IllegalArgumentException(ResponseMessageConstants.EXISTING_ITEM);
+        }
+
+
+
         current.setBonus(item.getBonus());
         current.setName(item.getName());
         current.setPrice(item.getPrice());
@@ -146,13 +152,9 @@ public class ItemServiceImpl implements ItemService {
                 throw new IllegalArgumentException(ResponseMessageConstants.INCORRECT_FILE_EXTENSION);
             }
 
-            String currentImageId = Toolbox.getImageId(current.getImage());
-
             try {
-                this.cloudService.deleteImage(currentImageId);
-
-                String imageUrl = this.cloudService.saveImage(newImage);
-                current.setImage(imageUrl);
+                this.cloudService.deleteImage(Toolbox.getImageId(current.getImage()));
+                current.setImage(this.cloudService.saveImage(newImage));
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new CloudStorageException();

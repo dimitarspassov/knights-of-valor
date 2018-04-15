@@ -9,4 +9,5 @@ public interface CloudService {
     String saveImage(MultipartFile image) throws IOException;
 
     void deleteImage(String imageId) throws IOException;
+
 }
