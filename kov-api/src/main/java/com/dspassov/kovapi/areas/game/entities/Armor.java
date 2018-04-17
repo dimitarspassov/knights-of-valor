@@ -4,7 +4,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
-@DiscriminatorValue(value = "armor")
+@DiscriminatorValue(value = "Armor")
 public class Armor extends Item {
 
     public Armor() {

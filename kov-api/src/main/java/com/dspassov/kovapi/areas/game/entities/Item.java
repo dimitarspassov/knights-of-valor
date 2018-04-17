@@ -50,6 +50,9 @@ public abstract class Item {
     @Column(name = "status")
     private Boolean status;
 
+    @Column(name = "TYPE", insertable = false, updatable = false)
+    private String type;
+
     protected Item() {
     }
 
@@ -99,5 +102,13 @@ public abstract class Item {
 
     public void setStatus(Boolean status) {
         this.status = status;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

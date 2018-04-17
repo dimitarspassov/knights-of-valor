@@ -4,6 +4,8 @@ import {HttpService} from '../core/http.service';
 @Injectable()
 export class GameService {
 
+  private readonly ITEM_TYPES = ['Weapon', 'Armor', 'Shield'];
+
   private readonly ITEMS_URL = 'api/items';
   private readonly UNITS_URL = 'api/neutrals';
   private readonly JOBS_URL = 'api/jobs';
@@ -12,8 +14,20 @@ export class GameService {
 
   }
 
-  getItemsByPage(page, size) {
-    const url = this.ITEMS_URL + `/?page=${page}&size=${size}`;
+  getItemsByPage(page, size, query = null) {
+
+    let customParam = '';
+
+    if (query != null) {
+      customParam = this.ITEM_TYPES.indexOf(query) > -1
+        ? '&type=' + query : '&search=' + query;
+    }
+
+    let urlQuery = `/?page=${page}&size=${size}`;
+    urlQuery += customParam !== '' ? customParam : '';
+
+    const url = this.ITEMS_URL + urlQuery;
+
     return this.httpService.get(url, true);
   }
 
@@ -26,5 +40,7 @@ export class GameService {
     const url = this.JOBS_URL + `/?page=${page}&size=${size}`;
     return this.httpService.get(url, true);
   }
+
+
 
 }

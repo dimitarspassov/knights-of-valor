@@ -17,4 +17,5 @@ public interface UserService extends UserDetailsService {
     UserPageViewModel getAllAdminUsers(int page, int size);
 
     String removeAdmin(String username);
+
 }

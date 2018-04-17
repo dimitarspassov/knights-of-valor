@@ -5,6 +5,7 @@ import com.dspassov.kovapi.areas.game.entities.Armor;
 import com.dspassov.kovapi.areas.game.entities.Item;
 import com.dspassov.kovapi.areas.game.entities.Shield;
 import com.dspassov.kovapi.areas.game.entities.Weapon;
+import com.dspassov.kovapi.areas.game.enumerations.ItemType;
 import com.dspassov.kovapi.areas.game.models.binding.ItemBindingModel;
 import com.dspassov.kovapi.areas.game.models.view.ItemPageViewModel;
 import com.dspassov.kovapi.areas.game.models.view.ItemViewModel;
@@ -100,17 +101,33 @@ public class ItemServiceImpl implements ItemService {
     public ItemPageViewModel findItemsByPage(int page, int size) {
 
         Page<Item> items = this.itemRepository.findAll(PageRequest.of(page, size));
+        return this.mapItemsToPageViewModel(items);
+    }
 
-        ItemPageViewModel itemPage = this.modelMapper.map(items, ItemPageViewModel.class);
-        itemPage.setAllPages(items.getTotalPages());
-        itemPage.setItems(items.getContent().stream().map(i -> {
+    @Override
+    public ItemPageViewModel findItemsByPageAndType(int page, int size, String type) {
 
-            ItemViewModel itemViewModel = this.modelMapper.map(i, ItemViewModel.class);
-            itemViewModel.setType(i.getClass().getSimpleName());
-            return itemViewModel;
-        }).collect(Collectors.toList()));
+        try {
+            ItemType itemType = ItemType.valueOf(type);
+            Page<Item> items = this.itemRepository.findAllByType(itemType.name(), PageRequest.of(page, size));
 
-        return itemPage;
+            return this.mapItemsToPageViewModel(items);
+        } catch (Exception e) {
+            return null;
+        }
+
+    }
+
+    @Override
+    public ItemPageViewModel findItemsByPageAndName(int page, int size, String name) {
+
+        try {
+            Page<Item> items = this.itemRepository.findAllByNameContaining(name, PageRequest.of(page, size));
+            return this.mapItemsToPageViewModel(items);
+        } catch (Exception e) {
+            return null;
+        }
+
     }
 
     @Override
@@ -139,7 +156,6 @@ public class ItemServiceImpl implements ItemService {
         if (!item.getName().equals(current.getName()) && this.itemRepository.findByName(item.getName()) != null) {
             throw new IllegalArgumentException(ResponseMessageConstants.EXISTING_ITEM);
         }
-
 
 
         current.setBonus(item.getBonus());
@@ -179,5 +195,16 @@ public class ItemServiceImpl implements ItemService {
         return ResponseMessageConstants.ITEM_EDITED;
     }
 
+    private ItemPageViewModel mapItemsToPageViewModel(Page<Item> items) {
+        ItemPageViewModel itemPage = this.modelMapper.map(items, ItemPageViewModel.class);
+        itemPage.setAllPages(items.getTotalPages());
+        itemPage.setItems(items.getContent().stream().map(i -> {
 
+            ItemViewModel itemViewModel = this.modelMapper.map(i, ItemViewModel.class);
+            itemViewModel.setType(i.getClass().getSimpleName());
+            return itemViewModel;
+        }).collect(Collectors.toList()));
+
+        return itemPage;
+    }
 }

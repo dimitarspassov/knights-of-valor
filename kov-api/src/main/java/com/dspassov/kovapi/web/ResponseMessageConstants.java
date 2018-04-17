@@ -14,7 +14,6 @@ public final class ResponseMessageConstants {
     public static final String ADMIN_REMOVED = "ADMIN authority removed for the given user.";
 
     public static final String INCORRECT_FILE_EXTENSION = "Image must have .png, .jpg or .jpeg extension.";
-    public static final String FILE_UPLOAD_FAILED = "Fail upload failed. Please, try again.";
     public static final String EXISTING_ITEM = "This item already exists.";
     public static final String NON_EXISTENT_ITEM = "This item does not exists.";
     public static final String UNSUPPORTED_ITEM_TYPE = "Item must be Weapon, Armor or Shield.";
@@ -30,6 +29,10 @@ public final class ResponseMessageConstants {
     public static final String JOB_ADDED = "Job added successfully.";
     public static final String NON_EXISTENT_JOB = "This job does not exists.";
     public static final String JOB_EDITED = "Job edited successfully.";
+
+    public static final String INSUFFICIENT_FUNDS = "You do not have enough gold to get this item.";
+    public static final String INVENTORY_FULL = "You already have reached the limit of your inventory";
+    public static final String ITEM_BOUGHT = "You have bought this item successfully.";
 
     public static final String GENERIC_ERROR = "An error occurred. Please, try again.";
     public static final String CLOUD_UPLOAD_ERROR = "An error occurred. Please, make sure the image is in the correct format and its size is below 3MB.";

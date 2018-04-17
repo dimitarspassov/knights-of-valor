@@ -17,4 +17,9 @@ public interface ItemRepository extends PagingAndSortingRepository<Item, String>
     List<Item> findAll();
 
     Page<Item> findAll(Pageable pageable);
+
+    Page<Item> findAllByType(String type, Pageable pageable);
+
+    Page<Item> findAllByNameContaining(String query, Pageable pageable);
+
 }

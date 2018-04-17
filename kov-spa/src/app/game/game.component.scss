@@ -23,6 +23,10 @@
   transition: max-height 0.35s ease;
   max-height: 0px;
 
+  ul li a{
+    font-size: 18px;
+  }
+
   &.show {
     max-height: 500px;
   }

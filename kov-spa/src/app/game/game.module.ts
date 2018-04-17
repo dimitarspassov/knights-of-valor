@@ -10,10 +10,19 @@ import {WildernessComponent} from './wilderness/wilderness.component';
 import {ArenaComponent} from './arena/arena.component';
 import {WorkComponent} from './work/work.component';
 import {GameService} from './game.service';
+import {HeroService} from './hero.service';
+import {FormsModule} from '@angular/forms';
+import {CommonModule} from '@angular/common';
 
 
 @NgModule({
-  imports: [BrowserModule, RouterModule, CoreModule],
+  imports: [
+    BrowserModule,
+    RouterModule,
+    FormsModule,
+    CommonModule,
+    CoreModule
+  ],
   declarations: [
     GameComponent,
     HomeLoggedComponent,
@@ -23,7 +32,7 @@ import {GameService} from './game.service';
     ArenaComponent,
     WorkComponent
   ],
-  providers: [GameService]
+  providers: [GameService, HeroService]
 })
 export class GameModule {
 

@@ -11,6 +11,10 @@ public interface ItemService {
 
     ItemPageViewModel findItemsByPage(int page, int size);
 
+    ItemPageViewModel findItemsByPageAndType(int page, int size, String type);
+
+    ItemPageViewModel findItemsByPageAndName(int page, int size, String name);
+
     List<ItemViewModel> findAllItems();
 
     String save(ItemBindingModel item, MultipartFile image);

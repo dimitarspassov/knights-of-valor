@@ -3,17 +3,17 @@
   <div [ngClass]="navClass" class="bg-dark" id="navbarHeader">
     <div class="container">
       <div class="text-center">
-        <div class="stats">
-          <span>Hero: <strong>dspassov</strong></span>
-          <span>Level: <strong>1</strong></span>
-          <span>Gold: <strong>2300</strong></span>
+        <div *ngIf="currentHero" class="stats">
+          <span>Hero: <strong>{{currentHero.name}}</strong></span>
+          <span>Level: <strong>{{currentHero.level}}</strong></span>
+          <span>Gold: <strong>{{currentHero.gold}}</strong></span>
         </div>
       </div>
       <div class="row">
-        <div class="col-sm-8 col-md-7 py-4">
+        <div *ngIf="isAdmin" class="col-sm-8 col-md-7 py-4">
           <h4 class="text-white">Admin</h4>
           <ul class="list-unstyled">
-            <li><a href="/admin" class="text-white">Home</a></li>
+            <li *ngIf="isSuperAdmin"><a href="/admin" class="text-white">Home</a></li>
             <li><a href="/admin/items" class="text-white">Items</a></li>
             <li><a href="/admin/jobs" class="text-white">Jobs</a></li>
             <li><a href="/admin/neutrals" class="text-white">Neutrals</a></li>
@@ -38,10 +38,10 @@
 
   <div class="navbar navbar-dark bg-dark box-shadow">
     <div class="container d-flex justify-content-between">
-      <div class="stats">
-        <span>Hero: <strong>dspassov</strong></span>
-        <span>Level: <strong>1</strong></span>
-        <span>Gold: <strong>2300</strong></span>
+      <div *ngIf="currentHero" class="stats">
+        <span>Hero: <strong>{{currentHero.name}}</strong></span>
+        <span>Level: <strong>{{currentHero.level}}</strong></span>
+        <span>Gold: <strong>{{currentHero.gold}}</strong></span>
       </div>
       <button (click)="toggleNav()" class="navbar-toggler" type="button" data-toggle="collapse"
               data-target="#navbarHeader"

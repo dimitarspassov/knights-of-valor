@@ -1,6 +1,7 @@
 package com.dspassov.kovapi.areas.game.entities;
 
 import com.dspassov.kovapi.areas.game.common.GameDomainConstants;
+import com.dspassov.kovapi.areas.users.entities.User;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Length;
 
@@ -79,6 +80,9 @@ public class Hero {
     @OneToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "inventory_id", referencedColumnName = "id")
     private Inventory inventory;
+
+    @OneToOne(mappedBy = "hero")
+    private User user;
 
     public Hero() {
     }
@@ -177,5 +181,13 @@ public class Hero {
 
     public void setInventory(Inventory inventory) {
         this.inventory = inventory;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

@@ -27,6 +27,40 @@ public class ItemController extends BaseController {
         this.itemService = itemService;
     }
 
+    @GetMapping("/api/items")
+    @RequestMapping(method = RequestMethod.GET, params = {"page", "size"})
+    @ResponseBody
+    public String allItemsByPage(@RequestParam("page") int page, @RequestParam("size") int size) {
+        ItemPageViewModel model = this.itemService.findItemsByPage(page, size);
+        return this.objectToJson(model);
+    }
+
+    @GetMapping("/api/items")
+    @RequestMapping(method = RequestMethod.GET, params = {"page", "size", "type"})
+    @ResponseBody
+    public String allItemsByPageAndType(@RequestParam("page") int page,
+                                        @RequestParam("size") int size,
+                                        @RequestParam("type") String type
+    ) {
+
+        ItemPageViewModel model = this.itemService.findItemsByPageAndType(page, size, type);
+        return this.objectToJson(model);
+    }
+
+
+    @GetMapping("/api/items")
+    @RequestMapping(method = RequestMethod.GET, params = {"page", "size", "search"})
+    @ResponseBody
+    public String allItemsByPageAndSearchQuery(@RequestParam("page") int page,
+                                               @RequestParam("size") int size,
+                                               @RequestParam("search") String searchQuery
+    ) {
+
+        ItemPageViewModel model = this.itemService.findItemsByPageAndName(page, size, searchQuery);
+        return this.objectToJson(model);
+    }
+
+
     @PostMapping("/api/admin/items/add")
     @ResponseBody
     public String addItem(
@@ -46,13 +80,6 @@ public class ItemController extends BaseController {
         } catch (Exception e) {
             return this.error(ResponseMessageConstants.GENERIC_ERROR);
         }
-    }
-
-    @GetMapping("/api/items")
-    @ResponseBody
-    public String allItemsByPage(@RequestParam("page") int page, @RequestParam("size") int size) {
-        ItemPageViewModel model = this.itemService.findItemsByPage(page, size);
-        return this.objectToJson(model);
     }
 
     @GetMapping("/api/admin/items/{id}")
@@ -120,4 +147,5 @@ public class ItemController extends BaseController {
         }
 
     }
+
 }

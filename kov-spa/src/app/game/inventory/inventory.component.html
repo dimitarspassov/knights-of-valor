@@ -4,11 +4,11 @@
     <p class="col-sm-6 offset-sm-3">Here you can equip weapons, armours and shields and keep track of your general
       stats.
       The better the stats, the bigger the chances to defeat your enemies! Prepare your battle set wisely!</p>
-    <div class="hero-stats">
-      <span class="badge badge-pill badge-light">Health: 0</span>
-      <span class="badge badge-pill badge-light">Strength: 0</span>
-      <span class="badge badge-pill badge-light">Defence: 0</span>
-      <span class="badge badge-pill badge-light">Stamina: 0</span>
+    <div class="hero-stats" *ngIf="currentHero">
+      <span class="badge badge-pill badge-light">Health: {{currentHero.health}}</span>
+      <span class="badge badge-pill badge-light">Strength: {{currentHero.strength}}</span>
+      <span class="badge badge-pill badge-light">Defence: {{currentHero.defense}}</span>
+      <span class="badge badge-pill badge-light">Stamina: {{currentHero.stamina}}</span>
     </div>
     <hr/>
 
@@ -64,7 +64,7 @@
 
     <div class="text-center my-5">
       <h3>Items</h3>
-      <small>Inventory max-size: 10</small>
+      <small>Inventory max-size: </small>
     </div>
 
     <div class="row">

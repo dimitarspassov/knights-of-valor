@@ -11,6 +11,7 @@ import com.dspassov.kovapi.areas.users.models.service.RoleServiceModel;
 import com.dspassov.kovapi.areas.users.models.view.UserPageViewModel;
 import com.dspassov.kovapi.areas.users.models.view.UserViewModel;
 import com.dspassov.kovapi.repositories.UserRepository;
+import com.dspassov.kovapi.security.SecurityService;
 import com.dspassov.kovapi.web.ResponseMessageConstants;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
                            BCryptPasswordEncoder passwordEncoder,
-                           ModelMapper modelMapper, HeroService heroService, RoleService roleService) {
+                           ModelMapper modelMapper, HeroService heroService,
+                           RoleService roleService) {
 
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -163,6 +165,7 @@ public class UserServiceImpl implements UserService {
         this.userRepository.save(admin);
         return ResponseMessageConstants.ADMIN_REMOVED;
     }
+
 
     private RoleName getHighestRoleFrom(Set<Role> roles) {
 
