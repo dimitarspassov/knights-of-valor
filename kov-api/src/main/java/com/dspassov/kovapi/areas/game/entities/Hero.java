@@ -190,4 +190,8 @@ public class Hero {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public void addGold(Long gold) {
+        this.gold += gold;
+    }
 }

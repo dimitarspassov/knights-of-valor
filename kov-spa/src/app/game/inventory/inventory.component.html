@@ -16,44 +16,62 @@
 
     <div class="row">
 
-      <div class="col-lg-4">
+      <div *ngIf="battleSet.weapon; else empty_card" class="col-lg-4">
         <h4>Weapon</h4>
         <div class="card current-item mb-4 box-shadow border-light">
-          <img class="card-img-top" src="./assets/img/tmp/sword.png" alt="Current weapon">
+          <img class="card-img-top" src="{{battleSet.weapon.image}}" alt="Current weapon">
           <div class="card-body">
-            <span class="badge badge-pill badge-success mb-3">5+ Strength</span>
+            <span class="badge badge-pill badge-success mb-3">{{battleSet.weapon.bonus}}+ Strength</span>
             <div>
               <div class="btn-group">
-                <button type="button" class="btn btn-sm btn-outline-warning">Remove</button>
+                <button type="button" (click)="unequipItem(battleSet.weapon.id)" class="btn btn-sm btn-outline-warning">Remove</button>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="col-lg-4">
-        <h4>Armour</h4>
+      <div *ngIf="battleSet.armor; else empty_card" class="col-lg-4">
+        <h4>Armor</h4>
         <div class="card current-item mb-4 box-shadow border-light">
-          <img class="card-img-top" src="./assets/img/tmp/armour.png" alt="Current armour">
+          <img class="card-img-top" src="{{battleSet.armor.image}}" alt="Current armor">
           <div class="card-body">
-            <span class="badge badge-pill badge-success mb-3">2+ Stamina</span>
+            <span class="badge badge-pill badge-success mb-3">{{battleSet.armor.bonus}}+ Defense</span>
+            <span class="badge badge-pill badge-success mb-3">{{helperService.getStaminaOfItem(battleSet.armor)}}+ Stamina</span>
             <div>
               <div class="btn-group">
-                <button type="button" class="btn btn-sm btn-outline-warning">Remove</button>
+                <button type="button" (click)="unequipItem(battleSet.armor.id)" class="btn btn-sm btn-outline-warning">Remove</button>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="col-lg-4">
+      <div *ngIf="battleSet.shield; else empty_card" class="col-lg-4">
         <h4>Shield</h4>
-        <div class="card current-item empty mb-4 box-shadow border-light">
+        <div class="card current-item mb-4 box-shadow border-light">
+          <img class="card-img-top" src="{{battleSet.shield.image}}" alt="Current shield">
           <div class="card-body">
-            EMPTY
+            <span class="badge badge-pill badge-success mb-3">{{battleSet.shield.bonus}}+ Defense</span>
+            <div>
+              <div class="btn-group">
+                <button type="button" (click)="unequipItem(battleSet.shield.id)" class="btn btn-sm btn-outline-warning">Remove</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+
+      <ng-template #empty_card>
+        <div class="col-lg-4">
+          <h4>Shield</h4>
+          <div class="card current-item empty mb-4 box-shadow border-light">
+            <div class="card-body">
+              EMPTY
+            </div>
+          </div>
+        </div>
+      </ng-template>
 
     </div>
   </div>
@@ -64,78 +82,29 @@
 
     <div class="text-center my-5">
       <h3>Items</h3>
-      <small>Inventory max-size: </small>
+      <small>Inventory max-size: {{maxSize}}</small>
     </div>
 
     <div class="row">
 
-      <div class="col-md-4">
+      <div *ngFor="let item of items" class="col-md-6 col-lg-4">
         <div class="card item mb-4 box-shadow">
-          <img class="card-img-top" src="./assets/img/tmp/shield.png"
-               alt="Some shield">
+          <img class="card-img-top" src="{{item.image}}"
+               alt="{{item.name}}">
           <div class="card-body">
-            <p class="card-text text-center">Shield of gold</p>
+            <p class="card-text text-center">{{item.name}}</p>
             <div class="d-flex justify-content-between align-items-center">
               <div class="btn-group">
-                <button type="button" class="btn btn-sm btn-outline-light">Equip</button>
-                <button type="button" class="btn btn-sm btn-outline-light">Sell</button>
+                <button type="button" (click)="equipItem(item.id)" class="btn btn-sm btn-outline-light">Equip</button>
+                <button type="button" (click)="sellItem(item.id)" class="btn btn-sm btn-outline-light">Sell</button>
               </div>
-              <span class="badge badge-pill badge-success">2+ Defence</span>
-              <span class="badge badge-pill badge-light">Price: 5 gold</span>
+              <span class="badge badge-pill badge-light">Price: {{helperService.getPriceOfUsedItem(item)}} gold</span>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-4">
-        <div class="card item mb-4 box-shadow">
-          <img class="card-img-top" src="./assets/img/tmp/shield.png"
-               alt="Some shield">
-          <div class="card-body">
-            <p class="card-text text-center">Shield of gold</p>
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="btn-group">
-                <button type="button" class="btn btn-sm btn-outline-light">Equip</button>
-                <button type="button" class="btn btn-sm btn-outline-light">Sell</button>
-              </div>
-              <span class="badge badge-pill badge-success">2+ Defence</span>
-              <span class="badge badge-pill badge-light">Price: 1 gold</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-4">
-        <div class="card item mb-4 box-shadow">
-          <img class="card-img-top" src="./assets/img/tmp/sword.png"
-               alt="Some shield">
-          <div class="card-body">
-            <p class="card-text text-center">Dagger of gold</p>
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="btn-group">
-                <button type="button" class="btn btn-sm btn-outline-light">Equip</button>
-                <button type="button" class="btn btn-sm btn-outline-light">Sell</button>
-              </div>
-              <span class="badge badge-pill badge-success">6+ Strength</span>
-              <span class="badge badge-pill badge-light">Price: 3 gold</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-4">
-        <div class="card item mb-4 box-shadow">
-          <img class="card-img-top" src="./assets/img/tmp/armour.png"
-               alt="Some shield">
-          <div class="card-body">
-            <p class="card-text text-center">Armour of gold</p>
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="btn-group">
-                <button type="button" class="btn btn-sm btn-outline-light">Equip</button>
-                <button type="button" class="btn btn-sm btn-outline-light">Sell</button>
-              </div>
-              <span class="badge badge-pill badge-success">2+ Stamina</span>
-              <span class="badge badge-pill badge-light">Price: 15 gold</span>
+            <div class="item-params">
+              <span *ngIf="item.type=='Weapon'" class="badge badge-pill badge-success">{{item.bonus}}+ Attack</span>
+              <span *ngIf="item.type=='Shield'" class="badge badge-pill badge-success">{{item.bonus}}+ Defense</span>
+              <span *ngIf="item.type=='Armor'" class="badge badge-pill badge-success">{{item.bonus}}+ Defense</span>
+              <span *ngIf="item.type=='Armor'" class="badge badge-pill badge-success">{{helperService.getStaminaOfItem(item)}}+ Stamina</span>
             </div>
           </div>
         </div>
@@ -143,15 +112,5 @@
 
     </div>
 
-    <div class="text-center">
-      <ul class="paging">
-        <li class="page-item disabled">
-          <a class="page-link" href="#">&laquo;</a>
-        </li>
-        <li class="page-item">
-          <a class="page-link" href="#">&raquo;</a>
-        </li>
-      </ul>
-    </div>
   </div>
 </div>

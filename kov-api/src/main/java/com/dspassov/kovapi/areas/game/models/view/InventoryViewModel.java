@@ -1,11 +1,11 @@
 package com.dspassov.kovapi.areas.game.models.view;
 
-import java.util.Set;
+import java.util.List;
 
 public class InventoryViewModel {
 
     private Integer size;
-    private Set<ItemViewModel> items;
+    private List<ItemViewModel> items;
 
     public InventoryViewModel() {
     }
@@ -18,11 +18,11 @@ public class InventoryViewModel {
         this.size = size;
     }
 
-    public Set<ItemViewModel> getItems() {
+    public List<ItemViewModel> getItems() {
         return items;
     }
 
-    public void setItems(Set<ItemViewModel> items) {
+    public void setItems(List<ItemViewModel> items) {
         this.items = items;
     }
 }

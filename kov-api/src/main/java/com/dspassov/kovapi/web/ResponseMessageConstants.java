@@ -33,6 +33,9 @@ public final class ResponseMessageConstants {
     public static final String INSUFFICIENT_FUNDS = "You do not have enough gold to get this item.";
     public static final String INVENTORY_FULL = "You already have reached the limit of your inventory";
     public static final String ITEM_BOUGHT = "You have bought this item successfully.";
+    public static final String ITEM_SOLD = "You have sold this item successfully.";
+    public static final String ITEM_EQUIPPED = "Item added to battle set.";
+    public static final String ITEM_UNEQUIPPED = "Item removed from battle set.";
 
     public static final String GENERIC_ERROR = "An error occurred. Please, try again.";
     public static final String CLOUD_UPLOAD_ERROR = "An error occurred. Please, make sure the image is in the correct format and its size is below 3MB.";

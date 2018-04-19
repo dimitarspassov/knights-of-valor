@@ -4,11 +4,12 @@ import {GameService} from '../game.service';
 import {AppConstants} from '../../app-constants';
 import {DomSanitizer} from '@angular/platform-browser';
 import {HeroService} from '../hero.service';
+import {HelperService} from '../../utils/helper.service';
 
 @Component({
   selector: 'market',
   templateUrl: './market.component.html',
-  styleUrls: ['../../app.component.scss', './market.component.scss']
+  styleUrls: ['../../app.component.scss', '../game.component.scss']
 })
 export class MarketComponent implements OnInit {
 
@@ -26,6 +27,7 @@ export class MarketComponent implements OnInit {
   constructor(private notificationService: NotificationService,
               private gameService: GameService,
               private heroService: HeroService,
+              private helperService: HelperService,
               private sanitizer: DomSanitizer) {
   }
 
@@ -33,10 +35,6 @@ export class MarketComponent implements OnInit {
     this.fetchItems(this.page, this.currentQuery);
   }
 
-  getStaminaOfItem(item) {
-
-    return Math.trunc(item.bonus / 3);
-  }
 
   private fetchItems(page, query) {
     this.gameService.getItemsByPage(page, this.ITEMS_PER_PAGE, query)

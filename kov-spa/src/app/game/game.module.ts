@@ -13,6 +13,7 @@ import {GameService} from './game.service';
 import {HeroService} from './hero.service';
 import {FormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
+import {HelperService} from '../utils/helper.service';
 
 
 @NgModule({
@@ -32,7 +33,7 @@ import {CommonModule} from '@angular/common';
     ArenaComponent,
     WorkComponent
   ],
-  providers: [GameService, HeroService]
+  providers: [GameService, HeroService, HelperService]
 })
 export class GameModule {
 

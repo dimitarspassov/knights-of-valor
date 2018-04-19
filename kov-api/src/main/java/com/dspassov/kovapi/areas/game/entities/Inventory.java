@@ -34,7 +34,7 @@ public class Inventory {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "inventories_items",
+            name = "inventories_inventory_items",
             joinColumns = {@JoinColumn(name = "inventory_id")},
             inverseJoinColumns = {@JoinColumn(name = "inventory_item_id")})
     private List<InventoryItem> items;

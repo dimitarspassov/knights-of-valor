@@ -27,4 +27,5 @@ export class Toolbox {
     return val && val.trim().length >= min
       && val.trim().length <= max;
   }
+
 }

@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "/api/game/")
+@RequestMapping(path = "/api/game/hero")
 public class HeroController extends BaseController {
 
     private final HeroService heroService;
@@ -19,7 +19,7 @@ public class HeroController extends BaseController {
         this.heroService = heroService;
     }
 
-    @GetMapping("hero")
+    @GetMapping("")
     public String getHero() {
         try {
             return this.objectToJson(this.heroService.getCurrentHero());
@@ -29,7 +29,7 @@ public class HeroController extends BaseController {
         }
     }
 
-    @PostMapping("hero/items/buy/{id}")
+    @PostMapping("/items/buy/{id}")
     public String buyItem(@PathVariable String id) {
 
         try {
@@ -40,6 +40,51 @@ public class HeroController extends BaseController {
             e.printStackTrace();
             return this.error(ResponseMessageConstants.GENERIC_ERROR);
         }
+    }
 
+    @GetMapping("/inventory")
+    public String getInventory() {
+
+        return this.objectToJson(this.heroService.getInventory());
+    }
+
+    @GetMapping("/battle-set")
+    public String getBattleSet() {
+
+        return this.objectToJson(this.heroService.getBattleSet());
+    }
+
+    @PostMapping("/items/sell/{itemId}")
+    public String getInventory(@PathVariable String itemId) {
+
+        try {
+            return this.success(this.heroService.sellItem(itemId));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return this.error(ResponseMessageConstants.GENERIC_ERROR);
+        }
+    }
+
+    @PostMapping("/items/equip/{itemId}")
+    public String equipItem(@PathVariable String itemId) {
+
+        try {
+            return this.success(this.heroService.equipItem(itemId));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return this.error(ResponseMessageConstants.GENERIC_ERROR);
+        }
+    }
+
+    @PostMapping("/items/unequip/{itemId}")
+    public String unequipItem(@PathVariable String itemId) {
+
+        try {
+            return this.success(this.heroService.unequipItem(itemId));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return this.error(ResponseMessageConstants.GENERIC_ERROR);
+        }
     }
 }
+

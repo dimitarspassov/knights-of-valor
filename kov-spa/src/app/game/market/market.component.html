@@ -40,7 +40,7 @@
               <span *ngIf="item.type=='Weapon'" class="badge badge-pill badge-success">{{item.bonus}}+ Attack</span>
               <span *ngIf="item.type=='Shield'" class="badge badge-pill badge-success">{{item.bonus}}+ Defense</span>
               <span *ngIf="item.type=='Armor'" class="badge badge-pill badge-success">{{item.bonus}}+ Defense</span>
-              <span *ngIf="item.type=='Armor'" class="badge badge-pill badge-success">{{getStaminaOfItem(item)}}+ Stamina</span>
+              <span *ngIf="item.type=='Armor'" class="badge badge-pill badge-success">{{helperService.getStaminaOfItem(item)}}+ Stamina</span>
             </div>
           </div>
         </div>

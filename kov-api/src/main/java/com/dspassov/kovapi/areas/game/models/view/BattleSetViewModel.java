@@ -2,19 +2,19 @@ package com.dspassov.kovapi.areas.game.models.view;
 
 public class BattleSetViewModel {
 
-    private ItemViewModel sword;
+    private ItemViewModel weapon;
     private ItemViewModel shield;
     private ItemViewModel armor;
 
     public BattleSetViewModel() {
     }
 
-    public ItemViewModel getSword() {
-        return sword;
+    public ItemViewModel getWeapon() {
+        return weapon;
     }
 
-    public void setSword(ItemViewModel sword) {
-        this.sword = sword;
+    public void setWeapon(ItemViewModel weapon) {
+        this.weapon = weapon;
     }
 
     public ItemViewModel getShield() {

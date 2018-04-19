@@ -21,7 +21,7 @@ public class InventoryItem {
 
 
     @NotNull
-    @Min(1)
+    @Min(0)
     private Integer count = 1;
 
     @ManyToOne
@@ -52,5 +52,9 @@ public class InventoryItem {
 
     public void setItem(Item item) {
         this.item = item;
+    }
+
+    public void decrementCount() {
+        this.count -= 1;
     }
 }
