@@ -5,9 +5,7 @@ import com.dspassov.kovapi.areas.game.models.HeroServiceModel;
 import com.dspassov.kovapi.areas.game.models.view.BattleSetViewModel;
 import com.dspassov.kovapi.areas.game.models.view.HeroViewModel;
 import com.dspassov.kovapi.areas.game.models.view.InventoryViewModel;
-import com.dspassov.kovapi.areas.game.models.view.ItemViewModel;
 
-import java.util.List;
 
 public interface HeroService {
 
@@ -16,6 +14,8 @@ public interface HeroService {
     HeroServiceModel findHeroByName(String heroName);
 
     HeroViewModel getCurrentHero();
+
+    HeroServiceModel getCurrentHeroServiceModel();
 
     String buyItem(String itemId);
 
@@ -28,5 +28,7 @@ public interface HeroService {
     String unequipItem(String itemId);
 
     BattleSetViewModel getBattleSet();
+
+    void payHeroSalary(Long salary);
 
 }

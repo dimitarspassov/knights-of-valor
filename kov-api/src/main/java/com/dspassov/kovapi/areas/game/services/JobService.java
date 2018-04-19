@@ -18,4 +18,5 @@ public interface JobService {
     String updateJob(String id, JobBindingModel job, MultipartFile newImage);
 
     String changeStatus(String jobId, boolean newStatus);
+
 }

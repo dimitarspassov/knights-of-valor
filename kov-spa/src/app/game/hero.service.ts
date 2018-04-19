@@ -14,6 +14,10 @@ export class HeroService {
   private readonly SELL_ITEM_URL = 'api/game/hero/items/sell/';
   private readonly EQUIP_ITEM_URL = 'api/game/hero/items/equip/';
   private readonly UNEQUIP_ITEM_URL = 'api/game/hero/items/unequip/';
+  private readonly START_JOB_URL = 'api/game/hero/job/start/';
+  private readonly ABANDON_JOB_URL = 'api/game/hero/job/abandon/';
+  private readonly FINISH_JOB_URL = 'api/game/hero/job/finish/';
+  private readonly IS_AT_WORK_URL = 'api/game/hero/job';
 
   private hero: Subject<HeroModel> = new BehaviorSubject<HeroModel>(null);
   hero$ = this.hero.asObservable();
@@ -55,6 +59,25 @@ export class HeroService {
 
   loadBattleSet() {
     return this.httpService.get(this.GET_BATTLE_SET_URL, true);
+  }
+
+  isHeroAtWork() {
+    return this.httpService.get(this.IS_AT_WORK_URL, true);
+  }
+
+  startJob(jobId: string) {
+    const url = this.START_JOB_URL + jobId;
+    return this.httpService.post(url, null, true);
+  }
+
+  abandonJob(jobId: string) {
+    const url = this.ABANDON_JOB_URL + jobId;
+    return this.httpService.post(url, null, true);
+  }
+
+  finishJob(jobId: string) {
+    const url = this.FINISH_JOB_URL + jobId;
+    return this.httpService.post(url, null, true);
   }
 
   public doRefreshHero() {

@@ -1,6 +1,8 @@
 package com.dspassov.kovapi.areas.game.controllers;
 
+import com.dspassov.kovapi.areas.game.services.HeroJobService;
 import com.dspassov.kovapi.areas.game.services.HeroService;
+import com.dspassov.kovapi.exceptions.HeroWorkException;
 import com.dspassov.kovapi.exceptions.InsufficientFundsException;
 import com.dspassov.kovapi.exceptions.InventoryFullException;
 import com.dspassov.kovapi.web.BaseController;
@@ -13,10 +15,12 @@ import org.springframework.web.bind.annotation.*;
 public class HeroController extends BaseController {
 
     private final HeroService heroService;
+    private final HeroJobService heroJobService;
 
     @Autowired
-    public HeroController(HeroService heroService) {
+    public HeroController(HeroService heroService, HeroJobService heroJobService) {
         this.heroService = heroService;
+        this.heroJobService = heroJobService;
     }
 
     @GetMapping("")
@@ -55,7 +59,7 @@ public class HeroController extends BaseController {
     }
 
     @PostMapping("/items/sell/{itemId}")
-    public String getInventory(@PathVariable String itemId) {
+    public String sellItem(@PathVariable String itemId) {
 
         try {
             return this.success(this.heroService.sellItem(itemId));
@@ -85,6 +89,50 @@ public class HeroController extends BaseController {
             e.printStackTrace();
             return this.error(ResponseMessageConstants.GENERIC_ERROR);
         }
+    }
+
+    @PostMapping("/job/start/{jobId}")
+    public String startJob(@PathVariable String jobId) {
+
+        try {
+            return this.success(this.heroJobService.startJob(jobId));
+        } catch (HeroWorkException ex) {
+            return this.error(ex.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return this.error(ResponseMessageConstants.GENERIC_ERROR);
+        }
+    }
+
+    @PostMapping("/job/abandon/{jobId}")
+    public String abandonJob(@PathVariable String jobId) {
+
+        try {
+            return this.success(this.heroJobService.abandonJob(jobId));
+        } catch (HeroWorkException ex) {
+            return this.error(ex.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return this.error(ResponseMessageConstants.GENERIC_ERROR);
+        }
+    }
+
+    @PostMapping("/job/finish/{jobId}")
+    public String finishJob(@PathVariable String jobId) {
+
+        try {
+            return this.success(this.heroJobService.finishJob(jobId));
+        } catch (HeroWorkException ex) {
+            return this.error(ex.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return this.error(ResponseMessageConstants.GENERIC_ERROR);
+        }
+    }
+
+    @GetMapping("/job")
+    public String isHeroAtWork() {
+        return this.objectToJson(this.heroJobService.getCurrentJob());
     }
 }
 

@@ -65,6 +65,11 @@ public class HeroServiceImpl implements HeroService {
     }
 
     @Override
+    public HeroServiceModel getCurrentHeroServiceModel() {
+        return this.modelMapper.map(this.getHeroOfCurrentUser(), HeroServiceModel.class);
+    }
+
+    @Override
     public InventoryViewModel getInventory() {
 
         Hero hero = this.getHeroOfCurrentUser();
@@ -212,6 +217,13 @@ public class HeroServiceImpl implements HeroService {
 
 
         return battleSetViewModel;
+    }
+
+    @Override
+    public void payHeroSalary(Long salary) {
+        Hero hero = this.getHeroOfCurrentUser();
+        hero.addGold(salary);
+        this.heroRepository.save(hero);
     }
 
     private Hero getHeroOfCurrentUser() {

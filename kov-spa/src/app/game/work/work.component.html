@@ -10,43 +10,26 @@
 <div class="py-5">
   <div class="container">
 
-    <div class="row">
+    <div *ngIf="!isAtWork" class="row">
 
-      <div class="col-md-6 col-lg-4">
+      <div *ngFor="let job of jobs" class="col-md-6 col-lg-4">
         <div class="card mb-3 text-center">
-          <h3 class="card-header">Stables cleaner</h3>
+          <h3 class="card-header">{{job.name}}</h3>
           <div class="card-body">
           </div>
-          <img style="height: 200px; width: 100%; display: block;"
-               src="/assets/img/tmp/stables.jpg"
-               alt="Card image">
+          <img
+            src="{{job.image}}"
+            alt="{{job.name}}">
           <ul class="list-group list-group-flush">
-            <li class="list-group-item">Salary per hour: 100 gold</li>
-            <li class="list-group-item">Hours: 4</li>
+            <li class="list-group-item">Salary per hour: {{job.salary}} gold</li>
+            <li class="list-group-item">Time: {{helperService.minutesToTime(job.minutes)}}</li>
           </ul>
           <div class="card-body">
-            <button class="btn btn-outline-light">Start job</button>
+            <button (click)="startJob(job.id)" class="btn btn-outline-light">Start job</button>
           </div>
         </div>
       </div>
 
-      <div class="col-md-6 col-lg-4">
-        <div class="card mb-3 text-center">
-          <h3 class="card-header">Salesman</h3>
-          <div class="card-body">
-          </div>
-          <img style="height: 200px; width: 100%; display: block;"
-               src="/assets/img/tmp/salesman.jpg"
-               alt="Card image">
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">Salary per hour: 60 gold</li>
-            <li class="list-group-item">Hours: 10</li>
-          </ul>
-          <div class="card-body">
-            <button class="btn btn-outline-light">Start job</button>
-          </div>
-        </div>
-      </div>
 
     </div>
 
@@ -56,23 +39,36 @@
       <div class="row my-4">
         <div class="col-md-6 offset-md-3 col-lg-4 offset-lg-4">
           <div class="card mb-3 text-center">
-            <h3 class="card-header">Stables cleaner</h3>
+            <h3 class="card-header">{{currentJob.name}}</h3>
             <div class="card-body">
-              <p class="card-text">Remaining time: 02:01:42</p>
+              <p class="card-text">Remaining time: {{helperService.minutesToTimeWithSeconds(secondsRemaining)}}</p>
             </div>
             <img style="height: 200px; width: 100%; display: block;"
-                 src="/assets/img/tmp/stables.jpg"
+                 src="{{currentJob.image}}"
                  alt="Card image">
             <ul class="list-group list-group-flush">
-              <li class="list-group-item">Salary per hour: 100 gold</li>
-              <li class="list-group-item">Hours: 4</li>
+              <li class="list-group-item">Salary per hour: {{currentJob.salary}} gold</li>
+              <li class="list-group-item">Time: {{helperService.minutesToTime(currentJob.minutes)}}</li>
             </ul>
             <div class="card-body">
-              <button class="btn btn-outline-danger">End job</button>
+              <button (click)="abandonJob()" class="btn btn-outline-danger">Abandon job</button>
+              <br>
+              <small class="text-info">Ending the job now will leave you with what you have earned so far.</small>
             </div>
           </div>
         </div>
       </div>
+    </div>
+
+    <div *ngIf="!isAtWork" class="text-center my-5">
+      <ul class="paging">
+        <li class="page-item" [ngClass]="{'disabled': prevDisabled}">
+          <button (click)="prevPage()" class="page-link">&laquo;</button>
+        </li>
+        <li class="page-item" [ngClass]="{'disabled': nextDisabled}">
+          <button (click)="nextPage()" class="page-link">&raquo;</button>
+        </li>
+      </ul>
     </div>
 
   </div>

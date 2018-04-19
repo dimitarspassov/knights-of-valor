@@ -24,4 +24,28 @@ export class HelperService {
   getPriceOfUsedItem(item) {
     return Math.trunc(item.price / 3);
   }
+
+  /**
+   * Format minutes to time
+   *
+   * @param minutes {number}
+   */
+  minutesToTime(minutes) {
+    let h = '0' + (Math.trunc(minutes / 60));
+    let m = '0' + (minutes % 60);
+
+    return `${h.substr(-2)}:${m.substr(-2)}`;
+  }
+
+  /**
+   * Format minutes to hours:minutes:seconds
+   *
+   * @param seconds {number}
+   */
+  minutesToTimeWithSeconds(seconds) {
+    let s = '0' + (seconds % 60);
+
+    let val = this.minutesToTime(Math.trunc(seconds / 60)) + `:${s.substr(-2)}`;
+    return val;
+  }
 }

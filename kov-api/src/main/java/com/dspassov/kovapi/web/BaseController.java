@@ -22,4 +22,8 @@ public abstract class BaseController {
         return this.gson.toJson(object);
     }
 
+    protected String booleanResponse(boolean val) {
+        JSONBoolResponse response = new JSONBoolResponse(val);
+        return this.gson.toJson(response);
+    }
 }

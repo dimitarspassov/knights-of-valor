@@ -1,0 +1,13 @@
+div.card {
+  img {
+    height: 200px;
+    width: 100%;
+    display: block;
+  }
+
+  .card-body small{
+    max-width: 200px;
+    display: block;
+    margin: 20px auto;
+  }
+}

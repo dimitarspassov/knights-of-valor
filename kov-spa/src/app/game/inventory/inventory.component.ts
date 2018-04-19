@@ -70,7 +70,6 @@ export class InventoryComponent implements OnInit {
           return;
         }
         this.battleSet = result;
-        console.log(this.battleSet);
       },
       error => this.notificationService.showError(AppConstants.GENERIC_ERROR_MESSAGE)
     );
