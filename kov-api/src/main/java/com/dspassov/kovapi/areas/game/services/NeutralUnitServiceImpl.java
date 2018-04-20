@@ -7,9 +7,10 @@ import com.dspassov.kovapi.areas.game.enumerations.NeutralUnitType;
 import com.dspassov.kovapi.areas.game.models.binding.NeutralUnitBindingModel;
 import com.dspassov.kovapi.areas.game.models.view.NeutralUnitPageViewModel;
 import com.dspassov.kovapi.areas.game.models.view.NeutralUnitViewModel;
-import com.dspassov.kovapi.cloud.CloudService;
+import com.dspassov.kovapi.areas.cloud.CloudService;
 
 import com.dspassov.kovapi.exceptions.CloudStorageException;
+import com.dspassov.kovapi.exceptions.IllegalParamException;
 import com.dspassov.kovapi.repositories.NeutralUnitRepository;
 import com.dspassov.kovapi.web.ResponseMessageConstants;
 import org.modelmapper.ModelMapper;
@@ -43,11 +44,11 @@ public class NeutralUnitServiceImpl implements NeutralUnitService {
     public String save(NeutralUnitBindingModel unitModel, MultipartFile image) {
         String fileName = image.getOriginalFilename();
         if (!Toolbox.isValidImage(fileName)) {
-            throw new IllegalArgumentException(ResponseMessageConstants.INCORRECT_FILE_EXTENSION);
+            throw new IllegalParamException(ResponseMessageConstants.INCORRECT_FILE_EXTENSION);
         }
 
         if (this.unitRepository.findByName(unitModel.getName()) != null) {
-            throw new IllegalArgumentException(ResponseMessageConstants.EXISTING_UNIT);
+            throw new IllegalParamException(ResponseMessageConstants.EXISTING_UNIT);
         }
 
         NeutralUnit unit = this.modelMapper.map(unitModel, NeutralUnit.class);
@@ -77,7 +78,7 @@ public class NeutralUnitServiceImpl implements NeutralUnitService {
         NeutralUnit unit = this.unitRepository.findById(id).orElse(null);
 
         if (unit == null) {
-            throw new IllegalArgumentException(ResponseMessageConstants.NON_EXISTENT_UNIT);
+            throw new IllegalParamException(ResponseMessageConstants.NON_EXISTENT_UNIT);
         }
 
         NeutralUnitViewModel model = this.modelMapper.map(unit, NeutralUnitViewModel.class);
@@ -104,11 +105,11 @@ public class NeutralUnitServiceImpl implements NeutralUnitService {
         NeutralUnit current = this.unitRepository.findById(id).orElse(null);
 
         if (current == null) {
-            throw new IllegalArgumentException(ResponseMessageConstants.NON_EXISTENT_UNIT);
+            throw new IllegalParamException(ResponseMessageConstants.NON_EXISTENT_UNIT);
         }
 
         if (!unit.getName().equals(current.getName()) && this.unitRepository.findByName(unit.getName()) != null) {
-            throw new IllegalArgumentException(ResponseMessageConstants.EXISTING_UNIT);
+            throw new IllegalParamException(ResponseMessageConstants.EXISTING_UNIT);
         }
 
         current.setName(unit.getName());
@@ -122,14 +123,13 @@ public class NeutralUnitServiceImpl implements NeutralUnitService {
         if (newImage != null) {
 
             if (!Toolbox.isValidImage(newImage.getOriginalFilename())) {
-                throw new IllegalArgumentException(ResponseMessageConstants.INCORRECT_FILE_EXTENSION);
+                throw new IllegalParamException(ResponseMessageConstants.INCORRECT_FILE_EXTENSION);
             }
 
             try {
                 this.cloudService.deleteImage(Toolbox.getImageId(current.getImage()));
                 current.setImage(this.cloudService.saveImage(newImage));
             } catch (IOException e) {
-                e.printStackTrace();
                 throw new CloudStorageException();
             }
 

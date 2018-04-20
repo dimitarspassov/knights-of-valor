@@ -2,7 +2,8 @@ package com.dspassov.kovapi.exceptions;
 
 import com.dspassov.kovapi.web.ResponseMessageConstants;
 
-public class CloudStorageException extends RuntimeException {
+@GameException
+public class CloudStorageException extends RuntimeException{
 
 
     public CloudStorageException(String message) {

@@ -4,9 +4,8 @@ import com.dspassov.kovapi.areas.game.models.binding.JobBindingModel;
 import com.dspassov.kovapi.areas.game.models.view.JobPageViewModel;
 import com.dspassov.kovapi.areas.game.models.view.JobViewModel;
 import com.dspassov.kovapi.areas.game.services.JobService;
-import com.dspassov.kovapi.exceptions.CloudStorageException;
 import com.dspassov.kovapi.web.BaseController;
-import com.dspassov.kovapi.web.ResponseMessageConstants;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -38,13 +37,7 @@ public class JobController extends BaseController {
                     .get(0).getDefaultMessage());
         }
 
-        try {
-            return this.success(this.jobService.save(job, image));
-        } catch (IllegalArgumentException | CloudStorageException exception) {
-            return this.error(exception.getMessage());
-        } catch (Exception e) {
-            return this.error(ResponseMessageConstants.GENERIC_ERROR);
-        }
+        return this.success(this.jobService.save(job, image));
     }
 
     @GetMapping("/api/jobs")
@@ -58,12 +51,8 @@ public class JobController extends BaseController {
     @ResponseBody
     public String editJob(@PathVariable String id) {
 
-        try {
-            JobViewModel job = this.jobService.getJobById(id);
-            return this.objectToJson(job);
-        } catch (IllegalArgumentException e) {
-            return this.error(e.getMessage());
-        }
+        JobViewModel job = this.jobService.getJobById(id);
+        return this.objectToJson(job);
     }
 
     @PostMapping("/api/admin/jobs/{id}")
@@ -78,13 +67,8 @@ public class JobController extends BaseController {
                     .get(0).getDefaultMessage());
         }
 
-        try {
-            return this.success(this.jobService.updateJob(id, job, null));
-        } catch (IllegalArgumentException | CloudStorageException exception) {
-            return this.error(exception.getMessage());
-        } catch (Exception e) {
-            return this.error(ResponseMessageConstants.GENERIC_ERROR);
-        }
+
+        return this.success(this.jobService.updateJob(id, job, null));
     }
 
     @PostMapping("/api/admin/jobs/newimg/{id}")
@@ -100,23 +84,12 @@ public class JobController extends BaseController {
                     .get(0).getDefaultMessage());
         }
 
-        try {
-            return this.success(this.jobService.updateJob(id, job, image));
-        } catch (IllegalArgumentException | CloudStorageException exception) {
-            return this.error(exception.getMessage());
-        } catch (Exception e) {
-            return this.error(ResponseMessageConstants.GENERIC_ERROR);
-        }
+        return this.success(this.jobService.updateJob(id, job, image));
     }
 
     @PostMapping("/api/admin/jobs/{id}/status/{status}")
     public String changeStatus(@PathVariable String id, @PathVariable boolean status) {
 
-        try {
-            return this.success(this.jobService.changeStatus(id, status));
-        } catch (Exception e) {
-            return this.error(ResponseMessageConstants.GENERIC_ERROR);
-        }
-
+        return this.success(this.jobService.changeStatus(id, status));
     }
 }

@@ -9,8 +9,9 @@ import com.dspassov.kovapi.areas.game.enumerations.ItemType;
 import com.dspassov.kovapi.areas.game.models.binding.ItemBindingModel;
 import com.dspassov.kovapi.areas.game.models.view.ItemPageViewModel;
 import com.dspassov.kovapi.areas.game.models.view.ItemViewModel;
-import com.dspassov.kovapi.cloud.CloudService;
+import com.dspassov.kovapi.areas.cloud.CloudService;
 import com.dspassov.kovapi.exceptions.CloudStorageException;
+import com.dspassov.kovapi.exceptions.IllegalParamException;
 import com.dspassov.kovapi.repositories.ItemRepository;
 import com.dspassov.kovapi.web.ResponseMessageConstants;
 import org.modelmapper.ModelMapper;
@@ -44,11 +45,11 @@ public class ItemServiceImpl implements ItemService {
 
         String fileName = image.getOriginalFilename();
         if (!Toolbox.isValidImage(fileName)) {
-            throw new IllegalArgumentException(ResponseMessageConstants.INCORRECT_FILE_EXTENSION);
+            throw new IllegalParamException(ResponseMessageConstants.INCORRECT_FILE_EXTENSION);
         }
 
         if (this.itemRepository.findByName(itemModel.getName()) != null) {
-            throw new IllegalArgumentException(ResponseMessageConstants.EXISTING_ITEM);
+            throw new IllegalParamException(ResponseMessageConstants.EXISTING_ITEM);
         }
 
         Item item;
@@ -67,7 +68,7 @@ public class ItemServiceImpl implements ItemService {
             }
             break;
             default:
-                throw new IllegalArgumentException(ResponseMessageConstants.UNSUPPORTED_ITEM_TYPE);
+                throw new IllegalParamException(ResponseMessageConstants.UNSUPPORTED_ITEM_TYPE);
         }
 
 
@@ -135,7 +136,7 @@ public class ItemServiceImpl implements ItemService {
         Item item = this.itemRepository.findById(id).orElse(null);
 
         if (item == null) {
-            throw new IllegalArgumentException(ResponseMessageConstants.NON_EXISTENT_ITEM);
+            throw new IllegalParamException(ResponseMessageConstants.NON_EXISTENT_ITEM);
         }
 
         ItemViewModel model = this.modelMapper.map(item, ItemViewModel.class);
@@ -150,11 +151,11 @@ public class ItemServiceImpl implements ItemService {
         Item current = this.itemRepository.findById(id).orElse(null);
 
         if (current == null) {
-            throw new IllegalArgumentException(ResponseMessageConstants.NON_EXISTENT_ITEM);
+            throw new IllegalParamException(ResponseMessageConstants.NON_EXISTENT_ITEM);
         }
 
         if (!item.getName().equals(current.getName()) && this.itemRepository.findByName(item.getName()) != null) {
-            throw new IllegalArgumentException(ResponseMessageConstants.EXISTING_ITEM);
+            throw new IllegalParamException(ResponseMessageConstants.EXISTING_ITEM);
         }
 
 
@@ -165,7 +166,7 @@ public class ItemServiceImpl implements ItemService {
         if (newImage != null) {
 
             if (!Toolbox.isValidImage(newImage.getOriginalFilename())) {
-                throw new IllegalArgumentException(ResponseMessageConstants.INCORRECT_FILE_EXTENSION);
+                throw new IllegalParamException(ResponseMessageConstants.INCORRECT_FILE_EXTENSION);
             }
 
             try {

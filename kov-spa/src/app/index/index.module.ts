@@ -9,6 +9,7 @@ import {FormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {UserService} from './user.service';
 import {HttpService} from '../core/http.service';
+import {NotFoundComponent} from './not-found/not-found.component';
 
 
 @NgModule({
@@ -22,7 +23,9 @@ import {HttpService} from '../core/http.service';
     IndexComponent,
     HomeComponent,
     LoginComponent,
-    RegisterComponent],
+    RegisterComponent,
+    NotFoundComponent
+  ],
   providers: [HttpService, UserService]
 })
 export class IndexModule {

@@ -29,6 +29,7 @@ import {PublicRoute} from './public-route';
 import {UrlConstants} from './url-constants';
 import {AdminRoute} from './admin-route';
 import {SuperAdminRoute} from './super-admin-route';
+import {NotFoundComponent} from '../index/not-found/not-found.component';
 
 
 const routes: Routes = [
@@ -79,7 +80,15 @@ const routes: Routes = [
       {path: 'neutrals/add', component: AddNeutralComponent, canActivate: [AdminRoute]},
       {path: 'neutrals/edit/:id', component: EditNeutralComponent, canActivate: [AdminRoute]}
     ]
-  }
+  },
+  {
+    path: '404',
+    component: IndexComponent,
+    children: [
+      {path: '', component: NotFoundComponent}
+    ]
+  },
+  {path: '**', redirectTo: '/404'}
 ];
 
 

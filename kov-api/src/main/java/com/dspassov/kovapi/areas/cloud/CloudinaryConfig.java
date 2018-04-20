@@ -1,4 +1,4 @@
-package com.dspassov.kovapi.cloud;
+package com.dspassov.kovapi.areas.cloud;
 
 
 import com.cloudinary.Cloudinary;

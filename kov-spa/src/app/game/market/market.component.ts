@@ -48,6 +48,12 @@ export class MarketComponent implements OnInit {
             this.allPages = result.allPages;
           }
 
+          if (result.success === false) {
+            this.notificationService.showError(result.message);
+            this.allPages = 0;
+            this.items = [];
+          }
+
           this.page = page;
           this.nextDisabled = this.page + 1 >= this.allPages;
 

@@ -55,6 +55,8 @@ public final class ResponseMessageConstants {
     public static final String CANNOT_TARGET_HIMSELF = "The enemy hero id must be different from the current hero id.";
     public static final String FIGHT_DRAWN = "The fight ended without a winner. %s needs rest now.";
 
+    public static final String UNEXPECTED_CHARS = "Your parameters include unexpected characters.";
+
 
     private ResponseMessageConstants() {
     }

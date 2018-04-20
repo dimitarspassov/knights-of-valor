@@ -14,9 +14,6 @@ import javax.validation.constraints.NotNull;
 @Table(name = "neutral_units")
 public class NeutralUnit {
 
-
-
-
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(

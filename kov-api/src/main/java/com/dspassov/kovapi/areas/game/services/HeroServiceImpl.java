@@ -7,6 +7,7 @@ import com.dspassov.kovapi.areas.game.enumerations.ItemType;
 import com.dspassov.kovapi.areas.game.models.service.HeroCombatServiceModel;
 import com.dspassov.kovapi.areas.game.models.service.HeroServiceModel;
 import com.dspassov.kovapi.areas.game.models.view.*;
+import com.dspassov.kovapi.exceptions.IllegalParamException;
 import com.dspassov.kovapi.exceptions.InsufficientFundsException;
 import com.dspassov.kovapi.repositories.HeroRepository;
 import com.dspassov.kovapi.security.SecurityService;
@@ -119,7 +120,7 @@ public class HeroServiceImpl implements HeroService {
                 itemEntity = this.modelMapper.map(item, Shield.class);
                 break;
             default:
-                throw new IllegalArgumentException(ResponseMessageConstants.UNSUPPORTED_ITEM_TYPE);
+                throw new IllegalParamException(ResponseMessageConstants.UNSUPPORTED_ITEM_TYPE);
         }
 
 
@@ -145,7 +146,7 @@ public class HeroServiceImpl implements HeroService {
             if (!sold && itemId.equals(inventoryItem.getItem().getId()) && inventoryItem.getCount() > 0) {
 
                 if (this.isItemInBattleSet(inventoryItem, hero.getBattleSet())) {
-                    throw new IllegalArgumentException(ResponseMessageConstants.ITEM_IN_BATTLE_SET);
+                    throw new IllegalParamException(ResponseMessageConstants.ITEM_IN_BATTLE_SET);
                 }
 
                 inventoryItem.decrementCount();
@@ -280,7 +281,7 @@ public class HeroServiceImpl implements HeroService {
         Hero target = this.heroRepository.findById(heroId).orElse(null);
 
         if (target == null) {
-            throw new IllegalArgumentException(ResponseMessageConstants.NON_EXISTENT_HERO);
+            throw new IllegalParamException(ResponseMessageConstants.NON_EXISTENT_HERO);
         }
 
         HeroCombatServiceModel combatModel = this.modelMapper.map(target, HeroCombatServiceModel.class);

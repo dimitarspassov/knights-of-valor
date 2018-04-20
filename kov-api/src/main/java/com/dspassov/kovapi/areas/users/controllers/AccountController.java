@@ -33,12 +33,7 @@ public class AccountController extends BaseController {
                     .get(0).getDefaultMessage());
         }
 
-        try {
-            return this.success(this.userService.save(user));
-        } catch (IllegalArgumentException exception) {
-            return this.error(exception.getMessage());
-        }
-
+        return this.success(this.userService.save(user));
     }
 
     @GetMapping("/api/auth")

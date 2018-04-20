@@ -5,8 +5,9 @@ import com.dspassov.kovapi.areas.game.entities.Job;
 import com.dspassov.kovapi.areas.game.models.binding.JobBindingModel;
 import com.dspassov.kovapi.areas.game.models.view.JobPageViewModel;
 import com.dspassov.kovapi.areas.game.models.view.JobViewModel;
-import com.dspassov.kovapi.cloud.CloudService;
+import com.dspassov.kovapi.areas.cloud.CloudService;
 import com.dspassov.kovapi.exceptions.CloudStorageException;
+import com.dspassov.kovapi.exceptions.IllegalParamException;
 import com.dspassov.kovapi.repositories.JobRepository;
 import com.dspassov.kovapi.web.ResponseMessageConstants;
 import org.modelmapper.ModelMapper;
@@ -37,11 +38,11 @@ public class JobServiceImpl implements JobService {
     public String save(JobBindingModel jobModel, MultipartFile image) {
         String fileName = image.getOriginalFilename();
         if (!Toolbox.isValidImage(fileName)) {
-            throw new IllegalArgumentException(ResponseMessageConstants.INCORRECT_FILE_EXTENSION);
+            throw new IllegalParamException(ResponseMessageConstants.INCORRECT_FILE_EXTENSION);
         }
 
         if (this.jobRepository.findByName(jobModel.getName()) != null) {
-            throw new IllegalArgumentException(ResponseMessageConstants.EXISTING_JOB);
+            throw new IllegalParamException(ResponseMessageConstants.EXISTING_JOB);
         }
 
         Job job = this.modelMapper.map(jobModel, Job.class);
@@ -68,7 +69,7 @@ public class JobServiceImpl implements JobService {
         Job job = this.jobRepository.findById(id).orElse(null);
 
         if (job == null) {
-            throw new IllegalArgumentException(ResponseMessageConstants.NON_EXISTENT_JOB);
+            throw new IllegalParamException(ResponseMessageConstants.NON_EXISTENT_JOB);
         }
         JobViewModel model = this.modelMapper.map(job, JobViewModel.class);
         return model;
@@ -94,11 +95,11 @@ public class JobServiceImpl implements JobService {
         Job current = this.jobRepository.findById(id).orElse(null);
 
         if (current == null) {
-            throw new IllegalArgumentException(ResponseMessageConstants.NON_EXISTENT_JOB);
+            throw new IllegalParamException(ResponseMessageConstants.NON_EXISTENT_JOB);
         }
 
         if (!job.getName().equals(current.getName()) && this.jobRepository.findByName(job.getName()) != null) {
-            throw new IllegalArgumentException(ResponseMessageConstants.EXISTING_JOB);
+            throw new IllegalParamException(ResponseMessageConstants.EXISTING_JOB);
         }
 
         current.setName(job.getName());
@@ -108,14 +109,13 @@ public class JobServiceImpl implements JobService {
         if (newImage != null) {
 
             if (!Toolbox.isValidImage(newImage.getOriginalFilename())) {
-                throw new IllegalArgumentException(ResponseMessageConstants.INCORRECT_FILE_EXTENSION);
+                throw new IllegalParamException(ResponseMessageConstants.INCORRECT_FILE_EXTENSION);
             }
 
             try {
                 this.cloudService.deleteImage(Toolbox.getImageId(current.getImage()));
                 current.setImage(this.cloudService.saveImage(newImage));
             } catch (IOException e) {
-                e.printStackTrace();
                 throw new CloudStorageException();
             }
 

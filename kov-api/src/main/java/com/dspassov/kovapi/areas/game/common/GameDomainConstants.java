@@ -5,6 +5,11 @@ public final class GameDomainConstants {
     // heroes
     public static final int HERO_NAME_MIN_LENGTH = 3;
     public static final int HERO_NAME_MAX_LENGTH = 30;
+    public static final int HERO_LEVEL_MIN = 1;
+    public static final int HERO_HEALTH_MIN = 10;
+    public static final int HERO_STRENGTH_MIN = 3;
+    public static final int HERO_DEFENSE_MIN = 3;
+    public static final int HERO_STAMINA_MIN = 1;
 
 
     // items

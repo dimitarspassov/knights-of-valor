@@ -14,14 +14,7 @@ import java.time.LocalDateTime;
 @Table(name = "heroes")
 public class Hero {
 
-
-    //todo: fix
-    private static final Integer LEVEL_MULTIPLIER = 1000;
-    private static final int LEVEL_MIN = 1;
-    private static final int HEALTH_MIN = 10;
-    private static final int STRENGTH_MIN = 3;
-    private static final int DEFENSE_MIN = 3;
-    private static final int STAMINA_MIN = 1;
+    private static final Integer XP_MULTIPLIER = 3150;
 
 
     @Id
@@ -39,9 +32,9 @@ public class Hero {
     private String name;
 
     @NotNull
-    @Min(LEVEL_MIN)
+    @Min(GameDomainConstants.HERO_LEVEL_MIN)
     @Column(name = "level")
-    private Integer level = LEVEL_MIN;
+    private Integer level = GameDomainConstants.HERO_LEVEL_MIN;
 
     @NotNull
     @Min(0)
@@ -54,24 +47,24 @@ public class Hero {
     private Long gold = 0L;
 
     @NotNull
-    @Min(HEALTH_MIN)
+    @Min(GameDomainConstants.HERO_HEALTH_MIN)
     @Column(name = "health")
-    private Integer health = HEALTH_MIN;
+    private Integer health = GameDomainConstants.HERO_HEALTH_MIN;
 
     @NotNull
-    @Min(STRENGTH_MIN)
+    @Min(GameDomainConstants.HERO_STRENGTH_MIN)
     @Column(name = "strength")
-    private Integer strength = STRENGTH_MIN;
+    private Integer strength = GameDomainConstants.HERO_STRENGTH_MIN;
 
     @NotNull
-    @Min(DEFENSE_MIN)
+    @Min(GameDomainConstants.HERO_DEFENSE_MIN)
     @Column(name = "defense")
-    private Integer defense = DEFENSE_MIN;
+    private Integer defense = GameDomainConstants.HERO_DEFENSE_MIN;
 
     @NotNull
-    @Min(STAMINA_MIN)
+    @Min(GameDomainConstants.HERO_STAMINA_MIN)
     @Column(name = "stamina")
-    private Integer stamina = STAMINA_MIN;
+    private Integer stamina = GameDomainConstants.HERO_STAMINA_MIN;
 
     @Column(name = "last_fight_date")
     private LocalDateTime lastFightDate;
@@ -207,7 +200,7 @@ public class Hero {
 
     public void addExperience(Long experience) {
         this.experience += experience;
-        if (this.experience >= this.level * LEVEL_MULTIPLIER) {
+        if (this.experience >= this.level * XP_MULTIPLIER) {
             this.levelUp();
         }
     }
@@ -238,7 +231,7 @@ public class Hero {
 
     public Integer experiencePercentToNextLevel() {
         long currentXp = this.experience;
-        double targetXp = this.level * LEVEL_MULTIPLIER;
+        double targetXp = this.level * XP_MULTIPLIER;
         double ratio = currentXp / targetXp;
         return Math.toIntExact(Math.round(ratio * 100));
     }

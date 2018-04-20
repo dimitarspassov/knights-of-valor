@@ -10,6 +10,7 @@ import com.dspassov.kovapi.areas.users.models.binding.RegisterUserBindingModel;
 import com.dspassov.kovapi.areas.users.models.service.RoleServiceModel;
 import com.dspassov.kovapi.areas.users.models.view.UserPageViewModel;
 import com.dspassov.kovapi.areas.users.models.view.UserViewModel;
+import com.dspassov.kovapi.exceptions.IllegalParamException;
 import com.dspassov.kovapi.repositories.UserRepository;
 import com.dspassov.kovapi.web.ResponseMessageConstants;
 import org.modelmapper.ModelMapper;
@@ -59,15 +60,15 @@ public class UserServiceImpl implements UserService {
     public String save(RegisterUserBindingModel model) {
 
         if (!model.getPassword().equals(model.getConfirmPassword())) {
-            throw new IllegalArgumentException(ResponseMessageConstants.PASSWORDS_MISMATCH);
+            throw new IllegalParamException(ResponseMessageConstants.PASSWORDS_MISMATCH);
         }
 
         if (this.userRepository.findByUsername(model.getUsername()) != null) {
-            throw new IllegalArgumentException(ResponseMessageConstants.EXISTING_USER);
+            throw new IllegalParamException(ResponseMessageConstants.EXISTING_USER);
         }
 
         if (this.heroService.findHeroByName(model.getHeroName()) != null) {
-            throw new IllegalArgumentException(ResponseMessageConstants.EXISTING_HERO);
+            throw new IllegalParamException(ResponseMessageConstants.EXISTING_HERO);
         }
 
         model.setPassword(this.passwordEncoder.encode(model.getPassword()));
@@ -126,12 +127,12 @@ public class UserServiceImpl implements UserService {
     public String makeAdmin(String username) {
         User adminCandidate = this.userRepository.findByUsername(username);
         if (adminCandidate == null) {
-            throw new IllegalArgumentException(ResponseMessageConstants.NON_EXISTENT_USER);
+            throw new IllegalParamException(ResponseMessageConstants.NON_EXISTENT_USER);
         }
 
         for (Role role : adminCandidate.getRoles()) {
             if (role.getRoleName().equals(RoleName.ROLE_ADMIN)) {
-                throw new IllegalArgumentException(ResponseMessageConstants.ALREADY_ADMIN);
+                throw new IllegalParamException(ResponseMessageConstants.ALREADY_ADMIN);
             }
         }
 
@@ -146,7 +147,7 @@ public class UserServiceImpl implements UserService {
     public String removeAdmin(String username) {
         User admin = this.userRepository.findByUsername(username);
         if (admin == null) {
-            throw new IllegalArgumentException(ResponseMessageConstants.NON_EXISTENT_USER);
+            throw new IllegalParamException(ResponseMessageConstants.NON_EXISTENT_USER);
         }
 
         Set<Role> newRoles = new HashSet<>();
@@ -157,7 +158,7 @@ public class UserServiceImpl implements UserService {
         }
 
         if (newRoles.size() == admin.getRoles().size()) {
-            throw new IllegalArgumentException(ResponseMessageConstants.USER_NOT_ADMIN);
+            throw new IllegalParamException(ResponseMessageConstants.USER_NOT_ADMIN);
         }
 
         admin.setRoles(newRoles);

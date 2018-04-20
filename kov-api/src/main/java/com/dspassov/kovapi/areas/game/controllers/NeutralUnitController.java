@@ -4,9 +4,8 @@ import com.dspassov.kovapi.areas.game.models.binding.NeutralUnitBindingModel;
 import com.dspassov.kovapi.areas.game.models.view.NeutralUnitPageViewModel;
 import com.dspassov.kovapi.areas.game.models.view.NeutralUnitViewModel;
 import com.dspassov.kovapi.areas.game.services.NeutralUnitService;
-import com.dspassov.kovapi.exceptions.CloudStorageException;
 import com.dspassov.kovapi.web.BaseController;
-import com.dspassov.kovapi.web.ResponseMessageConstants;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -40,13 +39,7 @@ public class NeutralUnitController extends BaseController {
                     .get(0).getDefaultMessage());
         }
 
-        try {
-            return this.success(this.unitService.save(unit, image));
-        } catch (IllegalArgumentException | CloudStorageException exception) {
-            return this.error(exception.getMessage());
-        } catch (Exception e) {
-            return this.error(ResponseMessageConstants.GENERIC_ERROR);
-        }
+        return this.success(this.unitService.save(unit, image));
     }
 
     @GetMapping("/api/neutrals")
@@ -67,12 +60,8 @@ public class NeutralUnitController extends BaseController {
     @ResponseBody
     public String editNeutralUnit(@PathVariable String id) {
 
-        try {
-            NeutralUnitViewModel unit = this.unitService.getUnitById(id);
-            return this.objectToJson(unit);
-        } catch (IllegalArgumentException e) {
-            return this.error(e.getMessage());
-        }
+        NeutralUnitViewModel unit = this.unitService.getUnitById(id);
+        return this.objectToJson(unit);
     }
 
     @PostMapping("/api/admin/neutrals/{id}")
@@ -87,13 +76,7 @@ public class NeutralUnitController extends BaseController {
                     .get(0).getDefaultMessage());
         }
 
-        try {
-            return this.success(this.unitService.updateUnit(id, unit, null));
-        } catch (IllegalArgumentException | CloudStorageException exception) {
-            return this.error(exception.getMessage());
-        } catch (Exception e) {
-            return this.error(ResponseMessageConstants.GENERIC_ERROR);
-        }
+        return this.success(this.unitService.updateUnit(id, unit, null));
     }
 
     @PostMapping("/api/admin/neutrals/newimg/{id}")
@@ -109,23 +92,12 @@ public class NeutralUnitController extends BaseController {
                     .get(0).getDefaultMessage());
         }
 
-        try {
-            return this.success(this.unitService.updateUnit(id, unit, image));
-        } catch (IllegalArgumentException | CloudStorageException exception) {
-            return this.error(exception.getMessage());
-        } catch (Exception e) {
-            return this.error(ResponseMessageConstants.GENERIC_ERROR);
-        }
+        return this.success(this.unitService.updateUnit(id, unit, image));
     }
 
     @PostMapping("/api/admin/neutrals/{id}/status/{status}")
     public String changeStatus(@PathVariable String id, @PathVariable boolean status) {
 
-        try {
-            return this.success(this.unitService.changeStatus(id, status));
-        } catch (Exception e) {
-            return this.error(ResponseMessageConstants.GENERIC_ERROR);
-        }
-
+        return this.success(this.unitService.changeStatus(id, status));
     }
 }

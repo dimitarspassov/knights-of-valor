@@ -2,6 +2,7 @@ package com.dspassov.kovapi.exceptions;
 
 import com.dspassov.kovapi.web.ResponseMessageConstants;
 
+@GameException
 public class HeroWorkException extends RuntimeException {
 
 

@@ -33,26 +33,14 @@ public class AdminController extends BaseController {
     @PostMapping("/new-admin/{username}")
     public String makeAdmin(@PathVariable(name = "username") String username) {
 
-        try {
-            return this.success(this.userService.makeAdmin(username));
-        } catch (IllegalArgumentException e) {
-            return this.error(e.getMessage());
-        } catch (Exception ex) {
-            return this.error(ResponseMessageConstants.GENERIC_ERROR);
-        }
+        return this.success(this.userService.makeAdmin(username));
     }
 
 
     @PostMapping("/remove-admin/{username}")
     public String removeAdmin(@PathVariable(name = "username") String username) {
 
-        try {
-            return this.success(this.userService.removeAdmin(username));
-        } catch (IllegalArgumentException e) {
-            return this.error(e.getMessage());
-        } catch (Exception ex) {
-            return this.error(ResponseMessageConstants.GENERIC_ERROR);
-        }
+        return this.success(this.userService.removeAdmin(username));
     }
 
 }

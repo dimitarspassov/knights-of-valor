@@ -2,14 +2,12 @@ package com.dspassov.kovapi.areas.game.entities;
 
 import com.dspassov.kovapi.exceptions.InventoryFullException;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.security.core.parameters.P;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
