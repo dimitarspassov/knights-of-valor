@@ -11,6 +11,8 @@ public interface NeutralUnitService {
 
     NeutralUnitPageViewModel findUnitsByPage(int page, int size);
 
+    NeutralUnitPageViewModel findFreeUnitsByPage(int page, int size);
+
     String save(NeutralUnitBindingModel neutral, MultipartFile image);
 
     NeutralUnitViewModel getUnitById(String id);
@@ -18,4 +20,6 @@ public interface NeutralUnitService {
     String updateUnit(String id, NeutralUnitBindingModel neutral, MultipartFile newImage);
 
     String changeStatus(String unitId, boolean newStatus);
+
+    void triggerSpecialUnits(boolean makeFree);
 }

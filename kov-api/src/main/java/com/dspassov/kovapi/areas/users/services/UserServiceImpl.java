@@ -1,7 +1,7 @@
 package com.dspassov.kovapi.areas.users.services;
 
 import com.dspassov.kovapi.areas.game.entities.Hero;
-import com.dspassov.kovapi.areas.game.models.HeroServiceModel;
+import com.dspassov.kovapi.areas.game.models.service.HeroServiceModel;
 import com.dspassov.kovapi.areas.game.services.HeroService;
 import com.dspassov.kovapi.areas.users.entities.Role;
 import com.dspassov.kovapi.areas.users.entities.User;
@@ -11,7 +11,6 @@ import com.dspassov.kovapi.areas.users.models.service.RoleServiceModel;
 import com.dspassov.kovapi.areas.users.models.view.UserPageViewModel;
 import com.dspassov.kovapi.areas.users.models.view.UserViewModel;
 import com.dspassov.kovapi.repositories.UserRepository;
-import com.dspassov.kovapi.security.SecurityService;
 import com.dspassov.kovapi.web.ResponseMessageConstants;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

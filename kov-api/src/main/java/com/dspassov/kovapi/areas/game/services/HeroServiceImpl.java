@@ -4,7 +4,8 @@ import com.dspassov.kovapi.areas.game.common.HeroFactory;
 import com.dspassov.kovapi.areas.game.common.ItemFactory;
 import com.dspassov.kovapi.areas.game.entities.*;
 import com.dspassov.kovapi.areas.game.enumerations.ItemType;
-import com.dspassov.kovapi.areas.game.models.HeroServiceModel;
+import com.dspassov.kovapi.areas.game.models.service.HeroCombatServiceModel;
+import com.dspassov.kovapi.areas.game.models.service.HeroServiceModel;
 import com.dspassov.kovapi.areas.game.models.view.BattleSetViewModel;
 import com.dspassov.kovapi.areas.game.models.view.HeroViewModel;
 import com.dspassov.kovapi.areas.game.models.view.InventoryViewModel;
@@ -17,26 +18,28 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class HeroServiceImpl implements HeroService {
 
+    private static final Integer MINUTES_BETWEEN_FIGHTS = 30;
+    private static final Integer OLD_ITEM_PRICE_DIVISIOR = 3;
+
     private final HeroRepository heroRepository;
     private final ModelMapper modelMapper;
     private final SecurityService securityService;
     private final ItemService itemService;
-    private final GameCalculationsService calculationsService;
     private final InventoryItemService inventoryItemService;
 
     @Autowired
-    public HeroServiceImpl(HeroRepository heroRepository, ModelMapper modelMapper, SecurityService securityService, ItemService itemService, GameCalculationsService calculationsService, InventoryItemService inventoryItemService) {
+    public HeroServiceImpl(HeroRepository heroRepository, ModelMapper modelMapper, SecurityService securityService, ItemService itemService, InventoryItemService inventoryItemService) {
         this.heroRepository = heroRepository;
         this.modelMapper = modelMapper;
         this.securityService = securityService;
         this.itemService = itemService;
-        this.calculationsService = calculationsService;
         this.inventoryItemService = inventoryItemService;
     }
 
@@ -61,7 +64,11 @@ public class HeroServiceImpl implements HeroService {
 
     @Override
     public HeroViewModel getCurrentHero() {
-        return this.modelMapper.map(this.getHeroOfCurrentUser(), HeroViewModel.class);
+        Hero hero = this.getHeroOfCurrentUser();
+        HeroViewModel model = this.modelMapper.map(hero, HeroViewModel.class);
+
+        model.setExperienceTillNextLevel(hero.experiencePercentToNextLevel());
+        return model;
     }
 
     @Override
@@ -138,8 +145,13 @@ public class HeroServiceImpl implements HeroService {
         for (InventoryItem inventoryItem : currentItems) {
 
             if (!sold && itemId.equals(inventoryItem.getItem().getId()) && inventoryItem.getCount() > 0) {
+
+                if (this.isItemInBattleSet(inventoryItem, hero.getBattleSet())) {
+                    throw new IllegalArgumentException(ResponseMessageConstants.ITEM_IN_BATTLE_SET);
+                }
+
                 inventoryItem.decrementCount();
-                int itemPrice = this.calculationsService.getInventoryItemPrice(inventoryItem.getItem().getPrice());
+                int itemPrice = inventoryItem.getItem().getPrice() / OLD_ITEM_PRICE_DIVISIOR;
                 hero.addGold((long) itemPrice);
                 sold = true;
             }
@@ -226,8 +238,72 @@ public class HeroServiceImpl implements HeroService {
         this.heroRepository.save(hero);
     }
 
+    @Override
+    public HeroCombatServiceModel getHeroCombatModel() {
+        Hero hero = this.getHeroOfCurrentUser();
+
+        HeroCombatServiceModel model = this.modelMapper.map(hero, HeroCombatServiceModel.class);
+        model.setBattleSet(this.getBattleSet());
+        return model;
+    }
+
+    @Override
+    public boolean isHeroReadyToFight() {
+        Hero hero = this.getHeroOfCurrentUser();
+        LocalDateTime lastFightDate = hero.getLastFightDate();
+
+        if (hero.getGold() <= 0) {
+            return false;
+        }
+
+        return lastFightDate == null || lastFightDate.plusMinutes(MINUTES_BETWEEN_FIGHTS).isBefore(LocalDateTime.now());
+
+    }
+
+    @Override
+    public void getLootFromHero(Long loot) {
+        Hero hero = this.getHeroOfCurrentUser();
+        hero.subtractGold(loot);
+        this.heroRepository.save(hero);
+    }
+
+    @Override
+    public void setTimeOfLastFight() {
+        Hero hero = this.getHeroOfCurrentUser();
+        hero.setLastFightDate(LocalDateTime.now());
+        this.heroRepository.save(hero);
+    }
+
+    @Override
+    public void addExperiencePoints(Long experience) {
+        Hero hero = this.getHeroOfCurrentUser();
+        hero.addExperience(experience);
+        this.heroRepository.save(hero);
+    }
+
     private Hero getHeroOfCurrentUser() {
         String currentUser = this.securityService.getCurrentPrincipal();
         return this.heroRepository.findByUser(currentUser);
+    }
+
+    private boolean isItemInBattleSet(InventoryItem item, BattleSet battleSet) {
+        if (battleSet.getWeapon() != null &&
+                item.getItem().getId().equals(battleSet.getWeapon().getId())
+                && item.getCount() < 2) {
+            return true;
+        }
+
+        if (battleSet.getArmor() != null &&
+                item.getItem().getId().equals(battleSet.getArmor().getId())
+                && item.getCount() < 2) {
+            return true;
+        }
+
+        if (battleSet.getShield() != null && item.getItem().getId().equals(battleSet.getShield().getId())
+                && item.getCount() < 2) {
+            return true;
+        }
+
+        return false;
     }
 }

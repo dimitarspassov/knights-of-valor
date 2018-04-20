@@ -56,6 +56,13 @@ public class NeutralUnitController extends BaseController {
         return this.objectToJson(model);
     }
 
+    @GetMapping("/api/game/neutrals")
+    @ResponseBody
+    public String allFreeNeutralsByPage(@RequestParam("page") int page, @RequestParam("size") int size) {
+        NeutralUnitPageViewModel model = this.unitService.findFreeUnitsByPage(page, size);
+        return this.objectToJson(model);
+    }
+
     @GetMapping("/api/admin/neutrals/{id}")
     @ResponseBody
     public String editNeutralUnit(@PathVariable String id) {

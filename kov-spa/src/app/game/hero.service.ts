@@ -18,6 +18,7 @@ export class HeroService {
   private readonly ABANDON_JOB_URL = 'api/game/hero/job/abandon/';
   private readonly FINISH_JOB_URL = 'api/game/hero/job/finish/';
   private readonly IS_AT_WORK_URL = 'api/game/hero/job';
+  private readonly FIGHT_NEUTRAL_URL = 'api/game/hero/neutrals/fight/';
 
   private hero: Subject<HeroModel> = new BehaviorSubject<HeroModel>(null);
   hero$ = this.hero.asObservable();
@@ -80,6 +81,11 @@ export class HeroService {
     return this.httpService.post(url, null, true);
   }
 
+  fightNeutral(unitId: string) {
+    const url = this.FIGHT_NEUTRAL_URL + unitId;
+    return this.httpService.post(url, null, true);
+  }
+
   public doRefreshHero() {
     this.loadHero().subscribe(
       result => {
@@ -100,6 +106,7 @@ export class HeroService {
     hero.strength = object.strength;
     hero.stamina = object.stamina;
     hero.defense = object.defense;
+    hero.xpPercentage = object.experienceTillNextLevel;
     return hero;
 
   }

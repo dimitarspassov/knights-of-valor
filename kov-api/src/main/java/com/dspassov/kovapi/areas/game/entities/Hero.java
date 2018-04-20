@@ -14,6 +14,9 @@ import java.time.LocalDateTime;
 @Table(name = "heroes")
 public class Hero {
 
+
+    //todo: fix
+    private static final Integer LEVEL_MULTIPLIER = 1000;
     private static final int LEVEL_MIN = 1;
     private static final int HEALTH_MIN = 10;
     private static final int STRENGTH_MIN = 3;
@@ -193,5 +196,50 @@ public class Hero {
 
     public void addGold(Long gold) {
         this.gold += gold;
+    }
+
+    public void subtractGold(Long gold) {
+        this.gold -= gold;
+        if (this.gold < 0) {
+            this.gold = 0L;
+        }
+    }
+
+    public void addExperience(Long experience) {
+        this.experience += experience;
+        if (this.experience >= this.level * LEVEL_MULTIPLIER) {
+            this.levelUp();
+        }
+    }
+
+    private void levelUp() {
+        this.level++;
+
+        if (this.level % 2 == 0) {
+            this.health += this.level * 2;
+            this.stamina++;
+            this.strength += this.level;
+            this.defense++;
+
+        } else if (this.level % 5 == 0) {
+            this.health += this.level;
+            this.strength++;
+            this.stamina += 5;
+            this.defense += this.level;
+        } else {
+            this.health += 10;
+            this.strength += this.level;
+            this.stamina += this.level;
+            this.defense++;
+        }
+
+        this.inventory.incrementSize();
+    }
+
+    public Integer experiencePercentToNextLevel() {
+        long currentXp = this.experience;
+        double targetXp = this.level * LEVEL_MULTIPLIER;
+        double ratio = currentXp / targetXp;
+        return Math.toIntExact(Math.round(ratio * 100));
     }
 }

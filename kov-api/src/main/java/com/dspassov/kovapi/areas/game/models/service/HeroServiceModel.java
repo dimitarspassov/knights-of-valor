@@ -1,4 +1,4 @@
-package com.dspassov.kovapi.areas.game.models;
+package com.dspassov.kovapi.areas.game.models.service;
 
 public class HeroServiceModel {
 

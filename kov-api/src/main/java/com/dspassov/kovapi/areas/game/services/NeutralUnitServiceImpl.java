@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.stream.Collectors;
 
 
@@ -84,18 +85,17 @@ public class NeutralUnitServiceImpl implements NeutralUnitService {
         return model;
     }
 
+    @Override
     public NeutralUnitPageViewModel findUnitsByPage(int page, int size) {
 
         Page<NeutralUnit> units = this.unitRepository.findAll(PageRequest.of(page, size));
+        return this.mapUnitsToPage(units);
+    }
 
-        NeutralUnitPageViewModel unitPage = this.modelMapper.map(units, NeutralUnitPageViewModel.class);
-        unitPage.setAllPages(units.getTotalPages());
-        unitPage.setUnits(units.getContent()
-                .stream()
-                .map(u -> this.modelMapper.map(u, NeutralUnitViewModel.class))
-                .collect(Collectors.toList()));
-
-        return unitPage;
+    @Override
+    public NeutralUnitPageViewModel findFreeUnitsByPage(int page, int size) {
+        Page<NeutralUnit> units = this.unitRepository.findAllByFree(true, PageRequest.of(page, size));
+        return this.mapUnitsToPage(units);
     }
 
     @Override
@@ -149,5 +149,25 @@ public class NeutralUnitServiceImpl implements NeutralUnitService {
         }
 
         return ResponseMessageConstants.UNIT_EDITED;
+    }
+
+    @Override
+    public void triggerSpecialUnits(boolean makeFree) {
+        List<NeutralUnit> units = this.unitRepository.findAllByType(NeutralUnitType.Special);
+        for (NeutralUnit unit : units) {
+            unit.setFree(makeFree);
+            this.unitRepository.save(unit);
+        }
+    }
+
+    private NeutralUnitPageViewModel mapUnitsToPage(Page<NeutralUnit> units) {
+        NeutralUnitPageViewModel unitPage = this.modelMapper.map(units, NeutralUnitPageViewModel.class);
+        unitPage.setAllPages(units.getTotalPages());
+        unitPage.setUnits(units.getContent()
+                .stream()
+                .map(u -> this.modelMapper.map(u, NeutralUnitViewModel.class))
+                .collect(Collectors.toList()));
+
+        return unitPage;
     }
 }

@@ -6,7 +6,7 @@ public class HeroViewModel {
 
     private String name;
     private Integer level;
-    private Long experience;
+    private Integer experienceTillNextLevel;
     private Long gold;
     private Integer health;
     private Integer strength;
@@ -33,12 +33,12 @@ public class HeroViewModel {
         this.level = level;
     }
 
-    public Long getExperience() {
-        return experience;
+    public Integer getExperienceTillNextLevel() {
+        return experienceTillNextLevel;
     }
 
-    public void setExperience(Long experience) {
-        this.experience = experience;
+    public void setExperienceTillNextLevel(Integer experienceTillNextLevel) {
+        this.experienceTillNextLevel = experienceTillNextLevel;
     }
 
     public Long getGold() {

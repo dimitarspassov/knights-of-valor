@@ -3,6 +3,9 @@
     <h1 class="my-3">Wilderness</h1>
     <p class="col-sm-6 offset-sm-3">So you think you are brave enough to face the
       beasts and warriors outside the town gates?</p>
+    <br>
+    <p class="col-sm-6 offset-sm-3">Maybe you should avoid wandering out there in the night...Unless you want to face
+      some really dangerous creatures</p>
     <hr/>
   </div>
 </section>
@@ -12,39 +15,34 @@
 
     <div class="row">
 
-      <div class="col-md-6 col-lg-4">
-        <div class="card neutral-unit mb-4 box-shadow">
-          <img class="card-img-top" src="./assets/img/tmp/bear.png"
+      <div *ngFor="let unit of units" class="col-md-6 col-lg-4">
+        <div class="card neutral-unit mb-4 box-shadow" [ngClass]="{'special': unit.type=='Special'}">
+          <img class="card-img-top" src="{{unit.image}}"
                alt="Some shield">
           <div class="card-body">
-            <p class="card-text text-center">Legendary Bear</p>
+            <p class="card-text text-center">{{unit.name}}</p>
             <div class="d-flex justify-content-between align-items-center">
               <div class="btn-group">
-                <button type="button" class="btn btn-sm btn-outline-light">Fight</button>
+                <button (click)="fightWithNeutral(unit.id)" type="button" class="btn btn-sm btn-outline-light">Fight</button>
               </div>
-              <span class="badge badge-pill badge-danger">Level: 5</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-6 col-lg-4">
-        <div class="card neutral-unit mb-4 box-shadow">
-          <img class="card-img-top" src="./assets/img/tmp/wolf.jpg"
-               alt="Some shield">
-          <div class="card-body">
-            <p class="card-text text-center">Ancient Wolf</p>
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="btn-group">
-                <button type="button" class="btn btn-sm btn-outline-light">Fight</button>
-              </div>
-              <span class="badge badge-pill badge-danger">Level: 5</span>
+              <span class="badge badge-pill badge-danger">Level: {{unit.level}}</span>
             </div>
           </div>
         </div>
       </div>
 
 
+    </div>
+
+    <div class="text-center my-5">
+      <ul class="paging">
+        <li class="page-item" [ngClass]="{'disabled': prevDisabled}">
+          <button (click)="prevPage()" class="page-link">&laquo;</button>
+        </li>
+        <li class="page-item" [ngClass]="{'disabled': nextDisabled}">
+          <button (click)="nextPage()" class="page-link">&raquo;</button>
+        </li>
+      </ul>
     </div>
   </div>
 </div>

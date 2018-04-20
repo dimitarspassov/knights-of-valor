@@ -1,7 +1,9 @@
 package com.dspassov.kovapi.areas.game.controllers;
 
+import com.dspassov.kovapi.areas.game.services.CombatService;
 import com.dspassov.kovapi.areas.game.services.HeroJobService;
 import com.dspassov.kovapi.areas.game.services.HeroService;
+import com.dspassov.kovapi.exceptions.HeroFightException;
 import com.dspassov.kovapi.exceptions.HeroWorkException;
 import com.dspassov.kovapi.exceptions.InsufficientFundsException;
 import com.dspassov.kovapi.exceptions.InventoryFullException;
@@ -16,11 +18,13 @@ public class HeroController extends BaseController {
 
     private final HeroService heroService;
     private final HeroJobService heroJobService;
+    private final CombatService combatService;
 
     @Autowired
-    public HeroController(HeroService heroService, HeroJobService heroJobService) {
+    public HeroController(HeroService heroService, HeroJobService heroJobService, CombatService combatService) {
         this.heroService = heroService;
         this.heroJobService = heroJobService;
+        this.combatService = combatService;
     }
 
     @GetMapping("")
@@ -63,6 +67,8 @@ public class HeroController extends BaseController {
 
         try {
             return this.success(this.heroService.sellItem(itemId));
+        } catch (IllegalArgumentException ex) {
+            return this.error(ex.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
             return this.error(ResponseMessageConstants.GENERIC_ERROR);
@@ -133,6 +139,19 @@ public class HeroController extends BaseController {
     @GetMapping("/job")
     public String isHeroAtWork() {
         return this.objectToJson(this.heroJobService.getCurrentJob());
+    }
+
+    @PostMapping("/neutrals/fight/{unitId}")
+    public String fightNeutral(@PathVariable String unitId) {
+
+        try {
+            return this.success(this.combatService.heroFightWithNeutral(unitId));
+        } catch (HeroWorkException | HeroFightException ex) {
+            return this.error(ex.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return this.error(ResponseMessageConstants.GENERIC_ERROR);
+        }
     }
 }
 

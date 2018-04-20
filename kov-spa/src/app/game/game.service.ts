@@ -8,6 +8,7 @@ export class GameService {
 
   private readonly ITEMS_URL = 'api/items';
   private readonly UNITS_URL = 'api/neutrals';
+  private readonly FREE_UNITS_URL = 'api/game/neutrals';
   private readonly JOBS_URL = 'api/jobs';
 
   constructor(private httpService: HttpService) {
@@ -41,6 +42,10 @@ export class GameService {
     return this.httpService.get(url, true);
   }
 
+  getWildernessUnitsByPage(page, size) {
+    const url = this.FREE_UNITS_URL + `/?page=${page}&size=${size}`;
+    return this.httpService.get(url, true);
+  }
 
 
 }

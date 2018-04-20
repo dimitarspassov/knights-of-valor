@@ -2,6 +2,7 @@ package com.dspassov.kovapi.areas.game.entities;
 
 import com.dspassov.kovapi.exceptions.InventoryFullException;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.security.core.parameters.P;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -95,4 +96,12 @@ public class Inventory {
 
         this.getItems().add(item);
     }
+
+    public void incrementSize() {
+        if (this.size < 20) {
+            this.size++;
+        }
+
+    }
+
 }

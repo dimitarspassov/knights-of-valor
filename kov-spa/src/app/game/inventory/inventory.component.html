@@ -10,7 +10,21 @@
       <span class="badge badge-pill badge-light">Defence: {{currentHero.defense}}</span>
       <span class="badge badge-pill badge-light">Stamina: {{currentHero.stamina}}</span>
     </div>
+
+    <div *ngIf="currentHero" class="row my-5">
+      <div class="col-sm-8 offset-sm-2">
+        <h5>Experience to next level</h5>
+        <div class="progress">
+          <div class="bg-success progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+               [attr.aria-valuenow]="currentHero.xpPercentage"
+               aria-valuemin="0"
+               aria-valuemax="100"
+               [style.width]="currentHero.xpPercentage+'%'"></div>
+        </div>
+      </div>
+    </div>
     <hr/>
+
 
     <h3 class="my-5">Battle set</h3>
 
@@ -24,7 +38,9 @@
             <span class="badge badge-pill badge-success mb-3">{{battleSet.weapon.bonus}}+ Strength</span>
             <div>
               <div class="btn-group">
-                <button type="button" (click)="unequipItem(battleSet.weapon.id)" class="btn btn-sm btn-outline-warning">Remove</button>
+                <button type="button" (click)="unequipItem(battleSet.weapon.id)" class="btn btn-sm btn-outline-warning">
+                  Remove
+                </button>
               </div>
             </div>
           </div>
@@ -40,7 +56,9 @@
             <span class="badge badge-pill badge-success mb-3">{{helperService.getStaminaOfItem(battleSet.armor)}}+ Stamina</span>
             <div>
               <div class="btn-group">
-                <button type="button" (click)="unequipItem(battleSet.armor.id)" class="btn btn-sm btn-outline-warning">Remove</button>
+                <button type="button" (click)="unequipItem(battleSet.armor.id)" class="btn btn-sm btn-outline-warning">
+                  Remove
+                </button>
               </div>
             </div>
           </div>
@@ -55,7 +73,9 @@
             <span class="badge badge-pill badge-success mb-3">{{battleSet.shield.bonus}}+ Defense</span>
             <div>
               <div class="btn-group">
-                <button type="button" (click)="unequipItem(battleSet.shield.id)" class="btn btn-sm btn-outline-warning">Remove</button>
+                <button type="button" (click)="unequipItem(battleSet.shield.id)" class="btn btn-sm btn-outline-warning">
+                  Remove
+                </button>
               </div>
             </div>
           </div>

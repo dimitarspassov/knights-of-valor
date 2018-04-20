@@ -1,6 +1,7 @@
 package com.dspassov.kovapi.repositories;
 
 import com.dspassov.kovapi.areas.game.entities.NeutralUnit;
+import com.dspassov.kovapi.areas.game.enumerations.NeutralUnitType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -16,5 +17,9 @@ public interface NeutralUnitRepository extends PagingAndSortingRepository<Neutra
     @Override
     List<NeutralUnit> findAll();
 
+    List<NeutralUnit> findAllByType(NeutralUnitType type);
+
     Page<NeutralUnit> findAll(Pageable pageable);
+
+    Page<NeutralUnit> findAllByFree(Boolean isFree, Pageable pageable);
 }

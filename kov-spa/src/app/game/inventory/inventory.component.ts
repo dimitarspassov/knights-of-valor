@@ -3,6 +3,7 @@ import {HeroService} from '../hero.service';
 import {NotificationService} from '../../core/notifications/notification.service';
 import {AppConstants} from '../../app-constants';
 import {HelperService} from '../../utils/helper.service';
+import {HeroModel} from '../hero.model';
 
 @Component({
   selector: 'inventory',
@@ -15,9 +16,12 @@ export class InventoryComponent implements OnInit {
   private items;
   private maxSize: number;
 
+  currentHero: HeroModel;
+
   constructor(private heroService: HeroService,
               private helperService: HelperService,
               private notificationService: NotificationService) {
+    this.heroService.hero$.subscribe(n => this.currentHero = n);
   }
 
 
@@ -26,10 +30,9 @@ export class InventoryComponent implements OnInit {
     this.reloadInventory();
   }
 
-
   sellItem(itemId: string) {
     this.heroService.sellItem(itemId).subscribe(
-      result => result => this.handleResponse(result),
+      result => this.handleResponse(result),
       error => this.notificationService.showError(AppConstants.GENERIC_ERROR_MESSAGE)
     );
   }
