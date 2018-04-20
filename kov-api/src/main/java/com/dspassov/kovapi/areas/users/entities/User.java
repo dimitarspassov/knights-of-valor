@@ -1,7 +1,6 @@
 package com.dspassov.kovapi.areas.users.entities;
 
 import com.dspassov.kovapi.areas.game.entities.Hero;
-import com.dspassov.kovapi.areas.messages.entities.Message;
 import com.dspassov.kovapi.areas.users.common.UserDomainConstants;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Length;
@@ -48,12 +47,6 @@ public class User implements UserDetails {
     @OneToOne(optional = false)
     @JoinColumn(name = "hero_id", referencedColumnName = "id")
     private Hero hero;
-
-    @OneToMany(mappedBy = "sender")
-    private Set<Message> messagesSent;
-
-    @OneToMany(mappedBy = "recipient")
-    private Set<Message> messagesReceived;
 
 
     public User() {
@@ -104,23 +97,6 @@ public class User implements UserDetails {
 
     public void setHero(Hero hero) {
         this.hero = hero;
-    }
-
-
-    public Set<Message> getMessagesSent() {
-        return messagesSent;
-    }
-
-    public void setMessagesSent(Set<Message> messagesSent) {
-        this.messagesSent = messagesSent;
-    }
-
-    public Set<Message> getMessagesReceived() {
-        return messagesReceived;
-    }
-
-    public void setMessagesReceived(Set<Message> messagesReceived) {
-        this.messagesReceived = messagesReceived;
     }
 
     @Override

@@ -6,7 +6,6 @@ import {AppComponent} from './app.component';
 import {AppRoutesModule} from './routing/routes.module';
 import {IndexModule} from './index/index.module';
 import {GameModule} from './game/game.module';
-import {MessagesModule} from './messages/messages.module';
 import {AdminModule} from './admin/admin.module';
 import {HttpModule} from '@angular/http';
 import {CoreModule} from './core/core.module';
@@ -24,7 +23,6 @@ import {CoreModule} from './core/core.module';
     CoreModule,
     IndexModule,
     GameModule,
-    MessagesModule,
     AdminModule
   ],
   providers: [],

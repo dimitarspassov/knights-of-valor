@@ -11,9 +11,6 @@ import {MarketComponent} from '../game/market/market.component';
 import {WildernessComponent} from '../game/wilderness/wilderness.component';
 import {ArenaComponent} from '../game/arena/arena.component';
 import {WorkComponent} from '../game/work/work.component';
-import {InboxComponent} from '../messages/inbox/inbox.component';
-import {NewMessageComponent} from '../messages/new-message/new-message.component';
-import {SingleMessageComponent} from '../messages/single-message/single-message.component';
 import {AdminHomeComponent} from '../admin/admin-home/admin-home.component';
 import {ItemsComponent} from '../admin/items/index/items.component';
 import {AddItemComponent} from '../admin/items/add/add-item.component';
@@ -52,15 +49,6 @@ const routes: Routes = [
       {path: 'wilderness', component: WildernessComponent, canActivate: [PrivateRoute]},
       {path: 'arena', component: ArenaComponent, canActivate: [PrivateRoute]},
       {path: 'work', component: WorkComponent, canActivate: [PrivateRoute]}
-    ]
-  },
-  {
-    path: 'messages',
-    component: GameComponent,
-    children: [
-      {path: '', component: InboxComponent, canActivate: [PrivateRoute]},
-      {path: 'new', component: NewMessageComponent, canActivate: [PrivateRoute]},
-      {path: ':id', component: SingleMessageComponent, canActivate: [PrivateRoute]}
     ]
   },
   {
