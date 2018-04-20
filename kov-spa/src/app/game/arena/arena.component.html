@@ -26,68 +26,20 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>Gandalf</td>
-          <td>52</td>
+        <tr *ngFor="let hero of heroes; let i = index"
+            [attr.data-index]="i"
+            [ngClass]="{'table-active': hero.name===currentHero.name}"
+        >
+          <th scope="row">{{i+1}}</th>
+          <td>{{hero.name}}</td>
+          <td>{{hero.level}}</td>
           <td>
-            <button class="btn btn-outline-warning">Challenge</button>
-          </td>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>Sauron</td>
-          <td>41</td>
-          <td>
-            <button class="btn btn-outline-warning">Challenge</button>
-          </td>
-        </tr>
-        <tr class="table-active">
-          <th scope="row">3</th>
-          <td>dspassov</td>
-          <td>30</td>
-          <td></td>
-        </tr>
-        <tr>
-          <th scope="row">4</th>
-          <td>testUser</td>
-          <td>6</td>
-          <td>
-            <button class="btn btn-outline-warning">Challenge</button>
+            <button *ngIf="currentHero!=undefined && hero.name!==currentHero.name" (click)="fight(hero.id)"  class="btn btn-outline-warning">Challenge</button>
           </td>
         </tr>
       </table>
 
     </div>
 
-    <h3 class="text-center mb-3 mt-5">Random Warriors</h3>
-    <div class="row">
-
-      <table class="table table-hover text-center">
-        <thead>
-        <tr class="table-warning">
-          <th scope="col">Hero</th>
-          <th scope="col">Level</th>
-          <th scope="col">Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td>Gandalf</td>
-          <td>52</td>
-          <td>
-            <button class="btn btn-outline-warning">Challenge</button>
-          </td>
-        </tr>
-        <tr>
-          <td>testUser</td>
-          <td>6</td>
-          <td>
-            <button class="btn btn-outline-warning">Challenge</button>
-          </td>
-        </tr>
-      </table>
-
-    </div>
   </div>
 </div>

@@ -44,7 +44,6 @@ export class HelperService {
    */
   minutesToTimeWithSeconds(seconds) {
     let s = '0' + (seconds % 60);
-
     let val = this.minutesToTime(Math.trunc(seconds / 60)) + `:${s.substr(-2)}`;
     return val;
   }

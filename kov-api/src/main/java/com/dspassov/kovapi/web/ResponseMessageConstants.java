@@ -48,9 +48,12 @@ public final class ResponseMessageConstants {
     public static final String CLOUD_UPLOAD_ERROR = "An error occurred. Please, make sure the image is in the correct format and its size is below 3MB.";
     public static final String JOB_FINISHED = "Job finished. %d gold earned.";
 
-    public static final String HERO_CANNOT_FIGHT = "This hero is still not recovered from the last fight.";
+    public static final String HERO_CANNOT_FIGHT = "Your hero is still not recovered from the last fight.";
     public static final String FIGHT_LOST = "Unfortunately, %s has lost the fight. Some gold will be spent for recovery.";
     public static final String FIGHT_WON = "%s has won the fight! Experience is gained, as well as loot gold!";
+    public static final String NON_EXISTENT_HERO = "A hero with this id does not exits.";
+    public static final String CANNOT_TARGET_HIMSELF = "The enemy hero id must be different from the current hero id.";
+    public static final String FIGHT_DRAWN = "The fight ended without a winner. %s needs rest now.";
 
 
     private ResponseMessageConstants() {

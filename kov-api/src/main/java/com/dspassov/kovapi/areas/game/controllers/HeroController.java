@@ -37,6 +37,16 @@ public class HeroController extends BaseController {
         }
     }
 
+    @GetMapping("/arena")
+    public String getArenaHeroes() {
+        try {
+            return this.objectToJson(this.heroService.getHeroesForArena());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return this.error(ResponseMessageConstants.GENERIC_ERROR);
+        }
+    }
+
     @PostMapping("/items/buy/{id}")
     public String buyItem(@PathVariable String id) {
 
@@ -146,6 +156,19 @@ public class HeroController extends BaseController {
 
         try {
             return this.success(this.combatService.heroFightWithNeutral(unitId));
+        } catch (HeroWorkException | HeroFightException ex) {
+            return this.error(ex.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return this.error(ResponseMessageConstants.GENERIC_ERROR);
+        }
+    }
+
+    @PostMapping("/arena/fight/{heroId}")
+    public String fightHero(@PathVariable String heroId) {
+
+        try {
+            return this.success(this.combatService.heroFightOnArena(heroId));
         } catch (HeroWorkException | HeroFightException ex) {
             return this.error(ex.getMessage());
         } catch (Exception e) {

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 public class CombatServiceImpl implements CombatService {
 
     private static final Integer LEVEL_MULTIPLIER = 100;
+    private static final Long ARENA_MULTIPLIER = 120L;
     private static final Long EXPERIENCE_MULTIPLIER = 101L;
     private static final Integer HEALTH_MULTIPLIER = 2;
     private static final Long LOOT_MULTIPLIER = 3L;
@@ -35,13 +36,7 @@ public class CombatServiceImpl implements CombatService {
     @Override
     public String heroFightWithNeutral(String neutralUnitId) {
 
-        if (this.heroJobService.isAtWork()) {
-            throw new HeroWorkException();
-        }
-
-        if (!this.heroService.isHeroReadyToFight()) {
-            throw new HeroFightException();
-        }
+        this.isHeroAvailableForFight();
 
         HeroCombatServiceModel hero = this.heroService.getHeroCombatModel();
         NeutralUnitViewModel neutralUnit = this.neutralUnitService.getUnitById(neutralUnitId);
@@ -54,10 +49,42 @@ public class CombatServiceImpl implements CombatService {
         if (heroPoints < neutralUnitPoints) {
             this.heroService.getLootFromHero(neutralUnit.getLootGold() * LOOT_MULTIPLIER);
             return String.format(ResponseMessageConstants.FIGHT_LOST, hero.getName());
+        } else if (heroPoints == neutralUnitPoints) {
+            return String.format(ResponseMessageConstants.FIGHT_DRAWN, hero.getName());
         }
 
         this.heroService.addExperiencePoints(Math.max(neutralUnit.getLevel() - hero.getLevel(), 1) * EXPERIENCE_MULTIPLIER);
         this.heroService.payHeroSalary(Long.valueOf(neutralUnit.getLootGold()));
+
+        return String.format(ResponseMessageConstants.FIGHT_WON, hero.getName());
+    }
+
+    @Override
+    public String heroFightOnArena(String enemyHeroId) {
+
+        this.isHeroAvailableForFight();
+
+        HeroCombatServiceModel hero = this.heroService.getHeroCombatModel();
+        HeroCombatServiceModel enemy = this.heroService.getHeroById(enemyHeroId);
+
+        if (hero.getId().equals(enemy.getId())) {
+            throw new HeroFightException(ResponseMessageConstants.CANNOT_TARGET_HIMSELF);
+        }
+
+        long heroPoints = this.calculateHeroFightPoints(hero);
+        long enemyPoints = this.calculateHeroFightPoints(enemy);
+
+        this.heroService.setTimeOfLastFight();
+
+        if (heroPoints < enemyPoints) {
+            this.heroService.getLootFromHero(enemy.getLevel() * ARENA_MULTIPLIER);
+            return String.format(ResponseMessageConstants.FIGHT_LOST, hero.getName());
+        } else if (heroPoints == enemyPoints) {
+            return String.format(ResponseMessageConstants.FIGHT_DRAWN, hero.getName());
+        }
+
+        this.heroService.addExperiencePoints(Math.max(enemy.getLevel() - hero.getLevel(), 1) * EXPERIENCE_MULTIPLIER);
+        this.heroService.payHeroSalary(enemy.getLevel() * ARENA_MULTIPLIER);
 
         return String.format(ResponseMessageConstants.FIGHT_WON, hero.getName());
     }
@@ -92,5 +119,15 @@ public class CombatServiceImpl implements CombatService {
         totalPoints += neutralUnit.getDefense();
         totalPoints += neutralUnit.getStamina();
         return totalPoints + (neutralUnit.getHealth() * HEALTH_MULTIPLIER);
+    }
+
+    private void isHeroAvailableForFight() {
+        if (this.heroJobService.isAtWork()) {
+            throw new HeroWorkException();
+        }
+
+        if (!this.heroService.isHeroReadyToFight()) {
+            throw new HeroFightException();
+        }
     }
 }

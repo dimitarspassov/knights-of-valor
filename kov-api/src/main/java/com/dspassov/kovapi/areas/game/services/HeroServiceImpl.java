@@ -6,10 +6,7 @@ import com.dspassov.kovapi.areas.game.entities.*;
 import com.dspassov.kovapi.areas.game.enumerations.ItemType;
 import com.dspassov.kovapi.areas.game.models.service.HeroCombatServiceModel;
 import com.dspassov.kovapi.areas.game.models.service.HeroServiceModel;
-import com.dspassov.kovapi.areas.game.models.view.BattleSetViewModel;
-import com.dspassov.kovapi.areas.game.models.view.HeroViewModel;
-import com.dspassov.kovapi.areas.game.models.view.InventoryViewModel;
-import com.dspassov.kovapi.areas.game.models.view.ItemViewModel;
+import com.dspassov.kovapi.areas.game.models.view.*;
 import com.dspassov.kovapi.exceptions.InsufficientFundsException;
 import com.dspassov.kovapi.repositories.HeroRepository;
 import com.dspassov.kovapi.security.SecurityService;
@@ -21,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class HeroServiceImpl implements HeroService {
@@ -212,23 +210,7 @@ public class HeroServiceImpl implements HeroService {
 
     @Override
     public BattleSetViewModel getBattleSet() {
-
-        BattleSet battleSet = this.getHeroOfCurrentUser().getBattleSet();
-        BattleSetViewModel battleSetViewModel = new BattleSetViewModel();
-        if (battleSet.getWeapon() != null) {
-            battleSetViewModel.setWeapon(this.modelMapper.map(battleSet.getWeapon(), ItemViewModel.class));
-        }
-
-        if (battleSet.getArmor() != null) {
-            battleSetViewModel.setArmor(this.modelMapper.map(battleSet.getArmor(), ItemViewModel.class));
-        }
-
-        if (battleSet.getShield() != null) {
-            battleSetViewModel.setShield(this.modelMapper.map(battleSet.getShield(), ItemViewModel.class));
-        }
-
-
-        return battleSetViewModel;
+        return this.getBattleSetOfHero(this.getHeroOfCurrentUser());
     }
 
     @Override
@@ -281,6 +263,31 @@ public class HeroServiceImpl implements HeroService {
         this.heroRepository.save(hero);
     }
 
+    @Override
+    public List<ArenaHeroViewModel> getHeroesForArena() {
+        List<Hero> topTen = this.heroRepository.findTop10ByOrderByLevelDescExperienceDesc();
+
+        if (topTen != null) {
+            return topTen.stream().map(h -> this.modelMapper.map(h, ArenaHeroViewModel.class))
+                    .collect(Collectors.toList());
+        }
+
+        return null;
+    }
+
+    @Override
+    public HeroCombatServiceModel getHeroById(String heroId) {
+        Hero target = this.heroRepository.findById(heroId).orElse(null);
+
+        if (target == null) {
+            throw new IllegalArgumentException(ResponseMessageConstants.NON_EXISTENT_HERO);
+        }
+
+        HeroCombatServiceModel combatModel = this.modelMapper.map(target, HeroCombatServiceModel.class);
+        combatModel.setBattleSet(this.getBattleSetOfHero(target));
+        return combatModel;
+    }
+
     private Hero getHeroOfCurrentUser() {
         String currentUser = this.securityService.getCurrentPrincipal();
         return this.heroRepository.findByUser(currentUser);
@@ -305,5 +312,25 @@ public class HeroServiceImpl implements HeroService {
         }
 
         return false;
+    }
+
+    private BattleSetViewModel getBattleSetOfHero(Hero hero) {
+
+        BattleSet battleSet = hero.getBattleSet();
+        BattleSetViewModel battleSetViewModel = new BattleSetViewModel();
+        if (battleSet.getWeapon() != null) {
+            battleSetViewModel.setWeapon(this.modelMapper.map(battleSet.getWeapon(), ItemViewModel.class));
+        }
+
+        if (battleSet.getArmor() != null) {
+            battleSetViewModel.setArmor(this.modelMapper.map(battleSet.getArmor(), ItemViewModel.class));
+        }
+
+        if (battleSet.getShield() != null) {
+            battleSetViewModel.setShield(this.modelMapper.map(battleSet.getShield(), ItemViewModel.class));
+        }
+
+
+        return battleSetViewModel;
     }
 }
