@@ -3,14 +3,14 @@ package com.dspassov.kovapi.exceptions;
 import com.dspassov.kovapi.web.ResponseMessageConstants;
 
 @GameException
-public class InventoryFullException extends RuntimeException {
+public class InventoryException extends RuntimeException {
 
 
-    public InventoryFullException(String message) {
+    public InventoryException(String message) {
         super(message);
     }
 
-    public InventoryFullException() {
+    public InventoryException() {
         super(ResponseMessageConstants.INVENTORY_FULL);
     }
 }

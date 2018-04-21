@@ -75,18 +75,17 @@ public class JobServiceImpl implements JobService {
         return model;
     }
 
+    @Override
     public JobPageViewModel findJobsByPage(int page, int size) {
 
+        Page<Job> jobs = this.jobRepository.findAllByStatus(true, PageRequest.of(page, size));
+        return this.mapJobsToPageViewModel(jobs);
+    }
+
+    @Override
+    public JobPageViewModel findJobsByPageRegardlessOfStatus(int page, int size) {
         Page<Job> jobs = this.jobRepository.findAll(PageRequest.of(page, size));
-
-        JobPageViewModel jobPage = this.modelMapper.map(jobs, JobPageViewModel.class);
-        jobPage.setAllPages(jobs.getTotalPages());
-        jobPage.setJobs(jobs.getContent()
-                .stream()
-                .map(j -> this.modelMapper.map(j, JobViewModel.class))
-                .collect(Collectors.toList()));
-
-        return jobPage;
+        return this.mapJobsToPageViewModel(jobs);
     }
 
     @Override
@@ -137,4 +136,15 @@ public class JobServiceImpl implements JobService {
         return ResponseMessageConstants.JOB_EDITED;
     }
 
+    private JobPageViewModel mapJobsToPageViewModel(Page<Job> jobs) {
+
+        JobPageViewModel jobPage = this.modelMapper.map(jobs, JobPageViewModel.class);
+        jobPage.setAllPages(jobs.getTotalPages());
+        jobPage.setJobs(jobs.getContent()
+                .stream()
+                .map(j -> this.modelMapper.map(j, JobViewModel.class))
+                .collect(Collectors.toList()));
+
+        return jobPage;
+    }
 }

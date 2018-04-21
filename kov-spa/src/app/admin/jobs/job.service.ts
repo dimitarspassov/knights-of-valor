@@ -9,10 +9,16 @@ export class JobService {
 
   private readonly ADD_JOB_URL = 'api/admin/jobs/add';
   private readonly GET_JOB_URL = 'api/admin/jobs/';
+  private readonly ALL_JOBS_URL = 'api/admin/jobs';
   private readonly EDIT_JOB_IMG_URL = 'api/admin/jobs/newimg/';
 
 
   constructor(private httpService: HttpService) {
+  }
+
+  getAllJobsByPage(page, size) {
+    const url = this.ALL_JOBS_URL + `/?page=${page}&size=${size}`;
+    return this.httpService.get(url, true);
   }
 
   addNewJob(job: AddJobModel) {

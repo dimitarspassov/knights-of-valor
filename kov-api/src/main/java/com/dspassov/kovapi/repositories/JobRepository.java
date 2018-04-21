@@ -18,4 +18,6 @@ public interface JobRepository extends PagingAndSortingRepository<Job, String> {
     List<Job> findAll();
 
     Page<Job> findAll(Pageable pageable);
+
+    Page<Job> findAllByStatus(boolean status, Pageable pageable);
 }

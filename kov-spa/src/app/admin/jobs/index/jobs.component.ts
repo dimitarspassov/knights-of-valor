@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {GameService} from '../../../game/game.service';
 import {NotificationService} from '../../../core/notifications/notification.service';
 import {JobService} from '../job.service';
 import {AppConstants} from '../../../app-constants';
@@ -21,7 +20,6 @@ export class JobsComponent implements OnInit {
   private prevDisabled = true;
 
   constructor(private jobService: JobService,
-              private gameService: GameService,
               private notificationService: NotificationService) {
     this.jobs = [];
   }
@@ -31,7 +29,7 @@ export class JobsComponent implements OnInit {
   }
 
   private fetchJobs(page) {
-    this.gameService.getJobsByPage(page, this.JOBS_PER_PAGE)
+    this.jobService.getAllJobsByPage(page, this.JOBS_PER_PAGE)
       .subscribe(
         result => {
           this.jobs = result.jobs;

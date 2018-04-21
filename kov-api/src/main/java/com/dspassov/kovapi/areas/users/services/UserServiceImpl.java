@@ -83,22 +83,6 @@ public class UserServiceImpl implements UserService {
         return ResponseMessageConstants.REGISTRATION_SUCCESSFUL;
     }
 
-    private Set<Role> getRolesForNewUser() {
-        List<User> allCurrentUsers = (List<User>) this.userRepository.findAll();
-        Set<Role> roles = new HashSet<>();
-
-        RoleServiceModel defaultRole = this.roleService.getRole(RoleName.ROLE_USER);
-        roles.add(this.modelMapper.map(defaultRole, Role.class));
-
-        if (allCurrentUsers.size() == 0) {
-            defaultRole = this.roleService.getRole(RoleName.ROLE_ADMIN);
-            roles.add(this.modelMapper.map(defaultRole, Role.class));
-            defaultRole = this.roleService.getRole(RoleName.ROLE_SUPERADMIN);
-            roles.add(this.modelMapper.map(defaultRole, Role.class));
-        }
-
-        return roles;
-    }
 
     @Override
     public UserPageViewModel getAllAdminUsers(int page, int size) {
@@ -166,6 +150,22 @@ public class UserServiceImpl implements UserService {
         return ResponseMessageConstants.ADMIN_REMOVED;
     }
 
+    private Set<Role> getRolesForNewUser() {
+        List<User> allCurrentUsers = (List<User>) this.userRepository.findAll();
+        Set<Role> roles = new HashSet<>();
+
+        RoleServiceModel defaultRole = this.roleService.getRole(RoleName.ROLE_USER);
+        roles.add(this.modelMapper.map(defaultRole, Role.class));
+
+        if (allCurrentUsers.size() == 0) {
+            defaultRole = this.roleService.getRole(RoleName.ROLE_ADMIN);
+            roles.add(this.modelMapper.map(defaultRole, Role.class));
+            defaultRole = this.roleService.getRole(RoleName.ROLE_SUPERADMIN);
+            roles.add(this.modelMapper.map(defaultRole, Role.class));
+        }
+
+        return roles;
+    }
 
     private RoleName getHighestRoleFrom(Set<Role> roles) {
 

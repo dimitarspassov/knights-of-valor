@@ -33,11 +33,6 @@ export class GameService {
     return this.httpService.get(url, true);
   }
 
-  getUnitsByPage(page, size) {
-    const url = this.UNITS_URL + `/?page=${page}&size=${size}`;
-    return this.httpService.get(url, true);
-  }
-
   getJobsByPage(page, size) {
     const url = this.JOBS_URL + `/?page=${page}&size=${size}`;
     return this.httpService.get(url, true);
@@ -51,6 +46,5 @@ export class GameService {
   getHeroesForArena() {
     return this.httpService.get(this.ARENA_URL, true);
   }
-
 
 }

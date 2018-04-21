@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface NeutralUnitService {
 
-    NeutralUnitPageViewModel findUnitsByPage(int page, int size);
+    NeutralUnitPageViewModel findUnitsByPageRegardlessOfStatus(int page, int size);
 
     NeutralUnitPageViewModel findFreeUnitsByPage(int page, int size);
 

@@ -21,5 +21,5 @@ public interface NeutralUnitRepository extends PagingAndSortingRepository<Neutra
 
     Page<NeutralUnit> findAll(Pageable pageable);
 
-    Page<NeutralUnit> findAllByFree(Boolean isFree, Pageable pageable);
+    Page<NeutralUnit> findAllByFreeAndStatus(Boolean isFree, boolean status, Pageable pageable);
 }

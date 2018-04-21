@@ -9,6 +9,7 @@ export class NeutralUnitService {
 
   private readonly ADD_UNIT_URL = 'api/admin/neutrals/add';
   private readonly GET_UNIT_URL = 'api/admin/neutrals/';
+  private readonly ALL_UNITS_URL = 'api/admin/neutrals';
   private readonly EDIT_UNIT_IMG_URL = 'api/admin/neutrals/newimg/';
 
 
@@ -33,6 +34,11 @@ export class NeutralUnitService {
 
 
     return this.httpService.post(this.ADD_UNIT_URL, formData, true, true);
+  }
+
+  getAllUnitsByPage(page, size) {
+    const url = this.ALL_UNITS_URL + `/?page=${page}&size=${size}`;
+    return this.httpService.get(url, true);
   }
 
   getUnitById(id: string) {

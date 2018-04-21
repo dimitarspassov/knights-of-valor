@@ -11,6 +11,8 @@ public interface JobService {
 
     String save(JobBindingModel job, MultipartFile image);
 
+    JobPageViewModel findJobsByPageRegardlessOfStatus(int page, int size);
+
     JobPageViewModel findJobsByPage(int page, int size);
 
     JobViewModel getJobById(String id);

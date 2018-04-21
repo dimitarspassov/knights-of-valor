@@ -42,10 +42,10 @@ public class NeutralUnitController extends BaseController {
         return this.success(this.unitService.save(unit, image));
     }
 
-    @GetMapping("/api/neutrals")
+    @GetMapping("/api/admin/neutrals")
     @ResponseBody
     public String allNeutralsByPage(@RequestParam("page") int page, @RequestParam("size") int size) {
-        NeutralUnitPageViewModel model = this.unitService.findUnitsByPage(page, size);
+        NeutralUnitPageViewModel model = this.unitService.findUnitsByPageRegardlessOfStatus(page, size);
         return this.objectToJson(model);
     }
 

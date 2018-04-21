@@ -87,7 +87,7 @@ public class NeutralUnitServiceImpl implements NeutralUnitService {
     }
 
     @Override
-    public NeutralUnitPageViewModel findUnitsByPage(int page, int size) {
+    public NeutralUnitPageViewModel findUnitsByPageRegardlessOfStatus(int page, int size) {
 
         Page<NeutralUnit> units = this.unitRepository.findAll(PageRequest.of(page, size));
         return this.mapUnitsToPage(units);
@@ -95,7 +95,11 @@ public class NeutralUnitServiceImpl implements NeutralUnitService {
 
     @Override
     public NeutralUnitPageViewModel findFreeUnitsByPage(int page, int size) {
-        Page<NeutralUnit> units = this.unitRepository.findAllByFree(true, PageRequest.of(page, size));
+        Page<NeutralUnit> units = this.unitRepository
+                .findAllByFreeAndStatus(
+                        true,
+                        true,
+                        PageRequest.of(page, size));
         return this.mapUnitsToPage(units);
     }
 

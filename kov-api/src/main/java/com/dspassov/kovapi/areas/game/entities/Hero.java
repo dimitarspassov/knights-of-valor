@@ -2,6 +2,8 @@ package com.dspassov.kovapi.areas.game.entities;
 
 import com.dspassov.kovapi.areas.game.common.GameDomainConstants;
 import com.dspassov.kovapi.areas.users.entities.User;
+import com.dspassov.kovapi.exceptions.IllegalParamException;
+import com.dspassov.kovapi.web.ResponseMessageConstants;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Length;
 
@@ -188,10 +190,17 @@ public class Hero {
     }
 
     public void addGold(Long gold) {
+        if (gold < 0) {
+            throw new IllegalParamException(ResponseMessageConstants.NON_NEGATIVE_NUMBER_ARGUMENT);
+        }
         this.gold += gold;
     }
 
     public void subtractGold(Long gold) {
+        if (gold < 0) {
+            throw new IllegalParamException(ResponseMessageConstants.NON_NEGATIVE_NUMBER_ARGUMENT);
+        }
+
         this.gold -= gold;
         if (this.gold < 0) {
             this.gold = 0L;
@@ -199,6 +208,11 @@ public class Hero {
     }
 
     public void addExperience(Long experience) {
+
+        if (experience < 0) {
+            throw new IllegalParamException(ResponseMessageConstants.NON_NEGATIVE_NUMBER_ARGUMENT);
+        }
+
         this.experience += experience;
         if (this.experience >= this.level * XP_MULTIPLIER) {
             this.levelUp();
@@ -214,19 +228,21 @@ public class Hero {
             this.strength += this.level;
             this.defense++;
 
-        } else if (this.level % 5 == 0) {
+        } else {
             this.health += this.level;
             this.strength++;
             this.stamina += 5;
             this.defense += this.level;
-        } else {
-            this.health += 10;
-            this.strength += this.level;
-            this.stamina += this.level;
-            this.defense++;
         }
 
-        this.inventory.incrementSize();
+        if (this.inventory.getSize() < 20) {
+            this.inventory.incrementSize();
+        }
+
+
+        if (this.experience >= this.level * XP_MULTIPLIER) {
+            this.levelUp();
+        }
     }
 
     public Integer experiencePercentToNextLevel() {

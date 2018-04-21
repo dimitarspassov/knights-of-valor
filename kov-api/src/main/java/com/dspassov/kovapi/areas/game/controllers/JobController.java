@@ -47,6 +47,13 @@ public class JobController extends BaseController {
         return this.objectToJson(model);
     }
 
+    @GetMapping("/api/admin/jobs")
+    @ResponseBody
+    public String allJobsForAdmin(@RequestParam("page") int page, @RequestParam("size") int size) {
+        JobPageViewModel model = this.jobService.findJobsByPageRegardlessOfStatus(page, size);
+        return this.objectToJson(model);
+    }
+
     @GetMapping("/api/admin/jobs/{id}")
     @ResponseBody
     public String editJob(@PathVariable String id) {

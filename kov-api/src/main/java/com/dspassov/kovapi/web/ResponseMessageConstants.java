@@ -57,6 +57,9 @@ public final class ResponseMessageConstants {
 
     public static final String UNEXPECTED_CHARS = "Your parameters include unexpected characters.";
 
+    public static final String NON_NEGATIVE_NUMBER_ARGUMENT = "The passed in number must not be negative.";
+    public static final String INVENTORY_MAX_SIZE_REACHED = "Inventory max size reached.";
+
 
     private ResponseMessageConstants() {
     }

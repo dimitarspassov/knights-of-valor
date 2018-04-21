@@ -8,10 +8,19 @@ export class ItemService {
 
   private readonly ADD_ITEM_URL = 'api/admin/items/add';
   private readonly GET_ITEM_URL = 'api/admin/items/';
+  private readonly ALL_ITEMS_URL = 'api/admin/items';
   private readonly EDIT_ITEM_IMG_URL = 'api/admin/items/newimg/';
 
 
   constructor(private httpService: HttpService) {
+  }
+
+  getAllItemsByPage(page, size, query = null) {
+
+    let urlQuery = `/?page=${page}&size=${size}`;
+    const url = this.ALL_ITEMS_URL + urlQuery;
+
+    return this.httpService.get(url, true);
   }
 
   addNewItem(item: AddItemModel) {

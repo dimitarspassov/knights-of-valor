@@ -28,7 +28,7 @@ public class RoleServiceImpl implements RoleService {
 
         List<Role> currentRoles = this.roleRepository.findAll();
 
-        if (currentRoles.size() != 3) {
+        if (currentRoles.size() != RoleName.values().length) {
 
             for (RoleName roleName : RoleName.values()) {
 

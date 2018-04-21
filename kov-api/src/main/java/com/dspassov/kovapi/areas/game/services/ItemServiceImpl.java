@@ -89,18 +89,14 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<ItemViewModel> findAllItems() {
-        return this.itemRepository.findAll()
-                .stream()
-                .map(i -> {
-                    ItemViewModel viewModel = this.modelMapper.map(i, ItemViewModel.class);
-                    viewModel.setType(i.getClass().getSimpleName());
-                    return viewModel;
-                }).collect(Collectors.toList());
-    }
-
     public ItemPageViewModel findItemsByPage(int page, int size) {
 
+        Page<Item> items = this.itemRepository.findAllByStatus(true, PageRequest.of(page, size));
+        return this.mapItemsToPageViewModel(items);
+    }
+
+    @Override
+    public ItemPageViewModel findItemsByPageRegardlessOfStatus(int page, int size) {
         Page<Item> items = this.itemRepository.findAll(PageRequest.of(page, size));
         return this.mapItemsToPageViewModel(items);
     }

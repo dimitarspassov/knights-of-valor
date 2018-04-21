@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {GameService} from '../../../game/game.service';
 import {NotificationService} from '../../../core/notifications/notification.service';
 import {ItemService} from '../item.service';
 import {AppConstants} from '../../../app-constants';
@@ -21,7 +20,6 @@ export class ItemsComponent implements OnInit {
   private prevDisabled = true;
 
   constructor(private itemService: ItemService,
-              private gameService: GameService,
               private notificationService: NotificationService) {
     this.items = [];
   }
@@ -31,7 +29,7 @@ export class ItemsComponent implements OnInit {
   }
 
   private fetchItems(page) {
-    this.gameService.getItemsByPage(page, this.ITEMS_PER_PAGE)
+    this.itemService.getAllItemsByPage(page, this.ITEMS_PER_PAGE)
       .subscribe(
         result => {
           this.items = result.items;

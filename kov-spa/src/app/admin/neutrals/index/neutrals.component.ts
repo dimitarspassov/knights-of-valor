@@ -21,7 +21,6 @@ export class NeutralsComponent implements OnInit {
   private prevDisabled = true;
 
   constructor(private unitService: NeutralUnitService,
-              private gameService: GameService,
               private notificationService: NotificationService) {
     this.units = [];
   }
@@ -31,7 +30,7 @@ export class NeutralsComponent implements OnInit {
   }
 
   private fetchUnits(page) {
-    this.gameService.getUnitsByPage(page, this.UNITS_PER_PAGE)
+    this.unitService.getAllUnitsByPage(page, this.UNITS_PER_PAGE)
       .subscribe(
         result => {
           this.units = result.units;

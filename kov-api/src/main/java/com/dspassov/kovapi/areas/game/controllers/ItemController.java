@@ -26,6 +26,15 @@ public class ItemController extends BaseController {
         this.itemService = itemService;
     }
 
+    @GetMapping("/api/admin/items")
+    @RequestMapping(method = RequestMethod.GET, params = {"page", "size"}, path = "/api/admin/items")
+    @ResponseBody
+    public String allItemsByPageForAdmin(@RequestParam("page") int page, @RequestParam("size") int size) {
+
+        ItemPageViewModel model = this.itemService.findItemsByPageRegardlessOfStatus(page, size);
+        return this.objectToJson(model);
+    }
+
     @GetMapping("/api/items")
     @RequestMapping(method = RequestMethod.GET, params = {"page", "size"})
     @ResponseBody

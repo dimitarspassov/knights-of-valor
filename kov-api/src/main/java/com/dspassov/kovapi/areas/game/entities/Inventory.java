@@ -1,9 +1,11 @@
 package com.dspassov.kovapi.areas.game.entities;
 
-import com.dspassov.kovapi.exceptions.InventoryFullException;
+import com.dspassov.kovapi.exceptions.InventoryException;
+import com.dspassov.kovapi.web.ResponseMessageConstants;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -14,7 +16,9 @@ import java.util.stream.Collectors;
 @Table(name = "inventories")
 public class Inventory {
 
+    //todo: extract
     private static final int SIZE_MIN = 5;
+    private static final int SIZE_MAX = 20;
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -27,6 +31,7 @@ public class Inventory {
 
     @NotNull
     @Min(SIZE_MIN)
+    @Max(SIZE_MAX)
     @Column(name = "size")
     private Integer size = SIZE_MIN;
 
@@ -77,8 +82,8 @@ public class Inventory {
 
     public void addItem(InventoryItem item) {
 
-        if (this.getItemsCount() + 1 > this.size) {
-            throw new InventoryFullException();
+        if (this.getItemsCount() + item.getCount() > this.size) {
+            throw new InventoryException();
         }
 
         List<InventoryItem> itemList = this.items.stream()
@@ -88,7 +93,7 @@ public class Inventory {
 
         if (itemList.size() != 0) {
             InventoryItem current = itemList.get(0);
-            current.setCount(current.getCount() + 1);
+            current.setCount(current.getCount() + item.getCount());
             return;
         }
 
@@ -96,10 +101,10 @@ public class Inventory {
     }
 
     public void incrementSize() {
-        if (this.size < 20) {
-            this.size++;
+        if (this.size >= SIZE_MAX) {
+            throw new InventoryException(ResponseMessageConstants.INVENTORY_MAX_SIZE_REACHED);
         }
-
+        this.size++;
     }
 
 }
