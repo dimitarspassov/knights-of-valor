@@ -42,7 +42,7 @@ public final class ResponseMessageConstants {
     public static final String JOB_STARTED = "%s job started.";
     public static final String HERO_NOT_AT_WORK = "There is not a job associated with the current hero.";
     public static final String JOB_ALREADY_DONE = "The current job is already done";
-    public static final String JOB_ABANDONED = "Job abandoned. %d gold earned.";
+    public static final String JOB_ABANDONED = "Job abandoned.";
 
     public static final String GENERIC_ERROR = "An error occurred. Please, try again.";
     public static final String CLOUD_UPLOAD_ERROR = "An error occurred. Please, make sure the image is in the correct format and its size is below 3MB.";

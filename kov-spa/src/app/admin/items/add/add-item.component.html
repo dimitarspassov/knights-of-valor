@@ -75,7 +75,8 @@
           </span>
             <ng-template #priceValidation>
             <span *ngIf="!isPriceValid(price.value)">
-              Price should be a positive integer.
+              Price should be a positive integer between {{PRICE_MIN}}
+              and {{PRICE_MAX}}.
             </span>
             </ng-template>
           </div>

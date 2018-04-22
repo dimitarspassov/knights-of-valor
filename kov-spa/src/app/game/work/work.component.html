@@ -21,7 +21,7 @@
             src="{{job.image}}"
             alt="{{job.name}}">
           <ul class="list-group list-group-flush">
-            <li class="list-group-item">Salary per hour: {{job.salary}} gold</li>
+            <li class="list-group-item">Salary: {{job.salary}} gold</li>
             <li class="list-group-item">Time: {{helperService.minutesToTime(job.minutes)}}</li>
           </ul>
           <div class="card-body">
@@ -47,13 +47,13 @@
                  src="{{currentJob.image}}"
                  alt="Card image">
             <ul class="list-group list-group-flush">
-              <li class="list-group-item">Salary per hour: {{currentJob.salary}} gold</li>
+              <li class="list-group-item">Salary: {{currentJob.salary}} gold</li>
               <li class="list-group-item">Time: {{helperService.minutesToTime(currentJob.minutes)}}</li>
             </ul>
             <div class="card-body">
               <button (click)="abandonJob()" class="btn btn-outline-danger">Abandon job</button>
               <br>
-              <small class="text-info">Ending the job now will leave you with what you have earned so far.</small>
+              <small class="text-info">Ending the job now will leave you without any earnings.</small>
             </div>
           </div>
         </div>

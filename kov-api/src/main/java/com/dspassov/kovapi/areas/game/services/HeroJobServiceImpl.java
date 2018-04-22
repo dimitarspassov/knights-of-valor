@@ -95,15 +95,9 @@ public class HeroJobServiceImpl implements HeroJobService {
             throw new HeroWorkException(ResponseMessageConstants.JOB_ALREADY_DONE);
         }
 
-        Integer jobMinutes = job.getJob().getMinutes();
-        Long minutesDiff = jobMinutes - diff.toMinutes();
-        Long salary = (minutesDiff / 60) * job.getJob().getSalary();
-
-        this.heroService.payHeroSalary(salary);
-
         this.heroJobRepository.deleteById(jobId);
 
-        return String.format(ResponseMessageConstants.JOB_ABANDONED, salary);
+        return ResponseMessageConstants.JOB_ABANDONED;
     }
 
     @Override
@@ -124,7 +118,7 @@ public class HeroJobServiceImpl implements HeroJobService {
             throw new HeroWorkException(ResponseMessageConstants.HERO_AT_WORK);
         }
 
-        Long salary = (long) (job.getJob().getSalary() * job.getJob().getMinutes());
+        Long salary = (long) job.getJob().getSalary();
 
         this.heroService.payHeroSalary(salary);
         this.heroJobRepository.deleteById(jobId);
